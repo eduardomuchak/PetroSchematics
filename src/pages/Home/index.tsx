@@ -8,7 +8,7 @@ export function Homepage() {
       <Flex align={'center'} justify={'end'}>
         <ColorModeToggle />
       </Flex>
-      <Flex align={'center'} justify={'center'} flex={1} direction={'column'}>
+      <Flex align={'center'} justify={'center'} flex={1}>
         <Heading>DaaS</Heading>
       </Flex>
     </Flex>
