@@ -6,15 +6,20 @@ const { definePartsStyle, defineMultiStyleConfig } =
 
 const origem = definePartsStyle({
   field: {
+    fontSize: "14px",
+    fontWeight: "400",
+    color: "#2D2926",
     border: '1px solid',
     borderColor: 'gray.200',
     background: 'gray.50',
     borderRadius: '10px',
     height: '56px',
+    _placeholder: { color: "gray.500" },
 
     _dark: {
       borderColor: 'gray.600',
       background: 'gray.800',
+      color: 'white',
     },
   },
   addon: {
