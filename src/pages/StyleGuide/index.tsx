@@ -3,14 +3,11 @@ import { MdModeEdit } from 'react-icons/md';
 
 import { Button, Flex, Heading, IconButton, Input } from '@chakra-ui/react';
 
-// import ColorModeToggle from 'components/ColorModeToggle';
+import ContainerPagina from 'components/ColorModeToggle/ContainerPagina';
 
 export function StyleGuide() {
   return (
-    <Flex p={5} align={'center'} justify={'center'} flex={1} gap={5} direction={'column'} minH={'100vh'}>
-      {/* <Flex align={'center'} justify={'end'}>
-        <ColorModeToggle />
-      </Flex> */}
+    <ContainerPagina>
       <Flex direction={'column'} align={'center'} justify={'center'} gap={5}>
         <Heading>Botões</Heading>
         <Flex gap={5}>
@@ -32,8 +29,10 @@ export function StyleGuide() {
       </Flex>
       <Flex direction={'column'} align={'center'} justify={'center'} gap={5}>
         <Heading>Input</Heading>
-        <Input variant={'origem'} placeholder={'Origem'} />
+        <Flex>
+          <Input variant={'origem'} placeholder={'Origem'} />
+        </Flex>
       </Flex>
-    </Flex>
+    </ContainerPagina>
   );
 }
