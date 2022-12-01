@@ -3,7 +3,7 @@ import { MdModeEdit } from 'react-icons/md';
 
 import { Button, Flex, Heading, IconButton, Input } from '@chakra-ui/react';
 
-import ContainerPagina from 'components/ColorModeToggle/ContainerPagina';
+import ContainerPagina from 'components/ContainerPagina';
 
 export function StyleGuide() {
   return (

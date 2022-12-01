@@ -1,12 +1,7 @@
-import { useEffect, useState } from "react";
-import {
-  FiChevronLeft,
-  FiChevronRight,
-  FiChevronsLeft,
-  FiChevronsRight,
-} from "react-icons/fi";
+import { useEffect, useState } from 'react';
+import { FiChevronLeft, FiChevronRight, FiChevronsLeft, FiChevronsRight } from 'react-icons/fi';
 
-import { Flex, IconButton, Select, Text } from "@chakra-ui/react";
+import { Flex, IconButton, Select, Text } from '@chakra-ui/react';
 
 interface FromTo {
   from: number; // Inicio da paginação
@@ -77,19 +72,15 @@ function PaginacaoTabela({ data, fromTo }: Props) {
   return (
     <>
       <Flex
-        alignItems={"center"}
-        justifyContent={innerWidth > 428 ? "end" : "center"}
+        alignItems={'center'}
+        justifyContent={innerWidth > 428 ? 'end' : 'center'}
         gap={2}
         flex={1}
-        wrap={innerWidth > 428 ? "nowrap" : "wrap"}
+        wrap={innerWidth > 428 ? 'nowrap' : 'wrap'}
       >
-        <Flex gap={2} alignItems={"center"}>
-          <Text fontSize={"14px"}>Por página:</Text>
-          <Select
-            h={"32px"}
-            w={"120px"}
-            onChange={(e) => changePerPage(+e.target.value)}
-          >
+        <Flex gap={2} alignItems={'center'}>
+          <Text fontSize={'14px'}>Por página:</Text>
+          <Select h={'32px'} w={'120px'} onChange={(e) => changePerPage(+e.target.value)}>
             {/* <option value="5">5</option> */}
             <option value="10">10</option>
             <option value="25">25</option>
@@ -97,9 +88,8 @@ function PaginacaoTabela({ data, fromTo }: Props) {
             <option value="100">100</option>
           </Select>
 
-          <Text fontSize={"14px"}>
-            {from === 0 ? "1" : from + 1} -{" "}
-            {data.length < to ? data.length : to} de {data.length}
+          <Text fontSize={'14px'}>
+            {from === 0 ? '1' : from + 1} - {data.length < to ? data.length : to} de {data.length}
           </Text>
         </Flex>
         <Flex gap={2}>
@@ -109,12 +99,12 @@ function PaginacaoTabela({ data, fromTo }: Props) {
             onClick={() => paginate(1)}
             variant="ghost"
             size="lg"
-            h={"24px"}
+            h={'24px'}
             _hover={{
-              background: "origem.500",
-              transition: "all 0.4s",
-              color: "white",
-              fontWeight: "bold",
+              background: 'origem.500',
+              transition: 'all 0.4s',
+              color: 'white',
+              fontWeight: 'bold',
             }}
           />
           <IconButton
@@ -122,12 +112,12 @@ function PaginacaoTabela({ data, fromTo }: Props) {
             icon={<FiChevronLeft onClick={back} />}
             variant="ghost"
             size="lg"
-            h={"24px"}
+            h={'24px'}
             _hover={{
-              background: "origem.500",
-              transition: "all 0.4s",
-              color: "white",
-              fontWeight: "bold",
+              background: 'origem.500',
+              transition: 'all 0.4s',
+              color: 'white',
+              fontWeight: 'bold',
             }}
           />
 
@@ -137,12 +127,12 @@ function PaginacaoTabela({ data, fromTo }: Props) {
             onClick={advance}
             variant="ghost"
             size="lg"
-            h={"24px"}
+            h={'24px'}
             _hover={{
-              background: "origem.500",
-              transition: "all 0.4s",
-              color: "white",
-              fontWeight: "bold",
+              background: 'origem.500',
+              transition: 'all 0.4s',
+              color: 'white',
+              fontWeight: 'bold',
             }}
           />
           <IconButton
@@ -151,12 +141,12 @@ function PaginacaoTabela({ data, fromTo }: Props) {
             onClick={() => paginate(maxPage)}
             variant="ghost"
             size="lg"
-            h={"24px"}
+            h={'24px'}
             _hover={{
-              background: "origem.500",
-              transition: "all 0.4s",
-              color: "white",
-              fontWeight: "bold",
+              background: 'origem.500',
+              transition: 'all 0.4s',
+              color: 'white',
+              fontWeight: 'bold',
             }}
           />
         </Flex>
