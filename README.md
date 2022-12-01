@@ -5,6 +5,7 @@ Este repositório contempla uma aplicação [Create React App](https://create-re
 - [Chakra UI](https://chakra-ui.com/getting-started)
 - [Typescript](https://www.typescriptlang.org/)
 - [React](https://reactjs.org/)
+- [Redux Toolkit](https://redux-toolkit.js.org/)
 - [Axios](https://axios-http.com/ptbr/docs/intro)
 - [Formik](https://formik.org/)
 - [React Hot Toast](https://react-hot-toast.com/)
