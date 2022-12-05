@@ -48,9 +48,9 @@ const Login: any = () => {
         </Flex>
       ) : (
         <Flex w={'100%'} h="100vh" align="center" justify="center" bg={'#EDF2F7'}>
-          <Stack>
+          <Stack display={'flex'} align={'center'} justify={'center'}>
             <Box
-              w={{ base: '200px', sm: '450px' }}
+              w={{ base: '95%', sm: '450px' }}
               py={{ base: '10', sm: '16' }}
               px={{ base: '10', sm: '10' }}
               bg={'white'}
