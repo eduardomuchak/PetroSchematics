@@ -5,6 +5,7 @@ import Welcome from 'features/auth/Welcome';
 
 import Login from 'pages/Login';
 import SchematicWell from 'pages/schematicWell';
+import { StyleGuide } from 'pages/StyleGuide';
 
 import Layout from 'components/Layout';
 
@@ -14,11 +15,12 @@ export function MainRoutes() {
       <Route path="/" element={<Layout />}>
         {/* public routes */}
         <Route index element={<Login />} />
-        <Route path="schematic" element={<SchematicWell />} />
+        <Route path="esquematico-wll" element={<SchematicWell />} />
 
         {/* protected routes */}
         <Route element={<RequireAuth />}>
-          <Route path="welcome" element={<Welcome />} />
+          <Route path="boas-vindas" element={<Welcome />} />
+          <Route path="style-guide" element={<StyleGuide />} />
         </Route>
       </Route>
     </Routes>

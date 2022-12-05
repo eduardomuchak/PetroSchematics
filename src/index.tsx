@@ -5,6 +5,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
 import { store } from 'app/store';
 
+import { ToastProvider } from 'contexts/Toast';
+
 import App from './App';
 import theme from './styles/index';
 
@@ -18,9 +20,11 @@ root.render(
   <Provider store={store}>
     <ChakraProvider theme={theme}>
       <BrowserRouter>
-        <Routes>
-          <Route path="/*" element={<App />} />
-        </Routes>
+        <ToastProvider>
+          <Routes>
+            <Route path="/*" element={<App />} />
+          </Routes>
+        </ToastProvider>
       </BrowserRouter>
     </ChakraProvider>
   </Provider>,
