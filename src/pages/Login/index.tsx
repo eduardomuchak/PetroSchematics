@@ -58,7 +58,9 @@ const Login: any = () => {
             >
               <Stack spacing="6">
                 <Stack spacing={{ base: '2', md: '3' }} align="center">
-                  <Image src={logo} display="flex" align="center" w={60} justifyContent="center" />
+                  <a href="https://www.origemenergia.com" target="_blank" rel="noreferrer">
+                    <Image src={logo} display="flex" align="center" w={60} justifyContent="center" />
+                  </a>
                   <HStack spacing="1" justify="center">
                     <Text color="gray.400" mt={8}>
                       Entre com seu e-mail e senha abaixo
