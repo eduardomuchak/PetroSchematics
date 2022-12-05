@@ -1,17 +1,26 @@
-import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
-
-import { store } from './redux/store';
-import { MainRoutes } from './routes';
-
 import 'styles/global.scss';
+import { Routes, Route } from 'react-router-dom';
 
-export function App() {
+import Login from 'pages/Login';
+
+import Layout from './components/Layout';
+import RequireAuth from './features/auth/RequireAuth';
+import Welcome from './features/auth/Welcome';
+
+function App() {
   return (
-    <Provider store={store}>
-      <BrowserRouter>
-        <MainRoutes />
-      </BrowserRouter>
-    </Provider>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        {/* public routes */}
+        <Route index element={<Login />} />
+
+        {/* protected routes */}
+        <Route element={<RequireAuth />}>
+          <Route path="welcome" element={<Welcome />} />
+        </Route>
+      </Route>
+    </Routes>
   );
 }
+
+export default App;
