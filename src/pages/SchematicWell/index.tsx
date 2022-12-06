@@ -10,7 +10,8 @@ import TituloPagina from 'components/TituloPagina';
 
 import { useWindowSize } from 'hooks/useWindowSize';
 
-import ModalCadastroEquipSubSuperficie from './components/ModalCadastroEquipSubSuperficie';
+import ModalCadastroComentarios from './components/ModalCadastroComentarios';
+// import ModalCadastroEquipSubSuperficie from './components/ModalCadastroEquipSubSuperficie';
 
 function SchematicWell() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -77,7 +78,8 @@ function SchematicWell() {
               left={150}
             />
           </Flex>
-          <ModalCadastroEquipSubSuperficie modalProps={modalProps} mousePosition={mousePosition} />
+          {/* <ModalCadastroEquipSubSuperficie modalProps={modalProps} mousePosition={mousePosition} /> */}
+          <ModalCadastroComentarios modalProps={modalProps} mousePosition={mousePosition} />
         </ContainerPagina>
       </Sidebar>
     </>

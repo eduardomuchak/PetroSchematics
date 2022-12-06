@@ -43,7 +43,7 @@ interface FormValues {
   idPolegada: string;
   fabricante: string;
   profundidadeMetros: number;
-  xAxys: number;
+  xAxis: number;
 }
 
 function ModalCadastroEquipSubSuperficie({ modalProps, mousePosition }: Props) {
@@ -55,7 +55,7 @@ function ModalCadastroEquipSubSuperficie({ modalProps, mousePosition }: Props) {
     idPolegada: '',
     fabricante: '',
     profundidadeMetros: 0,
-    xAxys: 0,
+    xAxis: 0,
   });
 
   const handleCancel = () => {
@@ -72,7 +72,7 @@ function ModalCadastroEquipSubSuperficie({ modalProps, mousePosition }: Props) {
     setFormValues({
       ...formValues,
       profundidadeMetros: mousePosition.yAxis,
-      xAxys: mousePosition.xAxis,
+      xAxis: mousePosition.xAxis,
     });
   }, [isOpen]);
 
@@ -83,7 +83,7 @@ function ModalCadastroEquipSubSuperficie({ modalProps, mousePosition }: Props) {
       idPolegada: '',
       fabricante: '',
       profundidadeMetros: 0,
-      xAxys: 0,
+      xAxis: 0,
     });
   }, [onClose]);
 
