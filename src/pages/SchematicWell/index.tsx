@@ -1,7 +1,8 @@
 import React, { useRef, useState } from 'react';
 
 import { Box, Flex, Image, useDisclosure } from '@chakra-ui/react';
-import schematic from 'assets/schematic-well.png';
+// import schematic from 'assets/schematic-well.png';
+import SchematicSVG from 'assets/esquematico.svg';
 import { BarChart, CartesianGrid, YAxis } from 'recharts';
 
 import ContainerPagina from 'components/ContainerPagina';
@@ -24,8 +25,12 @@ function SchematicWell() {
 
   // Tamanho da escala da imagem do esquemático
   const [width, height] = useWindowSize();
-  const checkHeight = 410 * (width / 1280) > height;
-  const scale = checkHeight ? height / 410 : width / 1280;
+  const imageSize = {
+    width: 400,
+    height: 1000,
+  };
+  const checkHeight = imageSize.width * (width / imageSize.height) > height;
+  const scale = checkHeight ? height / imageSize.width : width / imageSize.height;
 
   // Altura da imagem do esquemático
   const imageRef = useRef<any>(0);
@@ -55,7 +60,11 @@ function SchematicWell() {
           <TituloPagina botaoVoltar>Esquemático Well</TituloPagina>
           <Flex>
             <Box position={'absolute'} zIndex={0}>
-              <BarChart width={Number(600 * scale)} height={1000} data={profundidadeMaxima}>
+              <BarChart
+                width={Number((imageSize.width + 120) * scale)}
+                height={Number(imageSize.height * scale)}
+                data={profundidadeMaxima}
+              >
                 <CartesianGrid strokeDasharray="4 4" />
                 <YAxis dataKey="profundidade" reversed={true} tickCount={5} />
               </BarChart>
@@ -66,16 +75,16 @@ function SchematicWell() {
                 relativeCoordinates(event);
                 onOpen();
               }}
-              src={schematic}
+              src={SchematicSVG}
               display="flex"
               align="center"
-              w={`${410 * scale}px`}
-              h={`1000px`}
+              w={`${imageSize.width * scale}px`}
+              h={`${imageSize.height * scale}px`}
               justifyContent="center"
               zIndex={1}
               position={'relative'}
-              top={-1}
-              left={150}
+              top={1}
+              left={100}
             />
           </Flex>
           {/* <ModalCadastroEquipSubSuperficie modalProps={modalProps} mousePosition={mousePosition} /> */}
