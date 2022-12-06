@@ -1,12 +1,16 @@
 import React, { useRef, useState } from 'react';
 
-import { Box, Flex, Image, Text } from '@chakra-ui/react';
+import { Box, Flex, Image, useDisclosure } from '@chakra-ui/react';
 import schematic from 'assets/schematic-well.png';
 import { BarChart, CartesianGrid, YAxis } from 'recharts';
 
 import { useWindowSize } from 'hooks/useWindowSize';
 
+import ModalCadastroEquipSubSuperficie from './components/ModalCadastroEquipSubSuperficie';
+
 function SchematicWell() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const modalProps = { isOpen, onOpen, onClose };
   // Posição do mouse no momento do click da imagem do esquemático
   const [mousePosition, setMousePosition] = useState({
     yAxis: 0,
@@ -21,7 +25,7 @@ function SchematicWell() {
   // Altura da imagem do esquemático
   const imageRef = useRef<any>(0);
 
-  function relativeCoords(event: any) {
+  function relativeCoordinates(event: any) {
     const bounds = event.target.getBoundingClientRect();
     const x = event.clientX - bounds.left;
     const y = event.clientY - bounds.top;
@@ -49,11 +53,8 @@ function SchematicWell() {
         <Image
           ref={imageRef}
           onClick={(event: any): void => {
-            setMousePosition({
-              yAxis: event.clientY,
-              xAxis: event.clientX,
-            });
-            relativeCoords(event);
+            relativeCoordinates(event);
+            onOpen();
           }}
           src={schematic}
           display="flex"
@@ -67,8 +68,7 @@ function SchematicWell() {
           left={150}
         />
       </Flex>
-      <Text>{`Clique Eixo Y: ${mousePosition.yAxis}`}</Text>
-      <Text>{`Clique Eixo X: ${mousePosition.xAxis}`}</Text>
+      <ModalCadastroEquipSubSuperficie modalProps={modalProps} mousePosition={mousePosition} />
     </>
   );
 }

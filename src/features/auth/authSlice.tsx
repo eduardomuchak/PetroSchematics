@@ -9,7 +9,7 @@ interface AuthState {
   auth: AuthValue;
 }
 
-const authSlice = createSlice({
+export const authSlice = createSlice({
   name: 'auth',
   initialState: { user: null, token: null } as AuthValue,
   reducers: {
@@ -26,10 +26,6 @@ const authSlice = createSlice({
 });
 
 export const { setCredentials, logOut } = authSlice.actions;
-
-const authReducer = authSlice.reducer;
-
-export default authReducer;
 
 export const selectCurrentUser = (state: AuthState) => state.auth.user;
 export const selectCurrentToken = (state: AuthState) => state.auth.token;
