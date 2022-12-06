@@ -53,6 +53,9 @@ function SchematicWell() {
     },
   ];
 
+  // console.log('imageSize', imageSize);
+  // console.log('profundidadeMaxima', profundidadeMaxima[0].profundidade);
+
   return (
     <>
       <Sidebar>
@@ -61,7 +64,7 @@ function SchematicWell() {
           <Flex>
             <Box position={'absolute'} zIndex={0}>
               <BarChart
-                width={Number((imageSize.width + 120) * scale)}
+                width={Number((imageSize.width + 130) * scale)}
                 height={Number(imageSize.height * scale)}
                 data={profundidadeMaxima}
               >
@@ -76,11 +79,9 @@ function SchematicWell() {
                 onOpen();
               }}
               src={SchematicSVG}
-              display="flex"
-              align="center"
               w={`${imageSize.width * scale}px`}
               h={`${imageSize.height * scale}px`}
-              justifyContent="center"
+              maxH={profundidadeMaxima[0].profundidade}
               zIndex={1}
               position={'relative'}
               top={1}
