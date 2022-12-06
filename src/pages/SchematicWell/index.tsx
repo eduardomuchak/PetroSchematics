@@ -65,7 +65,7 @@ function SchematicWell() {
             <Box position={'absolute'} zIndex={0}>
               <BarChart
                 width={Number((imageSize.width + 130) * scale)}
-                height={Number(imageSize.height * scale)}
+                height={Number(imageSize.height * scale - 15)}
                 data={profundidadeMaxima}
               >
                 <CartesianGrid strokeDasharray="4 4" />
