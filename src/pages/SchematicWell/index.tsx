@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 import { Box, Flex, Image, Text } from '@chakra-ui/react';
 import schematic from 'assets/schematic-well.png';
@@ -15,52 +15,55 @@ function SchematicWell() {
 
   // Tamanho da escala da imagem do esquemático
   const [width, height] = useWindowSize();
-  const checkHeight = 833 * (width / 1500) > height - 100;
-  const scale = checkHeight ? height / 893 : width / 1500;
+  const checkHeight = 410 * (width / 1280) > height;
+  const scale = checkHeight ? height / 410 : width / 1280;
 
-  const [imageHeight, setImageHeight] = useState<any>(0);
+  // Altura da imagem do esquemático
   const imageRef = useRef<any>(0);
 
-  const dataProdundidade = [
+  function relativeCoords(event: any) {
+    const bounds = event.target.getBoundingClientRect();
+    const x = event.clientX - bounds.left;
+    const y = event.clientY - bounds.top;
+    setMousePosition({
+      yAxis: Number(y.toFixed(0)),
+      xAxis: Number(x.toFixed(0)),
+    });
+  }
+
+  const profundidadeMaxima = [
     {
-      profundidade: imageHeight,
+      profundidade: 1000,
     },
   ];
-
-  useEffect(() => {
-    setImageHeight(imageRef.current.clientHeight);
-  }, []);
-
-  // console.log('imageHeight', imageHeight);
-  // console.log('X:', mousePosition.xAxis);
-  // console.log('Y:', mousePosition.yAxis);
 
   return (
     <>
       <Flex>
         <Box position={'absolute'} zIndex={0}>
-          <BarChart width={Number(630 * scale)} height={Number(1000 * scale)} data={dataProdundidade}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <YAxis dataKey="profundidade" reversed={true} tickCount={10} />
+          <BarChart width={Number(600 * scale)} height={1000} data={profundidadeMaxima}>
+            <CartesianGrid strokeDasharray="4 4" />
+            <YAxis dataKey="profundidade" reversed={true} tickCount={5} />
           </BarChart>
         </Box>
         <Image
           ref={imageRef}
-          onClick={(e: any) => {
+          onClick={(event: any): void => {
             setMousePosition({
-              yAxis: e.clientY - e.target.offsetTop,
-              xAxis: e.clientX - e.target.offsetLeft,
+              yAxis: event.clientY,
+              xAxis: event.clientX,
             });
+            relativeCoords(event);
           }}
           src={schematic}
           display="flex"
           align="center"
-          w={`${400 * scale}px`}
-          h={`${990 * scale}px`}
+          w={`${410 * scale}px`}
+          h={`1000px`}
           justifyContent="center"
           zIndex={1}
           position={'relative'}
-          top={1}
+          top={-1}
           left={150}
         />
       </Flex>
