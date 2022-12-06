@@ -92,19 +92,9 @@ function ModalCadastroEquipSubSuperficie({ modalProps, mousePosition }: Props) {
       <Modal isOpen={isOpen} onClose={onClose} size="lg">
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader
-            backgroundColor={'#2E69FD'}
-            borderTopRadius={7}
-            display={'flex'}
-            justifyContent={'center'}
-            color={'white'}
-            fontSize={'14px'}
-            fontWeight={'700'}
-          >
-            Cadastrar Equipamento de Subsuperfície
-          </ModalHeader>
+          <ModalHeader>Cadastrar Equipamento de Subsuperfície</ModalHeader>
           <ModalCloseButton color={'white'} onClick={handleCancel} />
-          <ModalBody py={4}>
+          <ModalBody>
             <Flex direction={'column'} gap={4}>
               <FormControl>
                 <Flex gap={1}>
@@ -233,7 +223,7 @@ function ModalCadastroEquipSubSuperficie({ modalProps, mousePosition }: Props) {
             {/* <Text>{`Clique Eixo Y: ${mousePosition.yAxis}`}</Text> */}
             {/* <Text>{`Clique Eixo X: ${mousePosition.xAxis}`}</Text> */}
           </ModalBody>
-          <ModalFooter justifyContent={'center'}>
+          <ModalFooter>
             <Flex gap={2}>
               <Button variant={'origemRedSolid'} onClick={handleCancel}>
                 Cancelar
