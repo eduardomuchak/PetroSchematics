@@ -1,7 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+interface UserInfo {
+  id?: string;
+  nome?: string;
+  email?: string;
+  telefone?: string;
+  perfil?: string;
+  avatar?: string;
+  nome_role?: string;
+  role_id?: number;
+}
+
 interface AuthValue {
-  user: string | null;
+  user: UserInfo | null;
   token: string | null;
 }
 
@@ -9,7 +20,7 @@ interface AuthState {
   auth: AuthValue;
 }
 
-const authSlice = createSlice({
+export const authSlice = createSlice({
   name: 'auth',
   initialState: { user: null, token: null } as AuthValue,
   reducers: {
@@ -26,10 +37,6 @@ const authSlice = createSlice({
 });
 
 export const { setCredentials, logOut } = authSlice.actions;
-
-const authReducer = authSlice.reducer;
-
-export default authReducer;
 
 export const selectCurrentUser = (state: AuthState) => state.auth.user;
 export const selectCurrentToken = (state: AuthState) => state.auth.token;
