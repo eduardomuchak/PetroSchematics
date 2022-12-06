@@ -6,6 +6,7 @@ import { BarChart, CartesianGrid, YAxis } from 'recharts';
 
 import ContainerPagina from 'components/ContainerPagina';
 import Sidebar from 'components/SideBar';
+import TituloPagina from 'components/TituloPagina';
 
 import { useWindowSize } from 'hooks/useWindowSize';
 
@@ -50,6 +51,7 @@ function SchematicWell() {
     <>
       <Sidebar>
         <ContainerPagina>
+          <TituloPagina botaoVoltar>Esquemático Well</TituloPagina>
           <Flex>
             <Box position={'absolute'} zIndex={0}>
               <BarChart width={Number(600 * scale)} height={1000} data={profundidadeMaxima}>
