@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import RequireAuth from 'features/auth/RequireAuth';
 import Welcome from 'features/auth/Welcome';
 
+import { Aprovacaopage } from 'pages/Aprovacao';
 import Login from 'pages/Login';
 import { NotFound } from 'pages/NotFound';
 import SchematicWell from 'pages/schematicWell';
@@ -19,6 +20,7 @@ export function MainRoutes() {
         <Route path="esquematico-well" element={<SchematicWell />} />
         <Route path="cadastre-se" element={<NotFound />} />
         <Route path="esqueci-a-senha" element={<NotFound />} />
+        <Route path="aprovacao" element={<Aprovacaopage />} />
 
         {/* protected routes */}
         <Route element={<RequireAuth />}>
