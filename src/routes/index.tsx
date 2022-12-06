@@ -5,8 +5,9 @@ import Welcome from 'features/auth/Welcome';
 
 import Login from 'pages/Login';
 import { NotFound } from 'pages/NotFound';
-import SchematicWell from 'pages/schematicWell';
+import SchematicWell from 'pages/SchematicWell';
 import { StyleGuide } from 'pages/StyleGuide';
+import { UnderDevelopment } from 'pages/UnderDevelopment';
 
 import Layout from 'components/Layout';
 
@@ -17,13 +18,15 @@ export function MainRoutes() {
         {/* public routes */}
         <Route index element={<Login />} />
         <Route path="esquematico-well" element={<SchematicWell />} />
-        <Route path="cadastre-se" element={<NotFound />} />
-        <Route path="esqueci-a-senha" element={<NotFound />} />
+        <Route path="cadastre-se" element={<UnderDevelopment />} />
+        <Route path="esqueci-a-senha" element={<UnderDevelopment />} />
+        <Route path="*" element={<NotFound />} />
 
         {/* protected routes */}
         <Route element={<RequireAuth />}>
           <Route path="boas-vindas" element={<Welcome />} />
           <Route path="style-guide" element={<StyleGuide />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Route>
     </Routes>
