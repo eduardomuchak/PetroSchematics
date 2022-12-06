@@ -12,6 +12,7 @@
     "@testing-library/user-event": "^14.4.3",
     "@types/node": "^18.11.10",
     "@uiball/loaders": "^1.2.6",
+    "avvvatars-react": "^0.4.2",
     "axios": "^1.2.0",
     "formik": "^2.2.9",
     "framer-motion": "^7.6.15",

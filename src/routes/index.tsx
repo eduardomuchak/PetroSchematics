@@ -18,6 +18,7 @@ export function MainRoutes() {
         {/* public routes */}
         <Route index element={<Login />} />
         <Route path="esquematico-well" element={<SchematicWell />} />
+        <Route path="style-guide" element={<StyleGuide />} />
         <Route path="cadastre-se" element={<UnderDevelopment />} />
         <Route path="esqueci-a-senha" element={<UnderDevelopment />} />
         <Route path="*" element={<NotFound />} />
@@ -25,7 +26,8 @@ export function MainRoutes() {
         {/* protected routes */}
         <Route element={<RequireAuth />}>
           <Route path="boas-vindas" element={<Welcome />} />
-          <Route path="style-guide" element={<StyleGuide />} />
+          <Route path="configuracoes" element={<UnderDevelopment />} />
+          <Route path="perfil" element={<UnderDevelopment />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Route>
