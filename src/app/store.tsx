@@ -10,6 +10,9 @@ export const store = configureStore({
     [authSlice.name]: authSlice.reducer,
     [schematicWellSlice.name]: schematicWellSlice.reducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }).concat(apiSlice.middleware),
   devTools: true,
 });

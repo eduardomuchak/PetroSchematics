@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { Box, Flex, Image, useDisclosure } from '@chakra-ui/react';
-// import schematic from 'assets/schematic-well.png';
 import SchematicSVG from 'assets/esquematico.svg';
+import { relativeCoordinates } from 'features/SchematicWell/schematicWellSlice';
 import { BarChart, CartesianGrid, YAxis } from 'recharts';
 
 import ContainerPagina from 'components/ContainerPagina';
@@ -12,18 +12,11 @@ import TituloPagina from 'components/TituloPagina';
 import { useWindowSize } from 'hooks/useWindowSize';
 
 import ModalDecisao from './components/ModalDecisao';
-// import ModalCadastroComentarios from './components/ModalCadastroComentarios';
-// import ModalCadastroEquipSubSuperficie from './components/ModalCadastroEquipSubSuperficie';
 
 function SchematicWell() {
+  const dispatch = useDispatch();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const modalProps = { isOpen, onOpen, onClose };
-
-  // Posição do mouse no momento do click da imagem do esquemático
-  const [mousePosition, setMousePosition] = useState({
-    yAxis: 0,
-    xAxis: 0,
-  });
 
   // Tamanho da escala da imagem do esquemático
   const [width, height] = useWindowSize();
@@ -34,26 +27,12 @@ function SchematicWell() {
   const checkHeight = imageSize.width * (width / imageSize.height) > height;
   const scale = checkHeight ? height / imageSize.width : width / imageSize.height;
 
-  // Função que seta a posição do mouse no momento do click
-  function relativeCoordinates(event: any) {
-    const bounds = event.target.getBoundingClientRect();
-    const x = event.clientX - bounds.left;
-    const y = event.clientY - bounds.top;
-    setMousePosition({
-      yAxis: Number(y.toFixed(0)),
-      xAxis: Number(x.toFixed(0)),
-    });
-  }
-
   // Dados para o eixo Y
   const profundidadeMaxima = [
     {
       profundidade: 1000,
     },
   ];
-
-  // console.log('imageSize', imageSize);
-  // console.log('profundidadeMaxima', profundidadeMaxima[0].profundidade);
 
   return (
     <>
@@ -72,8 +51,8 @@ function SchematicWell() {
               </BarChart>
             </Box>
             <Image
-              onClick={(event: any): void => {
-                relativeCoordinates(event);
+              onClick={(event) => {
+                dispatch(relativeCoordinates(event));
                 onOpen();
               }}
               src={SchematicSVG}
@@ -86,9 +65,7 @@ function SchematicWell() {
               left={100}
             />
           </Flex>
-          <ModalDecisao modalProps={modalProps} mousePosition={mousePosition} />
-          {/* <ModalCadastroEquipSubSuperficie modalProps={modalProps} mousePosition={mousePosition} /> */}
-          {/* <ModalCadastroComentarios modalProps={modalProps} mousePosition={mousePosition} /> */}
+          <ModalDecisao modalProps={modalProps} />
         </ContainerPagina>
       </Sidebar>
     </>

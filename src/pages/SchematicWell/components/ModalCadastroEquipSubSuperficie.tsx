@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import {
   Button,
@@ -18,24 +19,11 @@ import {
   NumberInputField,
   NumberInputStepper,
   Text,
+  useDisclosure,
 } from '@chakra-ui/react';
+import { schematicWellState } from 'features/SchematicWell/schematicWellSlice';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
-
-interface ModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-interface MousePosition {
-  yAxis: number;
-  xAxis: number;
-}
-
-interface Props {
-  modalProps: ModalProps;
-  mousePosition: MousePosition;
-}
 
 interface FormValues {
   equipamentoDeSubsuperficie: string;
@@ -46,8 +34,10 @@ interface FormValues {
   xAxis: number;
 }
 
-function ModalCadastroEquipSubSuperficie({ modalProps, mousePosition }: Props) {
-  const { isOpen, onClose } = modalProps;
+function ModalCadastroEquipSubSuperficie() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const { mousePosition } = useSelector(schematicWellState);
 
   const [formValues, setFormValues] = useState<FormValues>({
     equipamentoDeSubsuperficie: '',
@@ -89,6 +79,9 @@ function ModalCadastroEquipSubSuperficie({ modalProps, mousePosition }: Props) {
 
   return (
     <>
+      <Button variant={'origemBlueOutline'} onClick={onOpen} w={'100%'}>
+        Cadastrar Equipamento de Subsuperfície
+      </Button>
       <Modal isOpen={isOpen} onClose={onClose} size="lg">
         <ModalOverlay />
         <ModalContent>

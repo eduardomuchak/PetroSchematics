@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import {
   Button,
@@ -18,24 +19,11 @@ import {
   NumberInputStepper,
   Text,
   Textarea,
+  useDisclosure,
 } from '@chakra-ui/react';
+import { schematicWellState } from 'features/SchematicWell/schematicWellSlice';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
-
-interface ModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-interface MousePosition {
-  yAxis: number;
-  xAxis: number;
-}
-
-interface Props {
-  modalProps: ModalProps;
-  mousePosition: MousePosition;
-}
 
 interface FormValues {
   profundidadeMetros: number;
@@ -43,8 +31,10 @@ interface FormValues {
   comentarios: string;
 }
 
-function ModalCadastroComentarios({ modalProps, mousePosition }: Props) {
-  const { isOpen, onClose } = modalProps;
+function ModalCadastroComentarios() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const { mousePosition } = useSelector(schematicWellState);
 
   const [formValues, setFormValues] = useState<FormValues>({
     comentarios: '',
@@ -80,6 +70,9 @@ function ModalCadastroComentarios({ modalProps, mousePosition }: Props) {
 
   return (
     <>
+      <Button variant={'origemBlueOutline'} onClick={onOpen} w={'100%'}>
+        Adicionar Comentário
+      </Button>
       <Modal isOpen={isOpen} onClose={onClose} size="lg">
         <ModalOverlay />
         <ModalContent>
