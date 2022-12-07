@@ -134,7 +134,7 @@ function ModalCadastroComentarios({ modalProps, mousePosition }: Props) {
           </ModalBody>
           <ModalFooter>
             <Flex gap={2}>
-              <Button variant={'origemRedSolid'} onClick={handleCancel}>
+              <Button variant={'origemRedGhost'} onClick={handleCancel}>
                 Cancelar
               </Button>
               <Button

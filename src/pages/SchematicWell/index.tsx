@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 
 import { Box, Flex, Image, useDisclosure } from '@chakra-ui/react';
 // import schematic from 'assets/schematic-well.png';
@@ -11,12 +11,14 @@ import TituloPagina from 'components/TituloPagina';
 
 import { useWindowSize } from 'hooks/useWindowSize';
 
-import ModalCadastroComentarios from './components/ModalCadastroComentarios';
+import ModalDecisao from './components/ModalDecisao';
+// import ModalCadastroComentarios from './components/ModalCadastroComentarios';
 // import ModalCadastroEquipSubSuperficie from './components/ModalCadastroEquipSubSuperficie';
 
 function SchematicWell() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const modalProps = { isOpen, onOpen, onClose };
+
   // Posição do mouse no momento do click da imagem do esquemático
   const [mousePosition, setMousePosition] = useState({
     yAxis: 0,
@@ -31,9 +33,6 @@ function SchematicWell() {
   };
   const checkHeight = imageSize.width * (width / imageSize.height) > height;
   const scale = checkHeight ? height / imageSize.width : width / imageSize.height;
-
-  // Altura da imagem do esquemático
-  const imageRef = useRef<any>(0);
 
   // Função que seta a posição do mouse no momento do click
   function relativeCoordinates(event: any) {
@@ -73,7 +72,6 @@ function SchematicWell() {
               </BarChart>
             </Box>
             <Image
-              ref={imageRef}
               onClick={(event: any): void => {
                 relativeCoordinates(event);
                 onOpen();
@@ -88,8 +86,9 @@ function SchematicWell() {
               left={100}
             />
           </Flex>
+          <ModalDecisao modalProps={modalProps} mousePosition={mousePosition} />
           {/* <ModalCadastroEquipSubSuperficie modalProps={modalProps} mousePosition={mousePosition} /> */}
-          <ModalCadastroComentarios modalProps={modalProps} mousePosition={mousePosition} />
+          {/* <ModalCadastroComentarios modalProps={modalProps} mousePosition={mousePosition} /> */}
         </ContainerPagina>
       </Sidebar>
     </>

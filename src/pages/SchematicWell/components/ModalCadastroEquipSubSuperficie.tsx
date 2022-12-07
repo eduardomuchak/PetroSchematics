@@ -220,12 +220,10 @@ function ModalCadastroEquipSubSuperficie({ modalProps, mousePosition }: Props) {
                 </NumberInput>
               </FormControl>
             </Flex>
-            {/* <Text>{`Clique Eixo Y: ${mousePosition.yAxis}`}</Text> */}
-            {/* <Text>{`Clique Eixo X: ${mousePosition.xAxis}`}</Text> */}
           </ModalBody>
           <ModalFooter>
             <Flex gap={2}>
-              <Button variant={'origemRedSolid'} onClick={handleCancel}>
+              <Button variant={'origemRedGhost'} onClick={handleCancel}>
                 Cancelar
               </Button>
               <Button
