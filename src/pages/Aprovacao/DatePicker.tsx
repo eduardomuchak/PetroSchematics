@@ -1,12 +1,10 @@
-import { forwardRef, useState } from 'react';
+import { forwardRef } from 'react';
 import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 import { Button, useBreakpointValue } from '@chakra-ui/react';
 
-function DatePicker() {
-  const [dataInicio, setDataInicio] = useState<any>('');
-
+function DatePicker({ value, seter }: any) {
   const TriggerDatePickerInicio = forwardRef(({ value, onClick }: any, ref: any) => (
     <Button
       h={'56px'}
@@ -25,9 +23,8 @@ function DatePicker() {
 
   return (
     <ReactDatePicker
-      selected={dataInicio}
-      onChange={(date) => setDataInicio(date)}
-      locale="pt-BR"
+      selected={value}
+      onChange={(date) => seter(date)}
       dateFormat="dd/MM/yyyy"
       customInput={<TriggerDatePickerInicio />}
     />

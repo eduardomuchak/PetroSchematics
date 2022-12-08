@@ -21,20 +21,47 @@ import {
 import ContainerPagina from 'components/ContainerPagina';
 import Sidebar from 'components/SideBar';
 import TituloPagina from 'components/TituloPagina';
-
-import DatePicker from './DatePicker';
-
 // import { getAllPocos } from 'api/mongoDB';
 
+import DatePicker from './DatePicker';
 import { listaBastoes, listaReg, listaTeste, listaXV, pocos, tanques } from './mockFile';
 
 type Operacao = {
   value: number;
   label: string;
+  form: string;
+};
+
+const customStyles = {
+  placeholder: (defaultStyles: any) => ({
+    ...defaultStyles,
+    color: '#949494',
+  }),
+  control: (base: any) => ({
+    ...base,
+    height: 56,
+    minHeight: 56,
+    border: '0.5px solid #E2E8F0',
+    borderRadius: '8px',
+    fontWeigth: '400',
+    fontSize: '14px',
+  }),
+
+  dropdownIndicator: (base: any) => ({
+    ...base,
+    color: '#2D2926',
+  }),
+
+  menu: (base: any) => ({
+    ...base,
+    zIndex: 9999,
+    minWidth: '300px',
+  }),
 };
 
 export function Aprovacaopage() {
   const [render, setRender] = useState<boolean>(false);
+  const [renderList, setRenderList] = useState<any[]>([]);
   const [formsList, setFormsList] = useState<any[]>([]);
   const [listaFiltroCampo, setListaFiltroCampo] = useState<any[]>([]);
   const [listaFiltroForm, setListaFiltroForm] = useState<any[]>([]);
@@ -42,16 +69,18 @@ export function Aprovacaopage() {
   const [filterCampo, setFilterCampo] = useState<any>({ value: 0, label: '' });
   const [filterForm, setFilterForm] = useState<any>({ value: 0, label: '' });
   const [filterPoco, setFilterPoco] = useState<any>({ value: 0, label: '' });
+  const [dateIni, setDateIni] = useState<any>('');
+  const [dateEnd, setDateEnd] = useState<any>('');
 
   useEffect(() => {
     getAll();
   }, []);
 
   const options: Operacao[] = [
-    { value: 1, label: 'Acompanhamento XV' },
-    { value: 2, label: 'Controle de Lançamento de Bastões' },
-    { value: 3, label: 'Teste de Poços' },
-    { value: 4, label: 'Registro de Pressão da Coluna e Anulares' },
+    { value: 1, label: 'Acompanhamento XV', form: 'form-xv' },
+    { value: 2, label: 'Controle de Lançamento de Bastões', form: 'form-control-bastoes' },
+    { value: 3, label: 'Teste de Poços', form: 'form-teste-pocos' },
+    { value: 4, label: 'Registro de Pressão da Coluna e Anulares', form: 'form-reg-coluna' },
   ];
 
   const getAll = async () => {
@@ -59,17 +88,20 @@ export function Aprovacaopage() {
     // console.log('pocosLocal', pocosLocal);
     const tanquesLocal = tanques.map((val: any) => {
       const inside = {
+        ...val,
         value: val.id_tanque,
         label: val.nom_tanque,
       };
       return inside;
     });
     const pocosLocal = pocos.map((val: any) => ({
+      ...val,
       value: val.id_poco,
       label: val.nome_poco,
     }));
     const all = listaXV.concat(listaTeste.concat(listaBastoes.concat(listaReg)));
     setFormsList(all);
+    setRenderList(all);
     setListaFiltroCampo(tanquesLocal);
     setListaFiltroPoco(pocosLocal);
     setListaFiltroForm(options);
@@ -82,31 +114,35 @@ export function Aprovacaopage() {
     setRender(!render);
   };
 
-  const customStyles = {
-    placeholder: (defaultStyles: any) => ({
-      ...defaultStyles,
-      color: '#949494',
-    }),
-    control: (base: any) => ({
-      ...base,
-      height: 56,
-      minHeight: 56,
-      border: '0.5px solid #E2E8F0',
-      borderRadius: '8px',
-      fontWeigth: '400',
-      fontSize: '14px',
-    }),
+  useEffect(() => {
+    if (formsList.length > 0) {
+      const listBase = formsList;
+      const filtrarCampo = listBase.filter((val: any) =>
+        filterCampo.label == '' ? val : val.form_data.tanque?.nom_tanque?.includes(filterCampo.label),
+      );
+      const filtrarPoco = filtrarCampo.filter((val: any) =>
+        filterPoco.label == '' ? val : val.form_data.tanque?.poco?.nome_poco?.includes(filterPoco.label),
+      );
+      const filtrarForm = filtrarPoco.filter((val: any) =>
+        filterForm.label == '' ? val : val.form_type?.includes(filterForm.form),
+      );
+      const filtrarDateIni = filtrarForm.filter((val: any) =>
+        dateIni == '' ? val : new Date(val.dat_usu_aprov) > dateIni,
+      );
 
-    dropdownIndicator: (base: any) => ({
-      ...base,
-      color: '#2D2926',
-    }),
+      const filtrarDateEnd = filtrarDateIni.filter((val: any) =>
+        dateEnd == '' ? val : new Date(val.dat_usu_aprov) <= dateEnd,
+      );
+      setRenderList(filtrarDateEnd);
+    }
+  }, [filterCampo, filterForm, filterPoco, dateIni, dateEnd]);
 
-    menu: (base: any) => ({
-      ...base,
-      zIndex: 9999,
-      minWidth: '300px',
-    }),
+  const clearFilters = () => {
+    setFilterCampo({ value: 0, label: '' });
+    setFilterForm({ value: 0, label: '' });
+    setFilterPoco({ value: 0, label: '' });
+    setDateIni('');
+    setDateEnd('');
   };
 
   return (
@@ -143,7 +179,7 @@ export function Aprovacaopage() {
                 }}
                 placeholder={'Selecione'}
                 options={listaFiltroPoco}
-                onChange={(e) => setFilterForm(e)}
+                onChange={(e) => setFilterPoco(e)}
                 defaultValue={'Selecione'}
                 value={filterPoco.value === 0 ? 'Selecione' : filterPoco}
                 isSearchable
@@ -160,7 +196,7 @@ export function Aprovacaopage() {
                 }}
                 placeholder={'Selecione'}
                 options={listaFiltroForm}
-                onChange={(e) => setFilterPoco(e)}
+                onChange={(e) => setFilterForm(e)}
                 defaultValue={'Selecione'}
                 value={filterForm.value === 0 ? 'Selecione' : filterForm}
                 isSearchable
@@ -170,13 +206,34 @@ export function Aprovacaopage() {
               <Text fontWeight={700} fontSize={12} letterSpacing={0.3} color={'#A7A7A7'} w={'100%'}>
                 INTERVALO INICIAL
               </Text>
-              <DatePicker />
+              <DatePicker value={dateIni} seter={setDateIni} />
             </Flex>
             <Flex direction={'column'}>
               <Text fontWeight={700} fontSize={12} letterSpacing={0.3} color={'#A7A7A7'} w={'100%'}>
                 INTERVALO FINAL
               </Text>
-              <DatePicker />
+              <DatePicker value={dateEnd} seter={setDateEnd} />
+            </Flex>
+            <Flex align={'center'}>
+              <Button
+                h={'42px'}
+                w={'177px'}
+                variant="outline"
+                color={'origem.500'}
+                colorScheme="blue"
+                onClick={() => clearFilters()}
+                _hover={{
+                  shadow: '0px 0px 5px -1px rgba(0,72,187,1)',
+                  transition: 'all 0.4s',
+                }}
+                fontSize={'18px'}
+                fontWeight={'700'}
+                borderRadius={'96px'}
+              >
+                <Text fontSize={'14px'} fontWeight={'700'}>
+                  Limpar Filtros
+                </Text>
+              </Button>
             </Flex>
           </Flex>
           <Flex pl={2} pr={2} mb={4} justify={'space-between'} align={'center'}>
@@ -266,7 +323,7 @@ export function Aprovacaopage() {
                 </Tr>
               </Thead>
               <Tbody>
-                {formsList.map((item: any, index: number) => (
+                {renderList.map((item: any, index: number) => (
                   <Tr
                     key={index}
                     height={'56px'}
