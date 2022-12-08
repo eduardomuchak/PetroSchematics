@@ -38,9 +38,9 @@ export const schematicWellSlice = createSlice({
       const bounds = event.target.getBoundingClientRect();
       const x = event.clientX - bounds.left;
       const y = event.clientY - bounds.top;
-      const profundidadeDoClique = (state.depth * y) / 1000; // 1000 = imageSize.height;
+      const clickDepth = (state.depth * y) / 1000; // 1000 = imageSize.height;
       state.mousePosition = {
-        yAxis: Number(profundidadeDoClique.toFixed(0)),
+        yAxis: Number(clickDepth.toFixed(0)),
         xAxis: Number(x.toFixed(0)),
       };
     },

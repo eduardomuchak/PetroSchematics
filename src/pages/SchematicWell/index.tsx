@@ -10,15 +10,12 @@ import ContainerPagina from 'components/ContainerPagina';
 import Sidebar from 'components/SideBar';
 import TituloPagina from 'components/TituloPagina';
 
-// import { useWindowSize } from 'hooks/useWindowSize';
-
 import ModalDecisao from './components/ModalDecisao';
 import TabelaEquipamentoSubsuperficie from './components/TabelaEquipamentoSubSuperficie';
 import TabelaEquipamentoSuperficie from './components/TabelaEquipamentoSuperficie';
 
 function SchematicWell() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  // const [width, height] = useWindowSize();
   const dispatch = useDispatch();
 
   const modalProps = { isOpen, onOpen, onClose };
