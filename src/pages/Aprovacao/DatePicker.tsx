@@ -17,6 +17,7 @@ function DatePicker() {
       px={useBreakpointValue({ base: 5, sm: 5, md: 5 })}
       minW={useBreakpointValue({ base: '220px', sm: '220px', md: '220px' })}
       borderRadius={'8px'}
+      color={value === '' ? '#aaa' : '#000'}
     >
       {value === '' ? 'Selecione uma data' : value}
     </Button>

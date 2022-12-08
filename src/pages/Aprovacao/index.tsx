@@ -24,6 +24,10 @@ import TituloPagina from 'components/TituloPagina';
 
 import DatePicker from './DatePicker';
 
+// import { getAllPocos } from 'api/mongoDB';
+
+import { listaBastoes, listaReg, listaTeste, listaXV, pocos, tanques } from './mockFile';
+
 type Operacao = {
   value: number;
   label: string;
@@ -31,9 +35,17 @@ type Operacao = {
 
 export function Aprovacaopage() {
   const [render, setRender] = useState<boolean>(false);
-  const [operacaoFilter, setOperacaoFilter] = useState<any>({ value: 0, label: '' });
   const [formsList, setFormsList] = useState<any[]>([]);
-  // const [formsOptions, setFormsOptions] = useState<any[]>([]);
+  const [listaFiltroCampo, setListaFiltroCampo] = useState<any[]>([]);
+  const [listaFiltroForm, setListaFiltroForm] = useState<any[]>([]);
+  const [listaFiltroPoco, setListaFiltroPoco] = useState<any[]>([]);
+  const [filterCampo, setFilterCampo] = useState<any>({ value: 0, label: '' });
+  const [filterForm, setFilterForm] = useState<any>({ value: 0, label: '' });
+  const [filterPoco, setFilterPoco] = useState<any>({ value: 0, label: '' });
+
+  useEffect(() => {
+    getAll();
+  }, []);
 
   const options: Operacao[] = [
     { value: 1, label: 'Acompanhamento XV' },
@@ -42,16 +54,26 @@ export function Aprovacaopage() {
     { value: 4, label: 'Registro de Pressão da Coluna e Anulares' },
   ];
 
-  const mock: any[] = [
-    { value: 1, label: 'Gabriel Gomes' },
-    { value: 2, label: 'Bruno de Souza' },
-    { value: 3, label: 'Eduardo' },
-    { value: 4, label: 'Bruno' },
-  ];
-
-  useEffect(() => {
-    setFormsList(mock);
-  }, []);
+  const getAll = async () => {
+    // const pocosLocal = await getAllPocos();
+    // console.log('pocosLocal', pocosLocal);
+    const tanquesLocal = tanques.map((val: any) => {
+      const inside = {
+        value: val.id_tanque,
+        label: val.nom_tanque,
+      };
+      return inside;
+    });
+    const pocosLocal = pocos.map((val: any) => ({
+      value: val.id_poco,
+      label: val.nome_poco,
+    }));
+    const all = listaXV.concat(listaTeste.concat(listaBastoes.concat(listaReg)));
+    setFormsList(all);
+    setListaFiltroCampo(tanquesLocal);
+    setListaFiltroPoco(pocosLocal);
+    setListaFiltroForm(options);
+  };
 
   const handleCheckbox = (value: any, index: number) => {
     const newList = formsList;
@@ -103,10 +125,10 @@ export function Aprovacaopage() {
                   IndicatorSeparator: () => null,
                 }}
                 placeholder={'Selecione'}
-                options={options}
-                onChange={(e) => setOperacaoFilter(e)}
+                options={listaFiltroCampo}
+                onChange={(e) => setFilterCampo(e)}
                 defaultValue={'Selecione'}
-                value={operacaoFilter.value === 0 ? 'Selecione' : operacaoFilter}
+                value={filterCampo.value === 0 ? 'Selecione' : filterCampo}
                 isSearchable
               />
             </Flex>
@@ -120,10 +142,10 @@ export function Aprovacaopage() {
                   IndicatorSeparator: () => null,
                 }}
                 placeholder={'Selecione'}
-                options={options}
-                onChange={(e) => setOperacaoFilter(e)}
+                options={listaFiltroPoco}
+                onChange={(e) => setFilterForm(e)}
                 defaultValue={'Selecione'}
-                value={operacaoFilter.value === 0 ? 'Selecione' : operacaoFilter}
+                value={filterPoco.value === 0 ? 'Selecione' : filterPoco}
                 isSearchable
               />
             </Flex>
@@ -137,10 +159,10 @@ export function Aprovacaopage() {
                   IndicatorSeparator: () => null,
                 }}
                 placeholder={'Selecione'}
-                options={options}
-                onChange={(e) => setOperacaoFilter(e)}
+                options={listaFiltroForm}
+                onChange={(e) => setFilterPoco(e)}
                 defaultValue={'Selecione'}
-                value={operacaoFilter.value === 0 ? 'Selecione' : operacaoFilter}
+                value={filterForm.value === 0 ? 'Selecione' : filterForm}
                 isSearchable
               />
             </Flex>
@@ -245,8 +267,12 @@ export function Aprovacaopage() {
               </Thead>
               <Tbody>
                 {formsList.map((item: any, index: number) => (
-                  // eslint-disable-next-line no-nested-ternary
-                  <Tr height={'56px'} background={item.checked ? '#D9EAFD' : index % 2 == 0 ? '#FEFEFE' : '#F9F9F9'}>
+                  <Tr
+                    key={index}
+                    height={'56px'}
+                    // eslint-disable-next-line no-nested-ternary
+                    background={item.checked ? '#D9EAFD' : index % 2 == 0 ? '#FEFEFE' : '#F9F9F9'}
+                  >
                     <Td
                       height={'56px'}
                       width={'16%'}
@@ -265,7 +291,13 @@ export function Aprovacaopage() {
                       borderTopWidth={'1px'}
                       borderColor={'#9FA2B4'}
                     >
-                      <Flex justify={'center'}>00:00</Flex>
+                      <Flex justify={'center'}>
+                        {`${new Date(item.dat_usu_aprov).getHours() < 10 ? '0' : ''}${new Date(
+                          item.dat_usu_aprov,
+                        ).getHours()}:${new Date(item.dat_usu_aprov).getMinutes() < 10 ? '0' : ''}${new Date(
+                          item.dat_usu_aprov,
+                        ).getMinutes()}`}
+                      </Flex>
                     </Td>
                     <Td
                       height={'56px'}
@@ -274,7 +306,7 @@ export function Aprovacaopage() {
                       borderTopWidth={'1px'}
                       borderColor={'#9FA2B4'}
                     >
-                      <Flex justify={'center'}>{item.label}</Flex>
+                      <Flex justify={'center'}>{item.nom_usu_aprov}</Flex>
                     </Td>
                     <Td
                       height={'56px'}
@@ -283,7 +315,13 @@ export function Aprovacaopage() {
                       borderTopWidth={'1px'}
                       borderColor={'#9FA2B4'}
                     >
-                      <Flex justify={'center'}>06/12/2022</Flex>
+                      <Flex justify={'center'}>
+                        {`${new Date(item.dat_usu_aprov).getDate() < 10 ? '0' : ''}${new Date(
+                          item.dat_usu_aprov,
+                        ).getDate()}/${new Date(item.dat_usu_aprov).getMonth() + 1 < 10 ? '0' : ''}${
+                          new Date(item.dat_usu_aprov).getMonth() + 1
+                        }/${new Date(item.dat_usu_aprov).getFullYear()}`}
+                      </Flex>
                     </Td>
                     <Td
                       height={'56px'}
