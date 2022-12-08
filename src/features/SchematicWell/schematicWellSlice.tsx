@@ -25,21 +25,29 @@ export const schematicWellSlice = createSlice({
   name: 'schematicWell',
   initialState,
   reducers: {
+    setDepth: (state, action) => {
+      state.depth = action.payload;
+    },
+    // A função abaixo deve ser usada para calcular a posição do clique do mouse
+    // calculando a profundidade máxima e a posição do clique no eixo Y
     relativeCoordinates: (state, action) => {
+      // Exemplo: profundidade máxima = 3000m e tamanho da imagem = 1000px
+      // 3000m = profundidade máxima (state.depth)
+      // 1000px = tamanho da imagem (imageSize.height)
       const event = action.payload;
       const bounds = event.target.getBoundingClientRect();
       const x = event.clientX - bounds.left;
       const y = event.clientY - bounds.top;
+      const profundidadeDoClique = (state.depth * y) / 1000; // 1000 = imageSize.height;
       state.mousePosition = {
-        yAxis: Number(y.toFixed(0)),
+        yAxis: Number(profundidadeDoClique.toFixed(0)),
         xAxis: Number(x.toFixed(0)),
       };
-      state.depth = Number(y.toFixed(0));
     },
   },
 });
 
-export const { relativeCoordinates } = schematicWellSlice.actions;
+export const { relativeCoordinates, setDepth } = schematicWellSlice.actions;
 
 export const schematicWellState = (state: SchematicState) => state.schematicWell;
 
