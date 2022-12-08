@@ -1,15 +1,16 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Box, Flex, Image, useDisclosure } from '@chakra-ui/react';
 import SchematicSVG from 'assets/esquematico.svg';
-import { relativeCoordinates, setDepth } from 'features/SchematicWell/schematicWellSlice';
+import { relativeCoordinates, schematicWellState, setMaxDepth } from 'features/SchematicWell/schematicWellSlice';
 import { BarChart, CartesianGrid, YAxis } from 'recharts';
 
 import ContainerPagina from 'components/ContainerPagina';
 import Sidebar from 'components/SideBar';
 import TituloPagina from 'components/TituloPagina';
 
+import ButtonPontoDeClique from './components/ButtonPontoDeClique';
 import ModalDecisao from './components/ModalDecisao';
 import TabelaEquipamentoSubsuperficie from './components/TabelaEquipamentoSubSuperficie';
 import TabelaEquipamentoSuperficie from './components/TabelaEquipamentoSuperficie';
@@ -17,6 +18,7 @@ import TabelaEquipamentoSuperficie from './components/TabelaEquipamentoSuperfici
 function SchematicWell() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch = useDispatch();
+  const { subsurfaceEquipmentTable } = useSelector(schematicWellState);
 
   const modalProps = { isOpen, onOpen, onClose };
 
@@ -27,15 +29,15 @@ function SchematicWell() {
   };
 
   // Dados para o eixo Y
-  const profundidadeMaxima = [
+  const maxDepth = [
     {
-      profundidade: 3000,
+      depth: 3000,
     },
   ];
   //
 
   useEffect(() => {
-    dispatch(setDepth(profundidadeMaxima[0].profundidade));
+    dispatch(setMaxDepth(maxDepth[0].depth));
   }, []);
 
   return (
@@ -47,13 +49,9 @@ function SchematicWell() {
           <Flex justify={'space-between'}>
             <Flex flex={1}>
               <Box position={'absolute'} zIndex={0}>
-                <BarChart
-                  width={Number(imageSize.width + 60)}
-                  height={Number(imageSize.height)}
-                  data={profundidadeMaxima}
-                >
+                <BarChart width={Number(imageSize.width + 60)} height={Number(imageSize.height)} data={maxDepth}>
                   <CartesianGrid strokeDasharray="4 4" />
-                  <YAxis dataKey="profundidade" reversed={true} tickCount={5} />
+                  <YAxis dataKey="depth" reversed={true} tickCount={5} />
                 </BarChart>
               </Box>
               <Image
@@ -68,6 +66,19 @@ function SchematicWell() {
                 top={1}
                 left={100}
               />
+              <Flex direction={'row-reverse'}>
+                {subsurfaceEquipmentTable.map((equipment: any, index: number) => (
+                  <ButtonPontoDeClique
+                    key={index}
+                    position={{
+                      scaleYAxis: (equipment.yAxis * imageSize.height) / maxDepth[0].depth,
+                      xAxis: equipment.xAxis,
+                      yAxis: equipment.yAxis,
+                    }}
+                    onOpen={onOpen}
+                  />
+                ))}
+              </Flex>
             </Flex>
             <Flex direction={'column'} flex={1.5} overflowX={'scroll'} gap={4}>
               <TabelaEquipamentoSuperficie />

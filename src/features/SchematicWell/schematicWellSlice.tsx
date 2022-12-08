@@ -1,32 +1,46 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-interface MousePosition {
-  yAxis: number;
-  xAxis: number;
-}
-interface InitialValue {
-  depth: number;
-  mousePosition: MousePosition;
-}
-
-interface SchematicState {
-  schematicWell: InitialValue;
-}
+import { InitialSchematicValue, SchematicState } from './interfaces';
 
 const initialState = {
-  depth: 0,
+  maxDepth: 0,
   mousePosition: {
     yAxis: 0,
     xAxis: 0,
   },
-} as InitialValue;
+  surfaceEquipmentTable: [
+    {
+      surfaceEquipment: '',
+      description: '',
+      yAxis: 0,
+      xAxis: 0,
+    },
+  ],
+  subsurfaceEquipmentTable: [
+    {
+      subsurfaceEquipment: '',
+      odInch: '',
+      idInch: '',
+      manufacturer: '',
+      depth: '',
+      yAxis: 0,
+      xAxis: 0,
+    },
+  ],
+} as InitialSchematicValue;
 
 export const schematicWellSlice = createSlice({
   name: 'schematicWell',
   initialState,
   reducers: {
-    setDepth: (state, action) => {
-      state.depth = action.payload;
+    setMaxDepth: (state, action) => {
+      state.maxDepth = action.payload;
+    },
+    setSurfaceEquipment: (state, action) => {
+      state.surfaceEquipmentTable = action.payload;
+    },
+    setSubsurfaceEquipment: (state, action) => {
+      state.subsurfaceEquipmentTable = action.payload;
     },
     // A função abaixo deve ser usada para calcular a posição do clique do mouse
     // calculando a profundidade máxima e a posição do clique no eixo Y
@@ -38,17 +52,19 @@ export const schematicWellSlice = createSlice({
       const bounds = event.target.getBoundingClientRect();
       const x = event.clientX - bounds.left;
       const y = event.clientY - bounds.top;
-      const clickDepth = (state.depth * y) / 1000; // 1000 = imageSize.height;
+      const clickDepth = (state.maxDepth * y) / 1000; // 1000 = imageSize.height;
       state.mousePosition = {
         yAxis: Number(clickDepth.toFixed(0)),
         xAxis: Number(x.toFixed(0)),
       };
     },
+    openPointOfClick: (state, action) => {
+      state.mousePosition = action.payload;
+    },
   },
 });
 
-export const { relativeCoordinates, setDepth } = schematicWellSlice.actions;
+export const { relativeCoordinates, setMaxDepth, setSurfaceEquipment, setSubsurfaceEquipment, openPointOfClick } =
+  schematicWellSlice.actions;
 
 export const schematicWellState = (state: SchematicState) => state.schematicWell;
-
-export const selectCurrentDepth = (state: SchematicState) => state.schematicWell.depth;

@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
 import { FiTrash } from 'react-icons/fi';
 import { MdModeEdit } from 'react-icons/md';
+import { useDispatch } from 'react-redux';
 
 import { Flex, IconButton, Td, Text, Tr } from '@chakra-ui/react';
+import { setSurfaceEquipment } from 'features/SchematicWell/schematicWellSlice';
 
 import TabelaGenerica from 'components/TabelaGenerica';
 
 function TabelaEquipamentoSuperficie() {
+  const dispacth = useDispatch();
   // Estados para paginação
   const [from, setFrom] = useState<number>(0);
   const [to, setTo] = useState<number>(5);
@@ -19,52 +22,56 @@ function TabelaEquipamentoSuperficie() {
   //
 
   // Dados da tabela
-  const [tabelaFiltrada, setTabelaFiltrada] = useState<any[]>([
+  const [filteredTable, setFilteredTable] = useState<any[]>([
     {
-      equipamentoDeSuperficie: '',
-      descricao: '',
+      surfaceEquipment: '',
+      description: '',
     },
   ]);
   const header = ['EQUIPAMENTOS DE SUPERFÍCIE', 'DESCRIÇÃO', 'AÇÕES'];
   const footer = ['PACKER FLUID - 9.8 lb/gal'];
   //
+
+  const mock = [
+    {
+      surfaceEquipment: 'Árvore de Natal',
+      description: 'Descrição da árvore',
+    },
+    {
+      surfaceEquipment: 'Adaptador da Cabeça de Produção',
+      description: 'Descrição do adaptador',
+    },
+    {
+      surfaceEquipment: 'Suspensor da Cabeca de Produção',
+      description: 'Descrição do suspensor',
+    },
+    {
+      surfaceEquipment: 'Cabeça de Produção',
+      description: 'Descrição da cabeça de produção',
+    },
+    {
+      surfaceEquipment: 'Cabeça de Revestimento',
+      description: 'Descrição da cabeça de revestimento',
+    },
+  ];
+
   useEffect(() => {
-    setTabelaFiltrada([
-      {
-        equipamentoDeSuperficie: 'Árvore de Natal',
-        descricao: 'Descrição da árvore',
-      },
-      {
-        equipamentoDeSuperficie: 'Adaptador da Cabeça de Produção',
-        descricao: 'Descrição do adaptador',
-      },
-      {
-        equipamentoDeSuperficie: 'Suspensor da Cabeca de Produção',
-        descricao: 'Descrição do suspensor',
-      },
-      {
-        equipamentoDeSuperficie: 'Cabeça de Produção',
-        descricao: 'Descrição da cabeça de produção',
-      },
-      {
-        equipamentoDeSuperficie: 'Cabeça de Revestimento',
-        descricao: 'Descrição da cabeça de revestimento',
-      },
-    ]);
+    dispacth(setSurfaceEquipment(mock));
+    setFilteredTable(mock);
   }, []);
 
   // Criar um componente com o corpo da tabela e chamar ele como children do TabelaGenerica
   function Body() {
     return (
       <>
-        {tabelaFiltrada.length ? (
-          tabelaFiltrada.slice(from, to).map((linhaTabela: any, index: number) => (
+        {filteredTable.length ? (
+          filteredTable.slice(from, to).map((tableLine: any, index: number) => (
             <Tr key={index}>
               <Td textAlign={'center'} fontWeight={'semibold'}>
-                <Text>{linhaTabela.equipamentoDeSuperficie}</Text>
+                <Text>{tableLine.surfaceEquipment}</Text>
               </Td>
               <Td textAlign={'center'} fontWeight={'semibold'} wordBreak={'break-word'}>
-                <Text>{linhaTabela.descricao}</Text>
+                <Text>{tableLine.description}</Text>
               </Td>
               <Td textAlign={'center'} fontWeight={'semibold'}>
                 <Flex gap={2} align={'center'} justify={'center'}>
@@ -89,7 +96,7 @@ function TabelaEquipamentoSuperficie() {
 
   return (
     <Flex w={'100%'} direction={'column'} gap={2} overflowX={'scroll'}>
-      <TabelaGenerica data={tabelaFiltrada} header={header} fromTo={fromTo} footer={footer} pagination>
+      <TabelaGenerica data={filteredTable} header={header} fromTo={fromTo} footer={footer} pagination>
         <Body />
       </TabelaGenerica>
     </Flex>

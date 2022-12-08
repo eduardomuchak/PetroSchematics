@@ -77,6 +77,7 @@ function PaginacaoTabela({ data, fromTo }: Props) {
         gap={2}
         flex={1}
         wrap={innerWidth > 428 ? 'nowrap' : 'wrap'}
+        mt={2}
       >
         <Flex gap={2} alignItems={'center'}>
           <Text fontSize={'14px'}>Por página:</Text>

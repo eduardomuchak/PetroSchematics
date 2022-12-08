@@ -1,12 +1,16 @@
 import { useEffect, useState } from 'react';
 import { FiTrash } from 'react-icons/fi';
 import { MdModeEdit } from 'react-icons/md';
+import { useDispatch } from 'react-redux';
 
 import { Flex, IconButton, Td, Text, Tr } from '@chakra-ui/react';
+import { setSubsurfaceEquipment } from 'features/SchematicWell/schematicWellSlice';
 
 import TabelaGenerica from 'components/TabelaGenerica';
 
 function TabelaEquipamentoSubsuperficie() {
+  const dispacth = useDispatch();
+
   // Estados para paginação
   const [from, setFrom] = useState<number>(0);
   const [to, setTo] = useState<number>(5);
@@ -19,13 +23,13 @@ function TabelaEquipamentoSubsuperficie() {
   //
 
   // Dados da tabela
-  const [tabelaFiltrada, setTabelaFiltrada] = useState<any[]>([
+  const [filteredTable, setFilteredTable] = useState<any[]>([
     {
-      equipamentoDeSubsuperficie: '',
-      odPolegada: '',
-      idPolegada: '',
-      fabricante: '',
-      profundidade: '',
+      subsurfaceEquipment: '',
+      odInch: '',
+      idInch: '',
+      manufacturer: '',
+      depth: '',
     },
   ]);
   const header = [
@@ -38,53 +42,63 @@ function TabelaEquipamentoSubsuperficie() {
   ];
   const footer = [''];
   //
+
+  const mock = [
+    {
+      subsurfaceEquipment: '15 Tubos 2.7/8" EU',
+      odInch: '2.7/8',
+      idInch: '2,441',
+      manufacturer: 'Halliburton',
+      depth: '135,00',
+      yAxis: 135,
+      xAxis: 0,
+    },
+    {
+      subsurfaceEquipment: '1 Nipple R 2.7/8" EU',
+      odInch: '2.7/8',
+      idInch: '1,812',
+      manufacturer: 'Surco',
+      depth: '2759,15',
+      yAxis: 2759,
+      xAxis: 0,
+    },
+    {
+      subsurfaceEquipment: '1 Nipple F 2.7/8" EU',
+      odInch: '2.7/8',
+      idInch: '1,71',
+      manufacturer: 'Surco',
+      depth: '2900,60',
+      yAxis: 2900,
+      xAxis: 0,
+    },
+  ];
+
   useEffect(() => {
-    setTabelaFiltrada([
-      {
-        equipamentoDeSubsuperficie: '15 Tubos 2.7/8" EU',
-        odPolegada: '2.7/8',
-        idPolegada: '2,441',
-        fabricante: 'Halliburton',
-        profundidade: '135,00',
-      },
-      {
-        equipamentoDeSubsuperficie: '1 Nipple R 2.7/8" EU',
-        odPolegada: '2.7/8',
-        idPolegada: '1,812',
-        fabricante: 'Surco',
-        profundidade: '2759,15',
-      },
-      {
-        equipamentoDeSubsuperficie: '1 Nipple F 2.7/8" EU',
-        odPolegada: '2.7/8',
-        idPolegada: '1,71',
-        fabricante: 'Surco',
-        profundidade: '2900,60',
-      },
-    ]);
+    dispacth(setSubsurfaceEquipment(mock));
+    setFilteredTable(mock);
   }, []);
 
   // Criar um componente com o corpo da tabela e chamar ele como children do TabelaGenerica
   function Body() {
     return (
       <>
-        {tabelaFiltrada.length ? (
-          tabelaFiltrada.slice(from, to).map((linhaTabela: any, index: number) => (
+        {filteredTable.length ? (
+          filteredTable.slice(from, to).map((tableLine: any, index: number) => (
             <Tr key={index}>
               <Td textAlign={'center'} fontWeight={'semibold'}>
-                <Text>{linhaTabela.equipamentoDeSubsuperficie}</Text>
+                <Text>{tableLine.subsurfaceEquipment}</Text>
               </Td>
               <Td textAlign={'center'} fontWeight={'semibold'} wordBreak={'break-word'}>
-                <Text>{linhaTabela.odPolegada}</Text>
+                <Text>{tableLine.odInch}</Text>
               </Td>
               <Td textAlign={'center'} fontWeight={'semibold'} wordBreak={'break-word'}>
-                <Text>{linhaTabela.idPolegada}</Text>
+                <Text>{tableLine.idInch}</Text>
               </Td>
               <Td textAlign={'center'} fontWeight={'semibold'} wordBreak={'break-word'}>
-                <Text>{linhaTabela.fabricante}</Text>
+                <Text>{tableLine.manufacturer}</Text>
               </Td>
               <Td textAlign={'center'} fontWeight={'semibold'} wordBreak={'break-word'}>
-                <Text>{linhaTabela.profundidade}</Text>
+                <Text>{tableLine.depth}</Text>
               </Td>
               <Td textAlign={'center'} fontWeight={'semibold'}>
                 <Flex gap={2} align={'center'} justify={'center'}>
@@ -109,7 +123,7 @@ function TabelaEquipamentoSubsuperficie() {
 
   return (
     <Flex w={'100%'} direction={'column'} gap={2} overflowX={'scroll'}>
-      <TabelaGenerica data={tabelaFiltrada} header={header} fromTo={fromTo} footer={footer} pagination>
+      <TabelaGenerica data={filteredTable} header={header} fromTo={fromTo} footer={footer} pagination>
         <Body />
       </TabelaGenerica>
     </Flex>

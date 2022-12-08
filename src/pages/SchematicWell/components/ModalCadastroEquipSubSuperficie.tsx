@@ -37,7 +37,7 @@ interface FormValues {
 function ModalCadastroEquipSubSuperficie() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const { mousePosition, depth } = useSelector(schematicWellState);
+  const { mousePosition, maxDepth } = useSelector(schematicWellState);
 
   const [formValues, setFormValues] = useState<FormValues>({
     equipamentoDeSubsuperficie: '',
@@ -196,7 +196,7 @@ function ModalCadastroEquipSubSuperficie() {
                 </Flex>
                 <NumberInput
                   min={0}
-                  max={depth}
+                  max={maxDepth}
                   value={formValues.profundidadeMetros}
                   onChange={(valueString) => {
                     setFormValues({
