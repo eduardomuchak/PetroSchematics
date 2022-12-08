@@ -135,7 +135,7 @@ function ModalCadastroComentarios() {
                 variant={'origemBlueSolid'}
                 onClick={(event: React.MouseEvent<HTMLElement>) => handleSubmit(event)}
               >
-                Cadastrar
+                Adicionar
               </Button>
             </Flex>
           </ModalFooter>

@@ -19,7 +19,7 @@ function ModalDecisao({ modalProps }: Props) {
     <Modal isOpen={isOpen} onClose={onClose} size="md">
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>O que você gostaria de fazer?</ModalHeader>
+        <ModalHeader>O QUE VOCÊ GOSTARIA DE FAZER?</ModalHeader>
         <ModalCloseButton color={'white'} onClick={onClose} />
         <ModalBody mb={4}>
           <Flex direction={'column'} gap={4}>

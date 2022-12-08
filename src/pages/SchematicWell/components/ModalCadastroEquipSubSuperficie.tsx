@@ -124,7 +124,7 @@ function ModalCadastroEquipSubSuperficie() {
                   <Input
                     variant={'origem'}
                     isRequired
-                    placeholder="OD(inch/polegada)"
+                    placeholder="OD (inch/polegada)"
                     id="odPolegada"
                     type="text"
                     name="odPolegada"
@@ -148,7 +148,7 @@ function ModalCadastroEquipSubSuperficie() {
                   <Input
                     variant={'origem'}
                     isRequired
-                    placeholder="ID(inch/polegada)"
+                    placeholder="ID (inch/polegada)"
                     id="idPolegada"
                     type="text"
                     name="idPolegada"
