@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { ChakraProvider } from '@chakra-ui/react';
-import { store } from 'app/store';
+import { store } from 'features/store';
 
 import { ToastProvider } from 'contexts/Toast';
 

@@ -26,27 +26,18 @@ import { schematicWellState } from 'features/schematicWell/schematicWellSlice';
 import { RequiredField } from 'components/RequiredField/RequiredField';
 
 interface FormValues {
-  equipamentoDeSubsuperficie: string;
-  odPolegada: string;
-  idPolegada: string;
-  fabricante: string;
+  equipamentoDeSuperficie: string;
+  descricao: string;
   profundidadeMetros: number;
   xAxis: number;
 }
 
-function ModalCadastroEquipSubSuperficie() {
+function ModalCadastroEquipSuperficie() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { mousePosition, maxDepth } = useSelector(schematicWellState);
 
-  const [formValues, setFormValues] = useState<FormValues>({
-    equipamentoDeSubsuperficie: '',
-    odPolegada: '',
-    idPolegada: '',
-    fabricante: '',
-    profundidadeMetros: 0,
-    xAxis: 0,
-  });
+  const [formValues, setFormValues] = useState<FormValues>({} as FormValues);
 
   const handleCancel = () => {
     onClose();
@@ -68,10 +59,8 @@ function ModalCadastroEquipSubSuperficie() {
 
   useEffect(() => {
     setFormValues({
-      equipamentoDeSubsuperficie: '',
-      odPolegada: '',
-      idPolegada: '',
-      fabricante: '',
+      equipamentoDeSuperficie: '',
+      descricao: '',
       profundidadeMetros: 0,
       xAxis: 0,
     });
@@ -80,12 +69,12 @@ function ModalCadastroEquipSubSuperficie() {
   return (
     <>
       <Button variant={'origemBlueOutline'} onClick={onOpen} w={'100%'}>
-        Cadastrar Equipamento de Subsuperfície
+        Cadastrar Equipamento de Superfície
       </Button>
       <Modal isOpen={isOpen} onClose={onClose} size="lg">
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>CADASTRAR EQUIPAMENTO DE SUBSUPERFÍCIE</ModalHeader>
+          <ModalHeader>CADASTRAR EQUIPAMENTO DE SUPERFÍCIE</ModalHeader>
           <ModalCloseButton color={'white'} onClick={handleCancel} />
           <ModalBody>
             <Flex direction={'column'} gap={4}>
@@ -93,100 +82,52 @@ function ModalCadastroEquipSubSuperficie() {
                 <Flex gap={1}>
                   <RequiredField />
                   <Text fontWeight={'700'} fontSize={'12px'} color={'#949494'}>
-                    EQUIPAMENTO DE SUBSUPERFÍCIE
+                    EQUIPAMENTO DE SUPERFÍCIE
                   </Text>
                 </Flex>
                 <Input
                   variant={'origem'}
                   isRequired
-                  placeholder="Equipamento de Subsuperfície"
-                  id="equipamentoDeSubsuperficie"
+                  placeholder="Equipamento de Superfície"
+                  id="equipamentoDeSuperficie"
                   type="text"
-                  name="equipamentoDeSubsuperficie"
-                  value={formValues.equipamentoDeSubsuperficie}
+                  name="equipamentoDeSuperficie"
+                  value={formValues.equipamentoDeSuperficie}
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                     setFormValues({
                       ...formValues,
-                      equipamentoDeSubsuperficie: event.target.value,
+                      equipamentoDeSuperficie: event.target.value,
                     })
                   }
                   maxLength={50}
                 />
               </FormControl>
-              <Flex gap={2}>
-                <FormControl>
-                  <Flex gap={1}>
-                    <RequiredField />
-                    <Text fontWeight={'700'} fontSize={'12px'} color={'#949494'}>
-                      OD (INCH/POLEGADA)
-                    </Text>
-                  </Flex>
-                  <Input
-                    variant={'origem'}
-                    isRequired
-                    placeholder="OD (inch/polegada)"
-                    id="odPolegada"
-                    type="text"
-                    name="odPolegada"
-                    value={formValues.odPolegada}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                      setFormValues({
-                        ...formValues,
-                        odPolegada: event.target.value,
-                      })
-                    }
-                    maxLength={10}
-                  />
-                </FormControl>
-                <FormControl>
-                  <Flex gap={1}>
-                    <RequiredField />
-                    <Text fontWeight={'700'} fontSize={'12px'} color={'#949494'}>
-                      ID (INCH/POLEGADA)
-                    </Text>
-                  </Flex>
-                  <Input
-                    variant={'origem'}
-                    isRequired
-                    placeholder="ID (inch/polegada)"
-                    id="idPolegada"
-                    type="text"
-                    name="idPolegada"
-                    value={formValues.idPolegada}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                      setFormValues({
-                        ...formValues,
-                        idPolegada: event.target.value,
-                      })
-                    }
-                    maxLength={10}
-                  />
-                </FormControl>
-              </Flex>
+
               <FormControl>
                 <Flex gap={1}>
                   <RequiredField />
                   <Text fontWeight={'700'} fontSize={'12px'} color={'#949494'}>
-                    FABRICANTE
+                    DESCRIÇÃO
                   </Text>
                 </Flex>
                 <Input
                   variant={'origem'}
                   isRequired
-                  placeholder="Fabricante"
-                  id="fabricante"
+                  placeholder="Descrição"
+                  id="descricao"
                   type="text"
-                  name="fabricante"
-                  value={formValues.fabricante}
+                  name="descricao"
+                  value={formValues.descricao}
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                     setFormValues({
                       ...formValues,
-                      fabricante: event.target.value,
+                      descricao: event.target.value,
                     })
                   }
                   maxLength={50}
                 />
               </FormControl>
+
               <FormControl>
                 <Flex gap={1}>
                   <RequiredField />
@@ -234,4 +175,4 @@ function ModalCadastroEquipSubSuperficie() {
   );
 }
 
-export default ModalCadastroEquipSubSuperficie;
+export default ModalCadastroEquipSuperficie;
