@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
+import { MdModeEdit } from 'react-icons/md';
 import { useSelector } from 'react-redux';
 
 import {
   Button,
   Flex,
   FormControl,
+  IconButton,
   Input,
   Modal,
   ModalBody,
@@ -21,9 +23,8 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
+import { SubsurfaceEquipment } from 'features/schematicWell/interfaces';
 import { schematicWellState } from 'features/schematicWell/schematicWellSlice';
-
-import { RequiredField } from 'components/RequiredField/RequiredField';
 
 interface FormValues {
   equipamentoDeSubsuperficie: string;
@@ -31,13 +32,15 @@ interface FormValues {
   idPolegada: string;
   fabricante: string;
   profundidadeMetros: number;
-  xAxis: number;
 }
 
-function ModalCadastroEquipSubSuperficie() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+interface Props {
+  equipment: SubsurfaceEquipment;
+}
 
-  const { mousePosition, maxDepth } = useSelector(schematicWellState);
+function ModalEditarEquipSubsuperficie({ equipment }: Props) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { maxDepth } = useSelector(schematicWellState);
 
   const [formValues, setFormValues] = useState<FormValues>({
     equipamentoDeSubsuperficie: '',
@@ -45,9 +48,7 @@ function ModalCadastroEquipSubSuperficie() {
     idPolegada: '',
     fabricante: '',
     profundidadeMetros: 0,
-    xAxis: 0,
   });
-
   const handleCancel = () => {
     onClose();
   };
@@ -61,8 +62,11 @@ function ModalCadastroEquipSubSuperficie() {
   useEffect(() => {
     setFormValues({
       ...formValues,
-      profundidadeMetros: mousePosition.yAxis,
-      xAxis: mousePosition.xAxis,
+      equipamentoDeSubsuperficie: equipment.subsurfaceEquipment,
+      odPolegada: equipment.odInch,
+      idPolegada: equipment.idInch,
+      fabricante: equipment.manufacturer,
+      profundidadeMetros: Number(equipment.depth.split(',')[0]),
     });
   }, [isOpen]);
 
@@ -73,25 +77,21 @@ function ModalCadastroEquipSubSuperficie() {
       idPolegada: '',
       fabricante: '',
       profundidadeMetros: 0,
-      xAxis: 0,
     });
   }, [onClose]);
 
   return (
     <>
-      <Button variant={'origemBlueOutline'} onClick={onOpen} w={'100%'}>
-        Cadastrar Equipamento de Subsuperfície
-      </Button>
+      <IconButton onClick={onOpen} aria-label="Botão de Editar" icon={<MdModeEdit />} variant="origemEditOutline" />
       <Modal isOpen={isOpen} onClose={onClose} size="lg">
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>CADASTRAR EQUIPAMENTO DE SUBSUPERFÍCIE</ModalHeader>
+          <ModalHeader>EDITAR EQUIPAMENTO DE SUBSUPERFÍCIE</ModalHeader>
           <ModalCloseButton color={'white'} onClick={handleCancel} />
           <ModalBody>
             <Flex direction={'column'} gap={4}>
               <FormControl>
                 <Flex gap={1}>
-                  <RequiredField />
                   <Text fontWeight={'700'} fontSize={'12px'} color={'#949494'}>
                     EQUIPAMENTO DE SUBSUPERFÍCIE
                   </Text>
@@ -116,7 +116,6 @@ function ModalCadastroEquipSubSuperficie() {
               <Flex gap={2}>
                 <FormControl>
                   <Flex gap={1}>
-                    <RequiredField />
                     <Text fontWeight={'700'} fontSize={'12px'} color={'#949494'}>
                       OD (INCH/POLEGADA)
                     </Text>
@@ -140,7 +139,6 @@ function ModalCadastroEquipSubSuperficie() {
                 </FormControl>
                 <FormControl>
                   <Flex gap={1}>
-                    <RequiredField />
                     <Text fontWeight={'700'} fontSize={'12px'} color={'#949494'}>
                       ID (INCH/POLEGADA)
                     </Text>
@@ -165,7 +163,6 @@ function ModalCadastroEquipSubSuperficie() {
               </Flex>
               <FormControl>
                 <Flex gap={1}>
-                  <RequiredField />
                   <Text fontWeight={'700'} fontSize={'12px'} color={'#949494'}>
                     FABRICANTE
                   </Text>
@@ -189,7 +186,6 @@ function ModalCadastroEquipSubSuperficie() {
               </FormControl>
               <FormControl>
                 <Flex gap={1}>
-                  <RequiredField />
                   <Text fontWeight={'700'} fontSize={'12px'} color={'#949494'}>
                     PROFUNDIDADE (METROS)
                   </Text>
@@ -224,7 +220,7 @@ function ModalCadastroEquipSubSuperficie() {
                 variant={'origemBlueSolid'}
                 onClick={(event: React.MouseEvent<HTMLElement>) => handleSubmit(event)}
               >
-                Cadastrar
+                Concluir
               </Button>
             </Flex>
           </ModalFooter>
@@ -234,4 +230,4 @@ function ModalCadastroEquipSubSuperficie() {
   );
 }
 
-export default ModalCadastroEquipSubSuperficie;
+export default ModalEditarEquipSubsuperficie;
