@@ -107,7 +107,7 @@ export function Aprovacaopage() {
     // console.log('pocosLocal', pocosLocal);
     const pocosLocal = pocos.documents.map((val: any) => ({
       ...val,
-      value: val.id_poco,
+      value: val._id,
       label: val.nome_poco,
     }));
     const all = listaXV.concat(listaTeste.concat(listaBastoes.concat(listaReg)));
@@ -128,7 +128,18 @@ export function Aprovacaopage() {
   useEffect(() => {
     if (formsList.length > 0) {
       const listBase = formsList;
-      const filtrarPoco = listBase.filter((val: any) =>
+      const allPocos = listaPocoOriginais;
+      const filtered = allPocos.filter((val: any) =>
+        filterCampo.value == 0 ? true : val.id_poco == filterCampo.value,
+      );
+      setListaFiltroPoco(filtered);
+      if (filterCampo.value != 0) {
+        setFilterPoco({ value: 0, label: '' });
+      }
+      const filtrarCampo = listBase.filter((val: any) =>
+        filterCampo.label == '' ? val : containsObject(val.form_data?.poco, filtered),
+      );
+      const filtrarPoco = filtrarCampo.filter((val: any) =>
         filterPoco.label == '' ? val : val.form_data.poco?.nome_poco?.includes(filterPoco.label),
       );
       const filtrarForm = filtrarPoco.filter((val: any) =>
@@ -144,36 +155,6 @@ export function Aprovacaopage() {
       setRenderList(filtrarDateEnd);
     }
   }, [filterCampo, filterForm, filterPoco, dateIni, dateEnd]);
-
-  useEffect(() => {
-    if (filterCampo.label != '') {
-      const allPocos = listaPocoOriginais;
-      const filtered = allPocos.filter((val: any) => val.id_poco == filterCampo.value);
-      setListaFiltroPoco(filtered);
-      if (formsList.length > 0) {
-        const listBase = formsList;
-        const filtrarCampo = listBase.filter((val: any) =>
-          filterCampo.label == '' ? val : containsObject(val.form_data?.poco, filtered),
-        );
-        const filtrarForm = filtrarCampo.filter((val: any) =>
-          filterForm.label == '' ? val : val.form_type?.includes(filterForm.form),
-        );
-        const filtrarDateIni = filtrarForm.filter((val: any) =>
-          dateIni == '' ? val : new Date(val.dat_usu_aprov) > dateIni,
-        );
-
-        const filtrarDateEnd = filtrarDateIni.filter((val: any) =>
-          dateEnd == '' ? val : new Date(val.dat_usu_aprov) <= dateEnd,
-        );
-        setRenderList(filtrarDateEnd);
-      }
-    } else {
-      if (formsList.length > 0) {
-        setListaFiltroPoco(listaPocoOriginais);
-      }
-    }
-    setFilterPoco({ value: 0, label: '' });
-  }, [filterCampo]);
 
   const clearFilters = () => {
     setFilterCampo({ value: 0, label: '' });
