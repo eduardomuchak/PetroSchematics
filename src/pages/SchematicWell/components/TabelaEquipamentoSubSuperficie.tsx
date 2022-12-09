@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
-import { MdModeEdit } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
 
-import { Flex, IconButton, Td, Text, Tr } from '@chakra-ui/react';
+import { Flex, Td, Text, Tr } from '@chakra-ui/react';
 import { SubsurfaceEquipment } from 'features/schematicWell/interfaces';
 import { setSubsurfaceEquipment } from 'features/schematicWell/schematicWellSlice';
 
 import TabelaGenerica from 'components/TabelaGenerica';
 
 import ModalDeletar from './ModalDeletar';
+import ModalEditarEquipSubsuperficie from './ModalEditarEquipSubsuperficie';
 
 function TabelaEquipamentoSubsuperficie() {
   const dispacth = useDispatch();
@@ -108,7 +108,7 @@ function TabelaEquipamentoSubsuperficie() {
               </Td>
               <Td textAlign={'center'} fontWeight={'semibold'}>
                 <Flex gap={2} align={'center'} justify={'center'}>
-                  <IconButton aria-label="Botão de Editar" icon={<MdModeEdit />} variant="origemEditOutline" />
+                  <ModalEditarEquipSubsuperficie equipment={tableLine} />
                   <ModalDeletar equipment={tableLine} toDelete={toDelete} />
                 </Flex>
               </Td>
