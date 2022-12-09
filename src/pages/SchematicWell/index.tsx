@@ -9,6 +9,7 @@ import { useGetSubsurfaceEquipmentsQuery } from 'features/schematicWell/service'
 import { BarChart, CartesianGrid, YAxis } from 'recharts';
 
 import ContainerPagina from 'components/ContainerPagina';
+import RequestError from 'components/RequestError';
 import Sidebar from 'components/SideBar';
 import TituloPagina from 'components/TituloPagina';
 
@@ -32,7 +33,7 @@ function SchematicWell() {
     filter: {},
   };
 
-  const { isLoading, data: subSurfaceEquipments } = useGetSubsurfaceEquipmentsQuery(payload);
+  const { isLoading, data: subSurfaceEquipments, error } = useGetSubsurfaceEquipmentsQuery(payload);
   const modalProps = { isOpen, onOpen, onClose };
 
   // Tamanho da escala da imagem do esquemático
@@ -56,6 +57,16 @@ function SchematicWell() {
   useEffect(() => {
     dispatch(setMaxDepth(maxDepth[0].depth));
   }, [subSurfaceEquipments]);
+
+  if (error) {
+    return (
+      <Sidebar>
+        <ContainerPagina>
+          <RequestError />
+        </ContainerPagina>
+      </Sidebar>
+    );
+  }
 
   return (
     <>
