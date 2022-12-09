@@ -158,13 +158,25 @@ function SchematicWell() {
                   <h2>
                     <AccordionButton borderBottom={'2px solid #9FA2B4'} borderRadius={'6px 6px 0px 0px'}>
                       <Box flex="1" textAlign="left">
-                        <Text fontWeight={700}>Dados para Validação</Text>
+                        <Text fontWeight={700}>Equipamentos de Superfície</Text>
                       </Box>
                       <AccordionIcon />
                     </AccordionButton>
                   </h2>
                   <AccordionPanel pb={4}>
                     <TabelaEquipamentoSuperficie />
+                  </AccordionPanel>
+                </AccordionItem>
+                <AccordionItem border={'none'}>
+                  <h2>
+                    <AccordionButton borderBottom={'2px solid #9FA2B4'} borderRadius={'6px 6px 0px 0px'}>
+                      <Box flex="1" textAlign="left">
+                        <Text fontWeight={700}>Equipamentos de Subsuperfície</Text>
+                      </Box>
+                      <AccordionIcon />
+                    </AccordionButton>
+                  </h2>
+                  <AccordionPanel pb={4}>
                     <TabelaEquipamentoSubsuperficie />
                   </AccordionPanel>
                 </AccordionItem>
