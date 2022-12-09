@@ -149,14 +149,8 @@ function SchematicWell() {
                 ))}
             </Flex>
           </Flex>
-          <Flex
-            direction={'column'}
-            flex={1.5}
-            overflowX={'scroll'}
-            gap={4}
-            pt={{ base: 5, sm: 5, md: 5, lg: 5, xl: 0 }}
-          >
-            <Accordion defaultIndex={[0]} allowMultiple flex={1.5}>
+          <Flex direction={'column'} flex={2} overflowX={'scroll'} gap={4} pt={{ base: 5, sm: 5, md: 5, lg: 5, xl: 0 }}>
+            <Accordion defaultIndex={[0]} allowMultiple flex={2}>
               <AccordionItem border={'none'}>
                 <h2>
                   <AccordionButton borderBottom={'2px solid #9FA2B4'} borderRadius={'6px 6px 0px 0px'}>
