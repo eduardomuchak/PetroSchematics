@@ -24,11 +24,9 @@ import {
 import { useGetSubsurfaceEquipmentsQuery } from 'features/schematicWell/service';
 import { BarChart, CartesianGrid, YAxis } from 'recharts';
 
-import ContainerPagina from 'components/ContainerPagina';
 // import RequestError from 'components/RequestError';
 import Header from 'components/Header';
 import { RingLoading } from 'components/RingLoading';
-import Sidebar from 'components/SideBar';
 
 import ButtonPontoDeClique from './components/ButtonPontoDeClique';
 import ModalDecisao from './components/ModalDecisao';
@@ -79,21 +77,19 @@ function SchematicWell() {
 
   if (isLoading) {
     return (
-      <Sidebar>
-        <ContainerPagina>
-          <RingLoading />
-        </ContainerPagina>
-      </Sidebar>
+      <Header>
+        <RingLoading />
+      </Header>
     );
   }
 
   // if (error) {
   //   return (
-  //     <Sidebar>
+  //     <Header>
   //       <ContainerPagina>
   //         <RequestError />
   //       </ContainerPagina>
-  //     </Sidebar>
+  //     </Header>
   //   );
   // }
 

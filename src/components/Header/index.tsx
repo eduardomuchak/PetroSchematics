@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 
 import { Box, Flex, Image } from '@chakra-ui/react';
-import logoImage from 'assets/logo_origem_branco.png';
+import logoImage from 'assets/logo_origem_branco.svg';
 
 import NavIconBar from './NavIconBar';
 
@@ -24,7 +24,7 @@ function Header({ children }: { children: React.ReactNode }) {
             <Image src={logoImage} alt="Logo Origem Energias" />
           </Link>
         </Flex>
-        <Box ml={'88px'} mt={'152px'} p={4}>
+        <Box mt={'95px'} p={4} flex={1}>
           {children}
         </Box>
       </Box>
