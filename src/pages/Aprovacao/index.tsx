@@ -61,7 +61,6 @@ const customStyles = {
 };
 
 function containsObject(obj: any, list: any) {
-  console.log('obj', obj);
   let i;
   for (i = 0; i < list.length; i++) {
     if (list[i].nome_poco === obj?.nome_poco) {
@@ -148,15 +147,12 @@ export function Aprovacaopage() {
     if (filterCampo.label != '') {
       const allPocos = listaPocoOriginais;
       const filtered = allPocos.filter((val: any) => val.id_poco == filterCampo.value);
-      console.log('filtered', filtered);
       setListaFiltroPoco(filtered);
       if (formsList.length > 0) {
         const listBase = formsList;
-        console.log('ltered.indexOf', listBase[12].form_data?.poco);
         const filtrarCampo = listBase.filter((val: any) =>
           filterCampo.label == '' ? val : containsObject(val.form_data?.poco, filtered),
         );
-        console.log('filtrarCampo', filtrarCampo);
         const filtrarForm = filtrarCampo.filter((val: any) =>
           filterForm.label == '' ? val : val.form_type?.includes(filterForm.form),
         );
@@ -170,7 +166,9 @@ export function Aprovacaopage() {
         setRenderList(filtrarDateEnd);
       }
     } else {
-      setListaFiltroPoco(listaPocoOriginais);
+      if (formsList.length > 0) {
+        setListaFiltroPoco(listaPocoOriginais);
+      }
     }
   }, [filterCampo]);
 
