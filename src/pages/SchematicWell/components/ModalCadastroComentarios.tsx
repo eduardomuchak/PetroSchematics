@@ -76,7 +76,7 @@ function ModalCadastroComentarios() {
       <Modal isOpen={isOpen} onClose={onClose} size="lg">
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Adicionar Comentários</ModalHeader>
+          <ModalHeader>ADICIONAR COMENTÁRIOS</ModalHeader>
           <ModalCloseButton color={'white'} onClick={handleCancel} />
           <ModalBody>
             <Flex direction={'column'} gap={4}>

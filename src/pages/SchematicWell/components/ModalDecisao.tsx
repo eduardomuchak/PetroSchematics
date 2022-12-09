@@ -2,6 +2,7 @@ import { Flex, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, Mo
 
 import ModalCadastroComentarios from './ModalCadastroComentarios';
 import ModalCadastroEquipSubSuperficie from './ModalCadastroEquipSubSuperficie';
+import ModalCadastroEquipSuperficie from './ModalCadastroEquipSuperficie';
 
 interface ModalProps {
   isOpen: boolean;
@@ -25,6 +26,7 @@ function ModalDecisao({ modalProps }: Props) {
           <Flex direction={'column'} gap={4}>
             <ModalCadastroComentarios />
             <ModalCadastroEquipSubSuperficie />
+            <ModalCadastroEquipSuperficie />
           </Flex>
         </ModalBody>
       </ModalContent>
