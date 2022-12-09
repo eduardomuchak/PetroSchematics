@@ -1,39 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { Comment, InitialSchematicValue, SchematicState, SubsurfaceEquipment } from './interfaces';
+import {
+  Comment,
+  InitialSchematicValue,
+  MousePosition,
+  SchematicState,
+  SubsurfaceEquipment,
+  SurfaceEquipment,
+} from './interfaces';
 
 const initialState = {
   maxDepth: 0,
   mousePosition: {
     yAxis: 0,
     xAxis: 0,
-  },
-  surfaceEquipmentTable: [
-    {
-      surfaceEquipment: '',
-      description: '',
-      yAxis: 0,
-      xAxis: 0,
-    },
-  ],
-  subsurfaceEquipmentTable: [
-    {
-      subsurfaceEquipment: '',
-      odInch: '',
-      idInch: '',
-      manufacturer: '',
-      depth: '',
-      yAxis: 0,
-      xAxis: 0,
-    } as SubsurfaceEquipment,
-  ],
-  comments: [
-    {
-      comment: '',
-      yAxis: 0,
-      xAxis: 0,
-    } as Comment,
-  ],
+  } as MousePosition,
+  surfaceEquipmentTable: [] as SurfaceEquipment[],
+  subsurfaceEquipmentTable: [] as SubsurfaceEquipment[],
+  comments: [] as Comment[],
 } as InitialSchematicValue;
 
 export const schematicWellSlice = createSlice({

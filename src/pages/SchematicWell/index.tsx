@@ -113,30 +113,32 @@ function SchematicWell() {
                 left={100}
               />
               <Flex direction={'row-reverse'}>
-                {subsurfaceEquipmentTable.map((equipment: SubsurfaceEquipment, index: number) => (
-                  <ButtonPontoDeClique
-                    subsurfaceEquipment={equipment}
-                    key={index}
-                    position={{
-                      scaleYAxis: (equipment.yAxis * imageSize.height) / maxDepth[0].depth,
-                      xAxis: equipment.xAxis,
-                      yAxis: equipment.yAxis,
-                    }}
-                    onOpen={onOpen}
-                  />
-                ))}
-                {comments.map((comment: Comment, index: number) => (
-                  <ButtonPontoDeClique
-                    comment={comment}
-                    key={index}
-                    position={{
-                      scaleYAxis: (comment.yAxis * imageSize.height) / maxDepth[0].depth,
-                      xAxis: comment.xAxis,
-                      yAxis: comment.yAxis,
-                    }}
-                    onOpen={onOpen}
-                  />
-                ))}
+                {subsurfaceEquipmentTable.length &&
+                  subsurfaceEquipmentTable.map((equipment: SubsurfaceEquipment, index: number) => (
+                    <ButtonPontoDeClique
+                      subsurfaceEquipment={equipment}
+                      key={index}
+                      position={{
+                        scaleYAxis: (equipment.yAxis * imageSize.height) / maxDepth[0].depth,
+                        xAxis: equipment.xAxis,
+                        yAxis: equipment.yAxis,
+                      }}
+                      onOpen={onOpen}
+                    />
+                  ))}
+                {comments.length &&
+                  comments.map((comment: Comment, index: number) => (
+                    <ButtonPontoDeClique
+                      comment={comment}
+                      key={index}
+                      position={{
+                        scaleYAxis: (comment.yAxis * imageSize.height) / maxDepth[0].depth,
+                        xAxis: comment.xAxis,
+                        yAxis: comment.yAxis,
+                      }}
+                      onOpen={onOpen}
+                    />
+                  ))}
               </Flex>
             </Flex>
             <Flex direction={'column'} flex={1.5} overflowX={'scroll'} gap={4}>
