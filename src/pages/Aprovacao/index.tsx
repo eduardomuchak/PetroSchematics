@@ -24,7 +24,8 @@ import TituloPagina from 'components/TituloPagina';
 // import { getAllPocos } from 'api/mongoDB';
 
 import DatePicker from './DatePicker';
-import { listaBastoes, listaReg, listaTeste, listaXV, pocos, tanques } from './mockFile';
+import * as pocos from './mock.json';
+import { listaBastoes, listaReg, listaTeste, listaXV } from './mockFile';
 
 type Operacao = {
   value: number;
@@ -59,12 +60,24 @@ const customStyles = {
   }),
 };
 
+function containsObject(obj: any, list: any) {
+  console.log('obj', obj);
+  let i;
+  for (i = 0; i < list.length; i++) {
+    if (list[i].nome_poco === obj?.nome_poco) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 export function Aprovacaopage() {
   const [render, setRender] = useState<boolean>(false);
   const [renderList, setRenderList] = useState<any[]>([]);
   const [formsList, setFormsList] = useState<any[]>([]);
-  const [listaFiltroCampo, setListaFiltroCampo] = useState<any[]>([]);
   const [listaFiltroForm, setListaFiltroForm] = useState<any[]>([]);
+  const [listaPocoOriginais, setListaPocoOriginais] = useState<any[]>([]);
   const [listaFiltroPoco, setListaFiltroPoco] = useState<any[]>([]);
   const [filterCampo, setFilterCampo] = useState<any>({ value: 0, label: '' });
   const [filterForm, setFilterForm] = useState<any>({ value: 0, label: '' });
@@ -83,18 +96,15 @@ export function Aprovacaopage() {
     { value: 4, label: 'Registro de Pressão da Coluna e Anulares', form: 'form-reg-coluna' },
   ];
 
+  const campos: any[] = [
+    { value: 1, label: 'Campo de Pilar' },
+    { value: 2, label: 'Campo de Furado' },
+  ];
+
   const getAll = async () => {
     // const pocosLocal = await getAllPocos();
     // console.log('pocosLocal', pocosLocal);
-    const tanquesLocal = tanques.map((val: any) => {
-      const inside = {
-        ...val,
-        value: val.id_tanque,
-        label: val.nom_tanque,
-      };
-      return inside;
-    });
-    const pocosLocal = pocos.map((val: any) => ({
+    const pocosLocal = pocos.documents.map((val: any) => ({
       ...val,
       value: val.id_poco,
       label: val.nome_poco,
@@ -102,8 +112,8 @@ export function Aprovacaopage() {
     const all = listaXV.concat(listaTeste.concat(listaBastoes.concat(listaReg)));
     setFormsList(all);
     setRenderList(all);
-    setListaFiltroCampo(tanquesLocal);
     setListaFiltroPoco(pocosLocal);
+    setListaPocoOriginais(pocosLocal);
     setListaFiltroForm(options);
   };
 
@@ -117,11 +127,8 @@ export function Aprovacaopage() {
   useEffect(() => {
     if (formsList.length > 0) {
       const listBase = formsList;
-      const filtrarCampo = listBase.filter((val: any) =>
-        filterCampo.label == '' ? val : val.form_data.tanque?.nom_tanque?.includes(filterCampo.label),
-      );
-      const filtrarPoco = filtrarCampo.filter((val: any) =>
-        filterPoco.label == '' ? val : val.form_data.tanque?.poco?.nome_poco?.includes(filterPoco.label),
+      const filtrarPoco = listBase.filter((val: any) =>
+        filterPoco.label == '' ? val : val.form_data.poco?.nome_poco?.includes(filterPoco.label),
       );
       const filtrarForm = filtrarPoco.filter((val: any) =>
         filterForm.label == '' ? val : val.form_type?.includes(filterForm.form),
@@ -136,6 +143,36 @@ export function Aprovacaopage() {
       setRenderList(filtrarDateEnd);
     }
   }, [filterCampo, filterForm, filterPoco, dateIni, dateEnd]);
+
+  useEffect(() => {
+    if (filterCampo.label != '') {
+      const allPocos = listaPocoOriginais;
+      const filtered = allPocos.filter((val: any) => val.id_poco == filterCampo.value);
+      console.log('filtered', filtered);
+      setListaFiltroPoco(filtered);
+      if (formsList.length > 0) {
+        const listBase = formsList;
+        console.log('ltered.indexOf', listBase[12].form_data?.poco);
+        const filtrarCampo = listBase.filter((val: any) =>
+          filterCampo.label == '' ? val : containsObject(val.form_data?.poco, filtered),
+        );
+        console.log('filtrarCampo', filtrarCampo);
+        const filtrarForm = filtrarCampo.filter((val: any) =>
+          filterForm.label == '' ? val : val.form_type?.includes(filterForm.form),
+        );
+        const filtrarDateIni = filtrarForm.filter((val: any) =>
+          dateIni == '' ? val : new Date(val.dat_usu_aprov) > dateIni,
+        );
+
+        const filtrarDateEnd = filtrarDateIni.filter((val: any) =>
+          dateEnd == '' ? val : new Date(val.dat_usu_aprov) <= dateEnd,
+        );
+        setRenderList(filtrarDateEnd);
+      }
+    } else {
+      setListaFiltroPoco(listaPocoOriginais);
+    }
+  }, [filterCampo]);
 
   const clearFilters = () => {
     setFilterCampo({ value: 0, label: '' });
@@ -161,7 +198,7 @@ export function Aprovacaopage() {
                   IndicatorSeparator: () => null,
                 }}
                 placeholder={'Selecione'}
-                options={listaFiltroCampo}
+                options={campos}
                 onChange={(e) => setFilterCampo(e)}
                 defaultValue={'Selecione'}
                 value={filterCampo.value === 0 ? 'Selecione' : filterCampo}
