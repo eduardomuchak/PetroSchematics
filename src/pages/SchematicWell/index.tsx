@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Box, Flex, Image, useDisclosure } from '@chakra-ui/react';
 import SchematicSVG from 'assets/esquematico.svg';
+import { Comment, SubsurfaceEquipment } from 'features/schematicWell/interfaces';
 import {
   relativeCoordinates,
   schematicWellState,
@@ -26,7 +27,7 @@ import TabelaEquipamentoSuperficie from './components/TabelaEquipamentoSuperfici
 function SchematicWell() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch = useDispatch();
-  const { subsurfaceEquipmentTable } = useSelector(schematicWellState);
+  const { subsurfaceEquipmentTable, comments } = useSelector(schematicWellState);
 
   const DATA_SOURCE = `${process.env.REACT_APP_DATA_SOURCE_ID}`;
   const DATABASE = `${process.env.REACT_APP_DATABASE}`;
@@ -112,7 +113,7 @@ function SchematicWell() {
                 left={100}
               />
               <Flex direction={'row-reverse'}>
-                {subsurfaceEquipmentTable.map((equipment: any, index: number) => (
+                {subsurfaceEquipmentTable.map((equipment: SubsurfaceEquipment, index: number) => (
                   <ButtonPontoDeClique
                     subsurfaceEquipment={equipment}
                     key={index}
@@ -120,6 +121,18 @@ function SchematicWell() {
                       scaleYAxis: (equipment.yAxis * imageSize.height) / maxDepth[0].depth,
                       xAxis: equipment.xAxis,
                       yAxis: equipment.yAxis,
+                    }}
+                    onOpen={onOpen}
+                  />
+                ))}
+                {comments.map((comment: Comment, index: number) => (
+                  <ButtonPontoDeClique
+                    comment={comment}
+                    key={index}
+                    position={{
+                      scaleYAxis: (comment.yAxis * imageSize.height) / maxDepth[0].depth,
+                      xAxis: comment.xAxis,
+                      yAxis: comment.yAxis,
                     }}
                     onOpen={onOpen}
                   />

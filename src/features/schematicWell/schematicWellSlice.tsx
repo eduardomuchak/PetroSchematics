@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { InitialSchematicValue, SchematicState, SubsurfaceEquipment } from './interfaces';
+import { Comment, InitialSchematicValue, SchematicState, SubsurfaceEquipment } from './interfaces';
 
 const initialState = {
   maxDepth: 0,
@@ -26,6 +26,13 @@ const initialState = {
       yAxis: 0,
       xAxis: 0,
     } as SubsurfaceEquipment,
+  ],
+  comments: [
+    {
+      comment: '',
+      yAxis: 0,
+      xAxis: 0,
+    } as Comment,
   ],
 } as InitialSchematicValue;
 

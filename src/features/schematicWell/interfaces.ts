@@ -15,11 +15,16 @@ export interface SubsurfaceEquipment extends MousePosition {
   manufacturer: string;
   depth: string;
 }
+
+export interface Comment extends MousePosition {
+  comment: string;
+}
 export interface InitialSchematicValue {
   maxDepth: number;
   mousePosition: MousePosition;
   surfaceEquipmentTable: SurfaceEquipment[];
   subsurfaceEquipmentTable: SubsurfaceEquipment[];
+  comments: Comment[];
 }
 
 export interface SchematicState {
