@@ -103,7 +103,10 @@ function SchematicWell() {
         <ContainerPagina>
           <TituloPagina botaoVoltar>Esquemático Well</TituloPagina>
           <ModalDecisao modalProps={modalProps} />
-          <Flex justify={'space-between'}>
+          <Flex
+            justify={'space-between'}
+            direction={{ base: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'row' }}
+          >
             <Flex flex={1}>
               <Box position={'absolute'} zIndex={0}>
                 <BarChart width={Number(imageSize.width + 60)} height={Number(imageSize.height)} data={maxDepth}>
@@ -152,7 +155,13 @@ function SchematicWell() {
                   ))}
               </Flex>
             </Flex>
-            <Flex direction={'column'} flex={1.5} overflowX={'scroll'} gap={4}>
+            <Flex
+              direction={'column'}
+              flex={1.5}
+              overflowX={'scroll'}
+              gap={4}
+              pt={{ base: 5, sm: 5, md: 5, lg: 5, xl: 0 }}
+            >
               <Accordion defaultIndex={[0]} allowMultiple flex={1.5}>
                 <AccordionItem border={'none'}>
                   <h2>

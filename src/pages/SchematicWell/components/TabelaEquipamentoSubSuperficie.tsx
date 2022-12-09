@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
-import { FiTrash } from 'react-icons/fi';
 import { MdModeEdit } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
 
 import { Flex, IconButton, Td, Text, Tr } from '@chakra-ui/react';
+import { SubsurfaceEquipment } from 'features/schematicWell/interfaces';
 import { setSubsurfaceEquipment } from 'features/schematicWell/schematicWellSlice';
 
 import TabelaGenerica from 'components/TabelaGenerica';
+
+import ModalDeletar from './ModalDeletar';
 
 function TabelaEquipamentoSubsuperficie() {
   const dispacth = useDispatch();
@@ -23,7 +25,7 @@ function TabelaEquipamentoSubsuperficie() {
   //
 
   // Dados da tabela
-  const [filteredTable, setFilteredTable] = useState<any[]>([
+  const [filteredTable, setFilteredTable] = useState([
     {
       subsurfaceEquipment: '',
       odInch: '',
@@ -78,6 +80,10 @@ function TabelaEquipamentoSubsuperficie() {
     setFilteredTable(mock);
   }, []);
 
+  const toDelete = (payload: SubsurfaceEquipment) => {
+    // console.log('Payload', payload);
+  };
+
   // Criar um componente com o corpo da tabela e chamar ele como children do TabelaGenerica
   function Body() {
     return (
@@ -103,7 +109,7 @@ function TabelaEquipamentoSubsuperficie() {
               <Td textAlign={'center'} fontWeight={'semibold'}>
                 <Flex gap={2} align={'center'} justify={'center'}>
                   <IconButton aria-label="Botão de Editar" icon={<MdModeEdit />} variant="origemEditOutline" />
-                  <IconButton aria-label="Botão de Lixeira" icon={<FiTrash />} variant="origemDeleteOutline" />
+                  <ModalDeletar equipment={tableLine} toDelete={toDelete} />
                 </Flex>
               </Td>
             </Tr>

@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
-import { FiTrash } from 'react-icons/fi';
 import { useDispatch } from 'react-redux';
 
-import { Flex, IconButton, Td, Text, Tr } from '@chakra-ui/react';
+import { Flex, Td, Text, Tr } from '@chakra-ui/react';
+import { SurfaceEquipment } from 'features/schematicWell/interfaces';
 import { setSurfaceEquipment } from 'features/schematicWell/schematicWellSlice';
 
 import TabelaGenerica from 'components/TabelaGenerica';
 
+import ModalDeletar from './ModalDeletar';
 import ModalEditarEquipSuperficie from './ModalEditarEquipSuperficie';
 
 function TabelaEquipamentoSuperficie() {
@@ -23,7 +24,7 @@ function TabelaEquipamentoSuperficie() {
   //
 
   // Dados da tabela
-  const [filteredTable, setFilteredTable] = useState<any[]>([
+  const [filteredTable, setFilteredTable] = useState([
     {
       surfaceEquipment: '',
       description: '',
@@ -61,6 +62,10 @@ function TabelaEquipamentoSuperficie() {
     setFilteredTable(mock);
   }, []);
 
+  const toDelete = (payload: SurfaceEquipment) => {
+    // console.log('Payload', payload);
+  };
+
   // Criar um componente com o corpo da tabela e chamar ele como children do TabelaGenerica
   function Body() {
     return (
@@ -77,7 +82,7 @@ function TabelaEquipamentoSuperficie() {
               <Td textAlign={'center'} fontWeight={'semibold'}>
                 <Flex gap={2} align={'center'} justify={'center'}>
                   <ModalEditarEquipSuperficie equipment={tableLine} />
-                  <IconButton aria-label="Botão de Lixeira" icon={<FiTrash />} variant="origemDeleteOutline" />
+                  <ModalDeletar equipment={tableLine} toDelete={toDelete} />
                 </Flex>
               </Td>
             </Tr>
