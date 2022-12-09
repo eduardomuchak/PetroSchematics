@@ -1,73 +1,48 @@
-import { useEffect, useState } from 'react';
 import { FiChevronLeft, FiChevronRight, FiChevronsLeft, FiChevronsRight } from 'react-icons/fi';
 
 import { Flex, IconButton, Select, Text } from '@chakra-ui/react';
+// import { useEffect } from 'react';
 
-interface FromTo {
-  from: number; // Inicio da paginação
-  to: number; // Fim da paginação
-  setFrom: React.Dispatch<React.SetStateAction<number>>; // Função para setar o inicio da paginação
-  setTo: React.Dispatch<React.SetStateAction<number>>; // Função para setar o fim da paginação
-}
-
-interface Props {
-  data: any; // Dados da tabela
-  fromTo: FromTo; // Objeto com estados (useState's) que controlam a paginação
-}
-
-function PaginacaoTabela({ data, fromTo }: Props) {
-  const { from, to, setFrom, setTo } = fromTo;
-
-  const [pagAtual, setPagAtual] = useState(1);
-  const [perPage, setPerPage] = useState<number>(10);
-
-  const innerWidth = window.innerWidth;
-
-  const totalRegs = data.length; // Total de registros
-  const maxPage = Math.ceil(totalRegs / perPage); // Total de páginas
-
-  // Função para setar a paginação
-  const paginate = (pag: number) => {
-    setPagAtual(pag);
-
-    const x = (pag - 1) * perPage;
-    const y = (pag - 1) * perPage + perPage;
-    setFrom(x);
-    setTo(y);
+function PaginacaoTabela({ paginationBottom, setPaginationBottom, paginationShow, setPaginationShow, max }: any) {
+  const handleShow = (value: any) => {
+    setPaginationShow(value);
   };
 
-  // Função para setar a quantidade de registros por página
-  const changePerPage = (value: number) => {
-    setPerPage(value);
-    const x = perPage;
-    const y = perPage + perPage;
-    setFrom(x);
-    setTo(y);
+  const handleBegin = () => {
+    setPaginationBottom(0);
   };
 
-  // Função para setar a paginação para a próxima página
-  const advance = () => {
-    if (pagAtual == maxPage) {
-      return;
+  const handleBottom = () => {
+    const newBottom = Number(paginationBottom) - Number(paginationShow);
+    if (newBottom > 0) {
+      setPaginationBottom(newBottom);
+    } else {
+      setPaginationBottom(0);
     }
-
-    const pag = pagAtual + 1;
-
-    paginate(pag);
   };
 
-  // Função para setar a paginação para a página anterior
-  const back = () => {
-    if (pagAtual == 1) {
-      return;
+  const handleTop = () => {
+    const newBottom = Number(paginationBottom) + Number(paginationShow);
+    if (newBottom + Number(paginationShow) > max) {
+      const newMax = Number(max) - Number(paginationShow);
+      if (newMax > 0) {
+        setPaginationBottom(newMax);
+      } else {
+        setPaginationBottom(0);
+      }
+    } else {
+      setPaginationBottom(newBottom);
     }
-    const pag = pagAtual - 1;
-    paginate(pag);
   };
 
-  useEffect(() => {
-    paginate(pagAtual);
-  }, [from, to]);
+  const handleEnd = () => {
+    const newMax = Number(max) - Number(paginationShow);
+    if (newMax > 0) {
+      setPaginationBottom(newMax);
+    } else {
+      setPaginationBottom(0);
+    }
+  };
 
   return (
     <>
@@ -80,7 +55,7 @@ function PaginacaoTabela({ data, fromTo }: Props) {
       >
         <Flex gap={2} alignItems={'center'}>
           <Text fontSize={'14px'}>Por página:</Text>
-          <Select h={'32px'} w={'120px'} onChange={(e) => changePerPage(+e.target.value)}>
+          <Select h={'32px'} w={'120px'} onChange={(e) => handleShow(e.target.value)}>
             {/* <option value="5">5</option> */}
             <option value="10">10</option>
             <option value="25">25</option>
@@ -88,15 +63,15 @@ function PaginacaoTabela({ data, fromTo }: Props) {
             <option value="100">100</option>
           </Select>
 
-          <Text fontSize={'14px'}>
-            {from === 0 ? '1' : from + 1} - {data.length < to ? data.length : to} de {data.length}
-          </Text>
+          <Text fontSize={'14px'}>{`De ${paginationBottom} Até ${
+            Number(paginationBottom) + Number(paginationShow)
+          }`}</Text>
         </Flex>
         <Flex gap={2}>
           <IconButton
             aria-label=""
             icon={<FiChevronsLeft />}
-            onClick={() => paginate(1)}
+            onClick={() => handleBegin()}
             variant="ghost"
             size="lg"
             h={'24px'}
@@ -109,7 +84,7 @@ function PaginacaoTabela({ data, fromTo }: Props) {
           />
           <IconButton
             aria-label=""
-            icon={<FiChevronLeft onClick={back} />}
+            icon={<FiChevronLeft onClick={() => handleBottom()} />}
             variant="ghost"
             size="lg"
             h={'24px'}
@@ -124,7 +99,7 @@ function PaginacaoTabela({ data, fromTo }: Props) {
           <IconButton
             aria-label=""
             icon={<FiChevronRight />}
-            onClick={advance}
+            onClick={() => handleTop()}
             variant="ghost"
             size="lg"
             h={'24px'}
@@ -138,7 +113,7 @@ function PaginacaoTabela({ data, fromTo }: Props) {
           <IconButton
             aria-label=""
             icon={<FiChevronsRight />}
-            onClick={() => paginate(maxPage)}
+            onClick={() => handleEnd()}
             variant="ghost"
             size="lg"
             h={'24px'}

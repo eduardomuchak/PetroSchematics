@@ -8,7 +8,6 @@ import {
   Table,
   TableContainer,
   Tbody,
-  Tfoot,
   Th,
   Thead,
   Tr,
@@ -26,6 +25,7 @@ import TituloPagina from 'components/TituloPagina';
 import DatePicker from './DatePicker';
 import * as pocos from './mock.json';
 import { listaBastoes, listaReg, listaTeste, listaXV } from './mockFile';
+import PaginacaoTabela from './PaginacaoTabela';
 
 type Operacao = {
   value: number;
@@ -83,6 +83,8 @@ export function Aprovacaopage() {
   const [filterPoco, setFilterPoco] = useState<any>({ value: 0, label: '' });
   const [dateIni, setDateIni] = useState<any>('');
   const [dateEnd, setDateEnd] = useState<any>('');
+  const [paginationBottom, setPaginationBottom] = useState<number>(0);
+  const [paginationShow, setPaginationShow] = useState<number>(10);
 
   useEffect(() => {
     getAll();
@@ -170,6 +172,7 @@ export function Aprovacaopage() {
         setListaFiltroPoco(listaPocoOriginais);
       }
     }
+    setFilterPoco({ value: 0, label: '' });
   }, [filterCampo]);
 
   const clearFilters = () => {
@@ -298,7 +301,15 @@ export function Aprovacaopage() {
           </Flex>
           <TableContainer>
             <Table>
-              <TableCaption>Tabela de Fórmularos para aprovar</TableCaption>
+              <TableCaption>
+                <PaginacaoTabela
+                  paginationBottom={paginationBottom}
+                  setPaginationBottom={setPaginationBottom}
+                  paginationShow={paginationShow}
+                  setPaginationShow={setPaginationShow}
+                  max={renderList.length}
+                />
+              </TableCaption>
               <Thead>
                 <Tr height={'40px'}>
                   <Th
@@ -359,92 +370,89 @@ export function Aprovacaopage() {
               </Thead>
               <Tbody>
                 {renderList.map((item: any, index: number) => (
-                  <Tr
-                    key={index}
-                    height={'56px'}
-                    // eslint-disable-next-line no-nested-ternary
-                    background={item.checked ? '#D9EAFD' : index % 2 == 0 ? '#FEFEFE' : '#F9F9F9'}
-                  >
-                    <Td
-                      height={'56px'}
-                      width={'16%'}
-                      borderBottomWidth={'1px'}
-                      borderTopWidth={'1px'}
-                      borderColor={'#9FA2B4'}
-                    >
-                      <Flex justify={'center'}>
-                        <Checkbox value={item.checked} onChange={(e) => handleCheckbox(e.target.checked, index)} />
-                      </Flex>
-                    </Td>
-                    <Td
-                      height={'56px'}
-                      width={'16%'}
-                      borderBottomWidth={'1px'}
-                      borderTopWidth={'1px'}
-                      borderColor={'#9FA2B4'}
-                    >
-                      <Flex justify={'center'}>
-                        {`${new Date(item.dat_usu_aprov).getHours() < 10 ? '0' : ''}${new Date(
-                          item.dat_usu_aprov,
-                        ).getHours()}:${new Date(item.dat_usu_aprov).getMinutes() < 10 ? '0' : ''}${new Date(
-                          item.dat_usu_aprov,
-                        ).getMinutes()}`}
-                      </Flex>
-                    </Td>
-                    <Td
-                      height={'56px'}
-                      width={'16%'}
-                      borderBottomWidth={'1px'}
-                      borderTopWidth={'1px'}
-                      borderColor={'#9FA2B4'}
-                    >
-                      <Flex justify={'center'}>{item.nom_usu_aprov}</Flex>
-                    </Td>
-                    <Td
-                      height={'56px'}
-                      width={'16%'}
-                      borderBottomWidth={'1px'}
-                      borderTopWidth={'1px'}
-                      borderColor={'#9FA2B4'}
-                    >
-                      <Flex justify={'center'}>
-                        {`${new Date(item.dat_usu_aprov).getDate() < 10 ? '0' : ''}${new Date(
-                          item.dat_usu_aprov,
-                        ).getDate()}/${new Date(item.dat_usu_aprov).getMonth() + 1 < 10 ? '0' : ''}${
-                          new Date(item.dat_usu_aprov).getMonth() + 1
-                        }/${new Date(item.dat_usu_aprov).getFullYear()}`}
-                      </Flex>
-                    </Td>
-                    <Td
-                      height={'56px'}
-                      width={'16%'}
-                      borderBottomWidth={'1px'}
-                      borderTopWidth={'1px'}
-                      borderColor={'#9FA2B4'}
-                    >
-                      <Flex justify={'center'}>Aprovado</Flex>
-                    </Td>
-                    <Td
-                      height={'56px'}
-                      width={'16%'}
-                      borderBottomWidth={'1px'}
-                      borderTopWidth={'1px'}
-                      borderColor={'#9FA2B4'}
-                    >
-                      <Flex justify={'center'}>
-                        <BsFillEyeFill />
-                      </Flex>
-                    </Td>
-                  </Tr>
+                  <>
+                    {index >= paginationBottom && index < paginationBottom + paginationShow ? (
+                      <Tr
+                        key={index}
+                        height={'56px'}
+                        // eslint-disable-next-line no-nested-ternary
+                        background={item.checked ? '#D9EAFD' : index % 2 == 0 ? '#FEFEFE' : '#F9F9F9'}
+                      >
+                        <Td
+                          height={'56px'}
+                          width={'16%'}
+                          borderBottomWidth={'1px'}
+                          borderTopWidth={'1px'}
+                          borderColor={'#9FA2B4'}
+                        >
+                          <Flex justify={'center'}>
+                            <Checkbox value={item.checked} onChange={(e) => handleCheckbox(e.target.checked, index)} />
+                          </Flex>
+                        </Td>
+                        <Td
+                          height={'56px'}
+                          width={'16%'}
+                          borderBottomWidth={'1px'}
+                          borderTopWidth={'1px'}
+                          borderColor={'#9FA2B4'}
+                        >
+                          <Flex justify={'center'}>
+                            {`${new Date(item.dat_usu_aprov).getHours() < 10 ? '0' : ''}${new Date(
+                              item.dat_usu_aprov,
+                            ).getHours()}:${new Date(item.dat_usu_aprov).getMinutes() < 10 ? '0' : ''}${new Date(
+                              item.dat_usu_aprov,
+                            ).getMinutes()}`}
+                          </Flex>
+                        </Td>
+                        <Td
+                          height={'56px'}
+                          width={'16%'}
+                          borderBottomWidth={'1px'}
+                          borderTopWidth={'1px'}
+                          borderColor={'#9FA2B4'}
+                        >
+                          <Flex justify={'center'}>{item.nom_usu_aprov}</Flex>
+                        </Td>
+                        <Td
+                          height={'56px'}
+                          width={'16%'}
+                          borderBottomWidth={'1px'}
+                          borderTopWidth={'1px'}
+                          borderColor={'#9FA2B4'}
+                        >
+                          <Flex justify={'center'}>
+                            {`${new Date(item.dat_usu_aprov).getDate() < 10 ? '0' : ''}${new Date(
+                              item.dat_usu_aprov,
+                            ).getDate()}/${new Date(item.dat_usu_aprov).getMonth() + 1 < 10 ? '0' : ''}${
+                              new Date(item.dat_usu_aprov).getMonth() + 1
+                            }/${new Date(item.dat_usu_aprov).getFullYear()}`}
+                          </Flex>
+                        </Td>
+                        <Td
+                          height={'56px'}
+                          width={'16%'}
+                          borderBottomWidth={'1px'}
+                          borderTopWidth={'1px'}
+                          borderColor={'#9FA2B4'}
+                        >
+                          <Flex justify={'center'}>Aprovado</Flex>
+                        </Td>
+                        <Td
+                          height={'56px'}
+                          width={'16%'}
+                          borderBottomWidth={'1px'}
+                          borderTopWidth={'1px'}
+                          borderColor={'#9FA2B4'}
+                        >
+                          <Flex justify={'center'}>
+                            <BsFillEyeFill />
+                          </Flex>
+                        </Td>
+                      </Tr>
+                    ) : undefined}
+                  </>
                 ))}
               </Tbody>
-              <Tfoot>
-                <Tr>
-                  {/* <Th>To convert</Th>
-                  <Th>into</Th>
-                  <Th isNumeric>multiply by</Th> */}
-                </Tr>
-              </Tfoot>
             </Table>
           </TableContainer>
         </Flex>
