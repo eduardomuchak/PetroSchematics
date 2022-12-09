@@ -1,7 +1,18 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Box, Flex, Image, useDisclosure } from '@chakra-ui/react';
+import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Box,
+  Flex,
+  Image,
+  Text,
+  useDisclosure,
+} from '@chakra-ui/react';
 import SchematicSVG from 'assets/esquematico.svg';
 import { Comment, SubsurfaceEquipment } from 'features/schematicWell/interfaces';
 import {
@@ -142,8 +153,22 @@ function SchematicWell() {
               </Flex>
             </Flex>
             <Flex direction={'column'} flex={1.5} overflowX={'scroll'} gap={4}>
-              <TabelaEquipamentoSuperficie />
-              <TabelaEquipamentoSubsuperficie />
+              <Accordion defaultIndex={[0]} allowMultiple flex={1.5}>
+                <AccordionItem border={'none'}>
+                  <h2>
+                    <AccordionButton borderBottom={'2px solid #9FA2B4'} borderRadius={'6px 6px 0px 0px'}>
+                      <Box flex="1" textAlign="left">
+                        <Text fontWeight={700}>Dados para Validação</Text>
+                      </Box>
+                      <AccordionIcon />
+                    </AccordionButton>
+                  </h2>
+                  <AccordionPanel pb={4}>
+                    <TabelaEquipamentoSuperficie />
+                    <TabelaEquipamentoSubsuperficie />
+                  </AccordionPanel>
+                </AccordionItem>
+              </Accordion>
             </Flex>
           </Flex>
         </ContainerPagina>
