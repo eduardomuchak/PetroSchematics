@@ -18,7 +18,7 @@ import {
   Image,
   useBreakpointValue,
 } from '@chakra-ui/react';
-import logoImage from 'assets/logo.png';
+import logoImage from 'assets/logo_origem_branco.png';
 import Avvvatars from 'avvvatars-react';
 import { logOut } from 'features/auth/authSlice';
 
@@ -36,9 +36,10 @@ export function MobileNav({ onOpen, name, perfil, profileImage, ...rest }: Mobil
     <Flex
       ml={{ base: 0, md: 0, lg: 0 }}
       px={{ base: 4, md: 4, lg: 4 }}
-      height="20"
+      height="152px"
       alignItems="center"
-      bg={useColorModeValue('white', 'gray.900')}
+      bg={'origem.500'}
+      zIndex={999}
       borderBottomWidth="1px"
       borderBottomColor={useColorModeValue('gray.200', 'gray.700')}
       justifyContent={{

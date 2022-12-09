@@ -26,9 +26,9 @@ import { BarChart, CartesianGrid, YAxis } from 'recharts';
 
 import ContainerPagina from 'components/ContainerPagina';
 // import RequestError from 'components/RequestError';
+import Header from 'components/Header';
 import { RingLoading } from 'components/RingLoading';
 import Sidebar from 'components/SideBar';
-import TituloPagina from 'components/TituloPagina';
 
 import ButtonPontoDeClique from './components/ButtonPontoDeClique';
 import ModalDecisao from './components/ModalDecisao';
@@ -99,101 +99,98 @@ function SchematicWell() {
 
   return (
     <>
-      <Sidebar>
-        <ContainerPagina>
-          <TituloPagina botaoVoltar>Esquemático Well</TituloPagina>
-          <ModalDecisao modalProps={modalProps} />
-          <Flex
-            justify={'space-between'}
-            direction={{ base: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'row' }}
-          >
-            <Flex flex={1}>
-              <Box position={'absolute'} zIndex={0}>
-                <BarChart width={Number(imageSize.width + 60)} height={Number(imageSize.height)} data={maxDepth}>
-                  <CartesianGrid strokeDasharray="4 4" />
-                  <YAxis dataKey="depth" reversed={true} tickCount={5} />
-                </BarChart>
-              </Box>
-              <Image
-                onClick={(event) => {
-                  dispatch(relativeCoordinates(event));
-                  onOpen();
-                }}
-                src={SchematicSVG}
-                h={imageSize.height}
-                zIndex={1}
-                position={'relative'}
-                top={1}
-                left={100}
-              />
-              <Flex direction={'row-reverse'}>
-                {subsurfaceEquipmentTable.length &&
-                  subsurfaceEquipmentTable.map((equipment: SubsurfaceEquipment, index: number) => (
-                    <ButtonPontoDeClique
-                      subsurfaceEquipment={equipment}
-                      key={index}
-                      position={{
-                        scaleYAxis: (equipment.yAxis * imageSize.height) / maxDepth[0].depth,
-                        xAxis: equipment.xAxis,
-                        yAxis: equipment.yAxis,
-                      }}
-                      onOpen={onOpen}
-                    />
-                  ))}
-                {comments.length &&
-                  comments.map((comment: Comment, index: number) => (
-                    <ButtonPontoDeClique
-                      comment={comment}
-                      key={index}
-                      position={{
-                        scaleYAxis: (comment.yAxis * imageSize.height) / maxDepth[0].depth,
-                        xAxis: comment.xAxis,
-                        yAxis: comment.yAxis,
-                      }}
-                      onOpen={onOpen}
-                    />
-                  ))}
-              </Flex>
-            </Flex>
-            <Flex
-              direction={'column'}
-              flex={1.5}
-              overflowX={'scroll'}
-              gap={4}
-              pt={{ base: 5, sm: 5, md: 5, lg: 5, xl: 0 }}
-            >
-              <Accordion defaultIndex={[0]} allowMultiple flex={1.5}>
-                <AccordionItem border={'none'}>
-                  <h2>
-                    <AccordionButton borderBottom={'2px solid #9FA2B4'} borderRadius={'6px 6px 0px 0px'}>
-                      <Box flex="1" textAlign="left">
-                        <Text fontWeight={700}>Equipamentos de Superfície</Text>
-                      </Box>
-                      <AccordionIcon />
-                    </AccordionButton>
-                  </h2>
-                  <AccordionPanel pb={4}>
-                    <TabelaEquipamentoSuperficie />
-                  </AccordionPanel>
-                </AccordionItem>
-                <AccordionItem border={'none'}>
-                  <h2>
-                    <AccordionButton borderBottom={'2px solid #9FA2B4'} borderRadius={'6px 6px 0px 0px'}>
-                      <Box flex="1" textAlign="left">
-                        <Text fontWeight={700}>Equipamentos de Subsuperfície</Text>
-                      </Box>
-                      <AccordionIcon />
-                    </AccordionButton>
-                  </h2>
-                  <AccordionPanel pb={4}>
-                    <TabelaEquipamentoSubsuperficie />
-                  </AccordionPanel>
-                </AccordionItem>
-              </Accordion>
+      <Header>
+        <ModalDecisao modalProps={modalProps} />
+        <Flex
+          justify={'space-between'}
+          direction={{ base: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'row' }}
+        >
+          <Flex flex={1}>
+            <Box position={'absolute'} zIndex={0}>
+              <BarChart width={Number(imageSize.width + 60)} height={Number(imageSize.height)} data={maxDepth}>
+                <CartesianGrid strokeDasharray="4 4" />
+                <YAxis dataKey="depth" reversed={true} tickCount={5} />
+              </BarChart>
+            </Box>
+            <Image
+              onClick={(event) => {
+                dispatch(relativeCoordinates(event));
+                onOpen();
+              }}
+              src={SchematicSVG}
+              h={imageSize.height}
+              zIndex={1}
+              position={'relative'}
+              top={1}
+              left={100}
+            />
+            <Flex direction={'row-reverse'}>
+              {subsurfaceEquipmentTable.length &&
+                subsurfaceEquipmentTable.map((equipment: SubsurfaceEquipment, index: number) => (
+                  <ButtonPontoDeClique
+                    subsurfaceEquipment={equipment}
+                    key={index}
+                    position={{
+                      scaleYAxis: (equipment.yAxis * imageSize.height) / maxDepth[0].depth,
+                      xAxis: equipment.xAxis,
+                      yAxis: equipment.yAxis,
+                    }}
+                    onOpen={onOpen}
+                  />
+                ))}
+              {comments.length &&
+                comments.map((comment: Comment, index: number) => (
+                  <ButtonPontoDeClique
+                    comment={comment}
+                    key={index}
+                    position={{
+                      scaleYAxis: (comment.yAxis * imageSize.height) / maxDepth[0].depth,
+                      xAxis: comment.xAxis,
+                      yAxis: comment.yAxis,
+                    }}
+                    onOpen={onOpen}
+                  />
+                ))}
             </Flex>
           </Flex>
-        </ContainerPagina>
-      </Sidebar>
+          <Flex
+            direction={'column'}
+            flex={1.5}
+            overflowX={'scroll'}
+            gap={4}
+            pt={{ base: 5, sm: 5, md: 5, lg: 5, xl: 0 }}
+          >
+            <Accordion defaultIndex={[0]} allowMultiple flex={1.5}>
+              <AccordionItem border={'none'}>
+                <h2>
+                  <AccordionButton borderBottom={'2px solid #9FA2B4'} borderRadius={'6px 6px 0px 0px'}>
+                    <Box flex="1" textAlign="left">
+                      <Text fontWeight={700}>Equipamentos de Superfície</Text>
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+                </h2>
+                <AccordionPanel pb={4}>
+                  <TabelaEquipamentoSuperficie />
+                </AccordionPanel>
+              </AccordionItem>
+              <AccordionItem border={'none'}>
+                <h2>
+                  <AccordionButton borderBottom={'2px solid #9FA2B4'} borderRadius={'6px 6px 0px 0px'}>
+                    <Box flex="1" textAlign="left">
+                      <Text fontWeight={700}>Equipamentos de Subsuperfície</Text>
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+                </h2>
+                <AccordionPanel pb={4}>
+                  <TabelaEquipamentoSubsuperficie />
+                </AccordionPanel>
+              </AccordionItem>
+            </Accordion>
+          </Flex>
+        </Flex>
+      </Header>
     </>
   );
 }
