@@ -32,10 +32,17 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment }: Props) {
   };
 
   return (
-    <Flex position={'relative'} right={xAxis} top={scaleYAxis} zIndex={2} height={'24px'} width={'24px'}>
+    <Flex
+      position={'relative'}
+      right={xAxis}
+      top={scaleYAxis}
+      zIndex={2}
+      height={'24px'}
+      width={'30px'}
+      onMouseOver={handleMouseOver}
+      onMouseOut={handleMouseOut}
+    >
       <Box
-        onMouseOver={handleMouseOver}
-        onMouseOut={handleMouseOut}
         as="button"
         height={'24px'}
         width={'24px'}
@@ -62,7 +69,8 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment }: Props) {
           zIndex={3}
           position={'absolute'}
           width={'536px'}
-          left={10}
+          top={-36}
+          left={8}
           backgroundColor={'#FEFEFE'}
           boxShadow={'0 0 4px rgba(0, 0, 0, 0.25)'}
           borderRadius={'4px'}
