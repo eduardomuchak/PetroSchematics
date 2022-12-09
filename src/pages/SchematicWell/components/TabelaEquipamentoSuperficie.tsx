@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { FiTrash } from 'react-icons/fi';
-import { MdModeEdit } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
 
 import { Flex, IconButton, Td, Text, Tr } from '@chakra-ui/react';
 import { setSurfaceEquipment } from 'features/schematicWell/schematicWellSlice';
 
 import TabelaGenerica from 'components/TabelaGenerica';
+
+import ModalEditarEquipSuperficie from './ModalEditarEquipSuperficie';
 
 function TabelaEquipamentoSuperficie() {
   const dispacth = useDispatch();
@@ -75,7 +76,7 @@ function TabelaEquipamentoSuperficie() {
               </Td>
               <Td textAlign={'center'} fontWeight={'semibold'}>
                 <Flex gap={2} align={'center'} justify={'center'}>
-                  <IconButton aria-label="Botão de Editar" icon={<MdModeEdit />} variant="origemEditOutline" />
+                  <ModalEditarEquipSuperficie equipment={tableLine} />
                   <IconButton aria-label="Botão de Lixeira" icon={<FiTrash />} variant="origemDeleteOutline" />
                 </Flex>
               </Td>

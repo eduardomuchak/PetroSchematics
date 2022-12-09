@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { MdModeEdit } from 'react-icons/md';
 
 import {
   Button,
   Flex,
   FormControl,
+  IconButton,
   Input,
   Modal,
   ModalBody,
@@ -13,29 +14,24 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
-import { schematicWellState } from 'features/schematicWell/schematicWellSlice';
+import { SurfaceEquipment } from 'features/schematicWell/interfaces';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
 
 interface FormValues {
   equipamentoDeSuperficie: string;
   descricao: string;
-  profundidadeMetros: number;
-  xAxis: number;
 }
 
-function ModalCadastroEquipSuperficie() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+interface Props {
+  equipment: SurfaceEquipment;
+}
 
-  const { mousePosition, maxDepth } = useSelector(schematicWellState);
+function ModalEditarEquipSuperficie({ equipment }: Props) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [formValues, setFormValues] = useState<FormValues>({} as FormValues);
 
@@ -52,8 +48,8 @@ function ModalCadastroEquipSuperficie() {
   useEffect(() => {
     setFormValues({
       ...formValues,
-      profundidadeMetros: mousePosition.yAxis,
-      xAxis: mousePosition.xAxis,
+      equipamentoDeSuperficie: equipment.surfaceEquipment,
+      descricao: equipment.description,
     });
   }, [isOpen]);
 
@@ -61,20 +57,16 @@ function ModalCadastroEquipSuperficie() {
     setFormValues({
       equipamentoDeSuperficie: '',
       descricao: '',
-      profundidadeMetros: 0,
-      xAxis: 0,
     });
   }, [onClose]);
 
   return (
     <>
-      <Button variant={'origemBlueOutline'} onClick={onOpen} w={'100%'}>
-        Cadastrar Equipamento de Superfície
-      </Button>
+      <IconButton onClick={onOpen} aria-label="Botão de Editar" icon={<MdModeEdit />} variant="origemEditOutline" />
       <Modal isOpen={isOpen} onClose={onClose} size="lg">
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>CADASTRAR EQUIPAMENTO DE SUPERFÍCIE</ModalHeader>
+          <ModalHeader>EDITAR EQUIPAMENTO DE SUPERFÍCIE</ModalHeader>
           <ModalCloseButton color={'white'} onClick={handleCancel} />
           <ModalBody>
             <Flex direction={'column'} gap={4}>
@@ -127,32 +119,6 @@ function ModalCadastroEquipSuperficie() {
                   maxLength={50}
                 />
               </FormControl>
-
-              <FormControl>
-                <Flex gap={1}>
-                  <RequiredField />
-                  <Text fontWeight={'700'} fontSize={'12px'} color={'#949494'}>
-                    PROFUNDIDADE (METROS)
-                  </Text>
-                </Flex>
-                <NumberInput
-                  min={0}
-                  max={maxDepth}
-                  value={formValues.profundidadeMetros}
-                  onChange={(valueString) => {
-                    setFormValues({
-                      ...formValues,
-                      profundidadeMetros: Number(valueString),
-                    });
-                  }}
-                >
-                  <NumberInputField h={'56px'} />
-                  <NumberInputStepper>
-                    <NumberIncrementStepper />
-                    <NumberDecrementStepper />
-                  </NumberInputStepper>
-                </NumberInput>
-              </FormControl>
             </Flex>
           </ModalBody>
           <ModalFooter>
@@ -165,7 +131,7 @@ function ModalCadastroEquipSuperficie() {
                 variant={'origemBlueSolid'}
                 onClick={(event: React.MouseEvent<HTMLElement>) => handleSubmit(event)}
               >
-                Cadastrar
+                Concluir
               </Button>
             </Flex>
           </ModalFooter>
@@ -175,4 +141,4 @@ function ModalCadastroEquipSuperficie() {
   );
 }
 
-export default ModalCadastroEquipSuperficie;
+export default ModalEditarEquipSuperficie;
