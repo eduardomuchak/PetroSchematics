@@ -1,7 +1,8 @@
 import { useDispatch } from 'react-redux';
 
 import { Box } from '@chakra-ui/react';
-import { openPointOfClick } from 'features/SchematicWell/schematicWellSlice';
+import { SubsurfaceEquipment } from 'features/schematicWell/interfaces';
+import { openPointOfClick } from 'features/schematicWell/schematicWellSlice';
 
 interface Position {
   xAxis: number;
@@ -12,11 +13,17 @@ interface Position {
 interface Props {
   position: Position;
   onOpen: () => void;
+  subsurfaceEquipment?: SubsurfaceEquipment;
 }
 
-function ButtonPontoDeClique({ position, onOpen }: Props) {
+function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment }: Props) {
   const { yAxis, xAxis, scaleYAxis } = position;
   const dispacth = useDispatch();
+
+  // const HoverPopover = () => (
+  //   <Box position="absolute" top={scaleYAxis} right={xAxis} w="100px" h="100px" bg="red" zIndex={1} />
+  // );
+
   return (
     <Box
       as="button"

@@ -4,7 +4,7 @@ import { MdModeEdit } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
 
 import { Flex, IconButton, Td, Text, Tr } from '@chakra-ui/react';
-import { setSurfaceEquipment } from 'features/SchematicWell/schematicWellSlice';
+import { setSurfaceEquipment } from 'features/schematicWell/schematicWellSlice';
 
 import TabelaGenerica from 'components/TabelaGenerica';
 

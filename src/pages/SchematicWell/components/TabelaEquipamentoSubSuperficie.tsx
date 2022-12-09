@@ -4,7 +4,7 @@ import { MdModeEdit } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
 
 import { Flex, IconButton, Td, Text, Tr } from '@chakra-ui/react';
-import { setSubsurfaceEquipment } from 'features/SchematicWell/schematicWellSlice';
+import { setSubsurfaceEquipment } from 'features/schematicWell/schematicWellSlice';
 
 import TabelaGenerica from 'components/TabelaGenerica';
 
@@ -51,7 +51,7 @@ function TabelaEquipamentoSubsuperficie() {
       manufacturer: 'Halliburton',
       depth: '135,00',
       yAxis: 135,
-      xAxis: 0,
+      xAxis: -5,
     },
     {
       subsurfaceEquipment: '1 Nipple R 2.7/8" EU',
@@ -60,7 +60,7 @@ function TabelaEquipamentoSubsuperficie() {
       manufacturer: 'Surco',
       depth: '2759,15',
       yAxis: 2759,
-      xAxis: 0,
+      xAxis: 7,
     },
     {
       subsurfaceEquipment: '1 Nipple F 2.7/8" EU',
@@ -69,7 +69,7 @@ function TabelaEquipamentoSubsuperficie() {
       manufacturer: 'Surco',
       depth: '2900,60',
       yAxis: 2900,
-      xAxis: 0,
+      xAxis: 4,
     },
   ];
 

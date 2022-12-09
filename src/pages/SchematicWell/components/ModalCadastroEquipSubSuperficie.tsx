@@ -21,7 +21,7 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
-import { schematicWellState } from 'features/SchematicWell/schematicWellSlice';
+import { schematicWellState } from 'features/schematicWell/schematicWellSlice';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
 
