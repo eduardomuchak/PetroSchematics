@@ -1,18 +1,14 @@
 :root {
   --background: #f6f8ff;
-  --background-initial: #f6f8ff;
-  --background-content: #fefefe;
-  --text-primary: #6b46c1;
-  --text-secondary: #2b3442;
-  --button-save: #6b46c1;
+  --text-color: #0d1232;
+  --origem-500: #0047BB;
+  --table-line: #A7A7A7;
+
 }
 
 [data-theme="dark"] {
   --background: #0d1232;
-  --background-content: #0e163a;
-  --text-primary: #fff;
-  --text-secondary: #fff;
-  --button-save: #6b46c1;
+  --text-color: #f6f8ff;
 }
 
 * {
@@ -63,4 +59,29 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #bbbbbb;
+}
+
+table {
+  border-collapse: collapse;
+}
+table td, table th {
+  border: 0.5px solid var(--table-line);
+}
+table td, table:first-child th {
+  border-left: 0;
+  border-right: 0;
+}
+table tr:first-child th {
+  border-top: 0.5 solid var(--origem-500);
+  border-left: 0;
+  border-right: 0;
+}
+table tr:last-child td {
+  border-top: 0.5 solid var(--origem-500);
+}
+table tr th:first-child {
+  border-top: 0.5 solid var(--origem-500);
+}
+table tr th:last-child {
+  border-top: 0.5 solid var(--origem-500);
 }

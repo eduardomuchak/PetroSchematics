@@ -11,29 +11,13 @@ const origem = definePartsStyle({
     color: "#2D2926",
     border: '1px solid',
     borderColor: 'gray.200',
-    background: 'gray.50',
-    borderRadius: '10px',
+    borderRadius: '8px',
     height: '56px',
     _placeholder: { color: "gray.500" },
-
-    _dark: {
-      borderColor: 'gray.600',
-      background: 'gray.800',
-      color: 'white',
-    },
-  },
-  addon: {
-    border: '1px solid',
-    borderColor: 'gray.200',
-    background: 'gray.200',
-    borderRadius: '10px',
-    color: 'gray.500',
-
-    _dark: {
-      borderColor: 'gray.600',
-      background: 'gray.600',
-      color: 'gray.400',
-    },
+    _focus: {
+      borderColor: '#64A1DA',
+      boxShadow: '0 0 0 1px #64A1DA',
+    }
   },
 })
 

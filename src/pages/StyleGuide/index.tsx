@@ -3,12 +3,12 @@ import { MdModeEdit } from 'react-icons/md';
 
 import { Button, Flex, Heading, IconButton, Input } from '@chakra-ui/react';
 
-import ContainerPagina from 'components/ContainerPagina';
+import Header from 'components/Header';
 
 export function StyleGuide() {
   return (
-    <ContainerPagina>
-      <Flex direction={'column'} align={'center'} justify={'center'} gap={5}>
+    <Header>
+      <Flex direction={'column'} align={'start'} justify={'center'} gap={5}>
         <Heading>Botões</Heading>
         <Flex gap={5}>
           <Flex direction={'column'} gap={5} align={'center'}>
@@ -27,12 +27,12 @@ export function StyleGuide() {
           </Flex>
         </Flex>
       </Flex>
-      <Flex direction={'column'} align={'center'} justify={'center'} gap={5}>
+      <Flex direction={'column'} align={'start'} justify={'center'} gap={5}>
         <Heading>Input</Heading>
         <Flex>
           <Input variant={'origem'} placeholder={'Origem'} />
         </Flex>
       </Flex>
-    </ContainerPagina>
+    </Header>
   );
 }
