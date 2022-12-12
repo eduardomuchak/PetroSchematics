@@ -20,8 +20,10 @@ import {
   schematicWellState,
   setMaxDepth,
   setSubsurfaceEquipment,
+  setSurfaceEquipment,
 } from 'features/schematicWell/schematicWellSlice';
-import { useGetSubsurfaceEquipmentsQuery } from 'features/schematicWell/service';
+import { useGetSubsurfaceEquipmentsQuery } from 'features/schematicWell/service/subSurfaceEquimentsCRUD';
+import { useGetSurfaceEquipmentsQuery } from 'features/schematicWell/service/surfaceEquimentsCRUD';
 import { BarChart, CartesianGrid, YAxis } from 'recharts';
 
 import Header from 'components/Header';
@@ -41,14 +43,22 @@ function SchematicWell() {
   // Dados para requisição dos equipamentos de subsuperfície
   const DATA_SOURCE = `${process.env.REACT_APP_DATA_SOURCE_ID}`;
   const DATABASE = `${process.env.REACT_APP_DATABASE}`;
-  const payload = {
+  const payloadSubsurface = {
     dataSource: DATA_SOURCE,
     database: DATABASE,
     collection: 'schematic-well-subsurface-equipments',
     filter: {},
   };
 
-  const { isLoading, data: subSurfaceEquipments, error } = useGetSubsurfaceEquipmentsQuery(payload);
+  const payloadSurface = {
+    dataSource: DATA_SOURCE,
+    database: DATABASE,
+    collection: 'schematic-well-surface-equipments',
+    filter: {},
+  };
+
+  const subSurfaceEquipmentsRequest = useGetSubsurfaceEquipmentsQuery(payloadSubsurface);
+  const surfaceEquipmentsRequest = useGetSurfaceEquipmentsQuery(payloadSurface);
   //
 
   const modalProps = { isOpen, onOpen, onClose };
@@ -74,12 +84,15 @@ function SchematicWell() {
   }, []);
 
   useEffect(() => {
-    if (!isLoading && subSurfaceEquipments?.documents) {
-      dispatch(setSubsurfaceEquipment(subSurfaceEquipments?.documents));
+    if (!subSurfaceEquipmentsRequest.isLoading && subSurfaceEquipmentsRequest.data?.documents) {
+      dispatch(setSubsurfaceEquipment(subSurfaceEquipmentsRequest.data?.documents));
     }
-  }, [subSurfaceEquipments]);
+    if (!surfaceEquipmentsRequest.isLoading && surfaceEquipmentsRequest.data?.documents) {
+      dispatch(setSurfaceEquipment(surfaceEquipmentsRequest.data?.documents));
+    }
+  }, [subSurfaceEquipmentsRequest.data, surfaceEquipmentsRequest.data]);
 
-  if (isLoading) {
+  if (subSurfaceEquipmentsRequest.isLoading || surfaceEquipmentsRequest.isLoading) {
     return (
       <Header>
         <RingLoading />
@@ -87,7 +100,7 @@ function SchematicWell() {
     );
   }
 
-  if (error) {
+  if (subSurfaceEquipmentsRequest.error || surfaceEquipmentsRequest.error) {
     return (
       <Header>
         <RequestError />

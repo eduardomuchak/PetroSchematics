@@ -22,15 +22,18 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { schematicWellState } from 'features/schematicWell/schematicWellSlice';
+import { useAddSurfaceEquipmentMutation } from 'features/schematicWell/service/surfaceEquimentsCRUD';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
 
 import { regexRemoverCaracteresEspeciais } from 'utils/RegexCaracteresEspeciais';
 
+import { usePayload } from 'hooks/usePayload';
+
 interface FormValues {
-  equipamentoDeSuperficie: string;
-  descricao: string;
-  profundidadeMetros: number;
+  surfaceEquipment: string;
+  description: string;
+  depth: number;
   xAxis: number;
 }
 
@@ -38,28 +41,27 @@ function ModalCadastroEquipSuperficie() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { mousePosition, maxDepth } = useSelector(schematicWellState);
+  const [addSurfaceEquipment] = useAddSurfaceEquipmentMutation();
 
   const [formValues, setFormValues] = useState<FormValues>({
-    equipamentoDeSuperficie: '',
-    descricao: '',
+    surfaceEquipment: '',
+    description: '',
   } as FormValues);
 
   const handleCancel = () => {
     onClose();
   };
 
+  const payload = usePayload('schematic-well-surface-equipments', 'ADD', formValues);
+
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    // console.log('Payload', formValues);
+    addSurfaceEquipment(payload);
     onClose();
   };
 
   const isButtonDisabled = () => {
-    if (
-      formValues.equipamentoDeSuperficie === '' ||
-      formValues.descricao === '' ||
-      formValues.profundidadeMetros === 0
-    ) {
+    if (formValues.surfaceEquipment === '' || formValues.description === '' || formValues.depth === 0) {
       return true;
     }
     return false;
@@ -68,16 +70,16 @@ function ModalCadastroEquipSuperficie() {
   useEffect(() => {
     setFormValues({
       ...formValues,
-      profundidadeMetros: mousePosition.yAxis,
+      depth: mousePosition.yAxis,
       xAxis: mousePosition.xAxis,
     });
   }, [isOpen]);
 
   useEffect(() => {
     setFormValues({
-      equipamentoDeSuperficie: '',
-      descricao: '',
-      profundidadeMetros: 0,
+      surfaceEquipment: '',
+      description: '',
+      depth: 0,
       xAxis: 0,
     });
   }, [onClose]);
@@ -105,14 +107,14 @@ function ModalCadastroEquipSuperficie() {
                   variant={'origem'}
                   isRequired
                   placeholder="Equipamento de Superfície"
-                  id="equipamentoDeSuperficie"
+                  id="surfaceEquipment"
                   type="text"
-                  name="equipamentoDeSuperficie"
-                  value={regexRemoverCaracteresEspeciais(formValues.equipamentoDeSuperficie)}
+                  name="surfaceEquipment"
+                  value={regexRemoverCaracteresEspeciais(formValues.surfaceEquipment)}
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                     setFormValues({
                       ...formValues,
-                      equipamentoDeSuperficie: event.target.value,
+                      surfaceEquipment: event.target.value,
                     })
                   }
                   maxLength={50}
@@ -130,14 +132,14 @@ function ModalCadastroEquipSuperficie() {
                   variant={'origem'}
                   isRequired
                   placeholder="Descrição"
-                  id="descricao"
+                  id="description"
                   type="text"
-                  name="descricao"
-                  value={regexRemoverCaracteresEspeciais(formValues.descricao)}
+                  name="description"
+                  value={regexRemoverCaracteresEspeciais(formValues.description)}
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                     setFormValues({
                       ...formValues,
-                      descricao: event.target.value,
+                      description: event.target.value,
                     })
                   }
                   maxLength={50}
@@ -154,11 +156,11 @@ function ModalCadastroEquipSuperficie() {
                 <NumberInput
                   min={0}
                   max={maxDepth}
-                  value={formValues.profundidadeMetros}
+                  value={formValues.depth}
                   onChange={(valueString) => {
                     setFormValues({
                       ...formValues,
-                      profundidadeMetros: Number(valueString),
+                      depth: Number(valueString),
                     });
                   }}
                 >

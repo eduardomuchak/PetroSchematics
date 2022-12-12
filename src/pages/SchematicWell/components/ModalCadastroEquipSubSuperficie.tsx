@@ -22,7 +22,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { schematicWellState } from 'features/schematicWell/schematicWellSlice';
-import { useAddSubsurfaceEquipmentMutation } from 'features/schematicWell/service';
+import { useAddSubsurfaceEquipmentMutation } from 'features/schematicWell/service/subSurfaceEquimentsCRUD';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
 
@@ -58,7 +58,7 @@ function ModalCadastroEquipSubSuperficie() {
     onClose();
   };
 
-  const payload = usePayload('schematic-well-subsurface-equipments', formValues, 'ADD');
+  const payload = usePayload('schematic-well-subsurface-equipments', 'ADD', formValues);
 
   const handleSubmit = (event: any) => {
     event.preventDefault();

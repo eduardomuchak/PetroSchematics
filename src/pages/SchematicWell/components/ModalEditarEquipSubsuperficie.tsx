@@ -25,7 +25,7 @@ import {
 } from '@chakra-ui/react';
 import { SubsurfaceEquipment } from 'features/schematicWell/interfaces';
 import { schematicWellState } from 'features/schematicWell/schematicWellSlice';
-import { useUpdateSubsurfaceEquipmentMutation } from 'features/schematicWell/service';
+import { useUpdateSubsurfaceEquipmentMutation } from 'features/schematicWell/service/subSurfaceEquimentsCRUD';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
 
@@ -65,7 +65,7 @@ function ModalEditarEquipSubsuperficie({ equipment }: Props) {
     onClose();
   };
 
-  const payload = usePayload('schematic-well-subsurface-equipments', formValues, 'UPDATE');
+  const payload = usePayload('schematic-well-subsurface-equipments', 'UPDATE', formValues);
 
   const handleSubmit = (event: any) => {
     event.preventDefault();

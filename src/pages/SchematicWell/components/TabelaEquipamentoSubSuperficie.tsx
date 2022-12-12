@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Flex, Td, Text, Tr } from '@chakra-ui/react';
 import { SubsurfaceEquipment } from 'features/schematicWell/interfaces';
 import { schematicWellState, setSubsurfaceEquipment } from 'features/schematicWell/schematicWellSlice';
-import { useDeleteSubsurfaceEquipmentMutation } from 'features/schematicWell/service';
+import { useDeleteSubsurfaceEquipmentMutation } from 'features/schematicWell/service/subSurfaceEquimentsCRUD';
 
 import TabelaGenerica from 'components/TabelaGenerica';
 
@@ -61,7 +61,7 @@ function TabelaEquipamentoSubsuperficie() {
   }, [subsurfaceEquipmentTable]);
 
   const ToDelete = (equipment: SubsurfaceEquipment) => {
-    const payload = usePayload('schematic-well-subsurface-equipments', equipment.hash, 'DELETE');
+    const payload = usePayload('schematic-well-subsurface-equipments', 'DELETE', equipment.hash);
     deleteSubsurfaceEquipment(payload);
   };
 
