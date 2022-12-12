@@ -26,6 +26,8 @@ import {
 import { SubsurfaceEquipment } from 'features/schematicWell/interfaces';
 import { schematicWellState } from 'features/schematicWell/schematicWellSlice';
 
+import { regexRemoverCaracteresEspeciais } from 'utils/RegexCaracteresEspeciais';
+
 interface FormValues {
   equipamentoDeSubsuperficie: string;
   odPolegada: string;
@@ -103,7 +105,7 @@ function ModalEditarEquipSubsuperficie({ equipment }: Props) {
                   id="equipamentoDeSubsuperficie"
                   type="text"
                   name="equipamentoDeSubsuperficie"
-                  value={formValues.equipamentoDeSubsuperficie}
+                  value={regexRemoverCaracteresEspeciais(formValues.equipamentoDeSubsuperficie)}
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                     setFormValues({
                       ...formValues,
@@ -127,7 +129,7 @@ function ModalEditarEquipSubsuperficie({ equipment }: Props) {
                     id="odPolegada"
                     type="text"
                     name="odPolegada"
-                    value={formValues.odPolegada}
+                    value={regexRemoverCaracteresEspeciais(formValues.odPolegada)}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                       setFormValues({
                         ...formValues,
@@ -150,7 +152,7 @@ function ModalEditarEquipSubsuperficie({ equipment }: Props) {
                     id="idPolegada"
                     type="text"
                     name="idPolegada"
-                    value={formValues.idPolegada}
+                    value={regexRemoverCaracteresEspeciais(formValues.idPolegada)}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                       setFormValues({
                         ...formValues,
@@ -174,7 +176,7 @@ function ModalEditarEquipSubsuperficie({ equipment }: Props) {
                   id="fabricante"
                   type="text"
                   name="fabricante"
-                  value={formValues.fabricante}
+                  value={regexRemoverCaracteresEspeciais(formValues.fabricante)}
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                     setFormValues({
                       ...formValues,

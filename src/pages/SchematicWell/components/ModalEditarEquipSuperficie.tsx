@@ -21,6 +21,8 @@ import { SurfaceEquipment } from 'features/schematicWell/interfaces';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
 
+import { regexRemoverCaracteresEspeciais } from 'utils/RegexCaracteresEspeciais';
+
 interface FormValues {
   equipamentoDeSuperficie: string;
   descricao: string;
@@ -33,7 +35,10 @@ interface Props {
 function ModalEditarEquipSuperficie({ equipment }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [formValues, setFormValues] = useState<FormValues>({} as FormValues);
+  const [formValues, setFormValues] = useState<FormValues>({
+    equipamentoDeSuperficie: '',
+    descricao: '',
+  } as FormValues);
 
   const handleCancel = () => {
     onClose();
@@ -84,7 +89,7 @@ function ModalEditarEquipSuperficie({ equipment }: Props) {
                   id="equipamentoDeSuperficie"
                   type="text"
                   name="equipamentoDeSuperficie"
-                  value={formValues.equipamentoDeSuperficie}
+                  value={regexRemoverCaracteresEspeciais(formValues.equipamentoDeSuperficie) || ''}
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                     setFormValues({
                       ...formValues,
@@ -109,7 +114,7 @@ function ModalEditarEquipSuperficie({ equipment }: Props) {
                   id="descricao"
                   type="text"
                   name="descricao"
-                  value={formValues.descricao}
+                  value={regexRemoverCaracteresEspeciais(formValues.descricao) || ''}
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                     setFormValues({
                       ...formValues,

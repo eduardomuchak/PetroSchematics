@@ -25,6 +25,8 @@ import { schematicWellState } from 'features/schematicWell/schematicWellSlice';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
 
+import { regexRemoverCaracteresEspeciais } from 'utils/RegexCaracteresEspeciais';
+
 interface FormValues {
   equipamentoDeSubsuperficie: string;
   odPolegada: string;
@@ -103,7 +105,7 @@ function ModalCadastroEquipSubSuperficie() {
                   id="equipamentoDeSubsuperficie"
                   type="text"
                   name="equipamentoDeSubsuperficie"
-                  value={formValues.equipamentoDeSubsuperficie}
+                  value={regexRemoverCaracteresEspeciais(formValues.equipamentoDeSubsuperficie)}
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                     setFormValues({
                       ...formValues,
@@ -128,7 +130,7 @@ function ModalCadastroEquipSubSuperficie() {
                     id="odPolegada"
                     type="text"
                     name="odPolegada"
-                    value={formValues.odPolegada}
+                    value={regexRemoverCaracteresEspeciais(formValues.odPolegada)}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                       setFormValues({
                         ...formValues,
@@ -152,7 +154,7 @@ function ModalCadastroEquipSubSuperficie() {
                     id="idPolegada"
                     type="text"
                     name="idPolegada"
-                    value={formValues.idPolegada}
+                    value={regexRemoverCaracteresEspeciais(formValues.idPolegada)}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                       setFormValues({
                         ...formValues,
@@ -177,7 +179,7 @@ function ModalCadastroEquipSubSuperficie() {
                   id="fabricante"
                   type="text"
                   name="fabricante"
-                  value={formValues.fabricante}
+                  value={regexRemoverCaracteresEspeciais(formValues.fabricante)}
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                     setFormValues({
                       ...formValues,

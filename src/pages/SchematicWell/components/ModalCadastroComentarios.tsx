@@ -25,6 +25,8 @@ import { schematicWellState } from 'features/schematicWell/schematicWellSlice';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
 
+import { regexRemoverCaracteresEspeciais } from 'utils/RegexCaracteresEspeciais';
+
 interface FormValues {
   profundidadeMetros: number;
   xAxis: number;
@@ -116,7 +118,7 @@ function ModalCadastroComentarios() {
                   placeholder={'Digite aqui os comentários'}
                   id={'comentarios'}
                   name={'comentarios'}
-                  value={formValues.comentarios}
+                  value={regexRemoverCaracteresEspeciais(formValues.comentarios)}
                   maxLength={5000}
                   onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
                     setFormValues({ ...formValues, comentarios: event.target.value })

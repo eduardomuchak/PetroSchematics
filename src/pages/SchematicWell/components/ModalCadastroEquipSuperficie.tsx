@@ -25,6 +25,8 @@ import { schematicWellState } from 'features/schematicWell/schematicWellSlice';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
 
+import { regexRemoverCaracteresEspeciais } from 'utils/RegexCaracteresEspeciais';
+
 interface FormValues {
   equipamentoDeSuperficie: string;
   descricao: string;
@@ -92,7 +94,7 @@ function ModalCadastroEquipSuperficie() {
                   id="equipamentoDeSuperficie"
                   type="text"
                   name="equipamentoDeSuperficie"
-                  value={formValues.equipamentoDeSuperficie}
+                  value={regexRemoverCaracteresEspeciais(formValues.equipamentoDeSuperficie)}
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                     setFormValues({
                       ...formValues,
@@ -117,7 +119,7 @@ function ModalCadastroEquipSuperficie() {
                   id="descricao"
                   type="text"
                   name="descricao"
-                  value={formValues.descricao}
+                  value={regexRemoverCaracteresEspeciais(formValues.descricao)}
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                     setFormValues({
                       ...formValues,
