@@ -26,7 +26,9 @@ const baseStyle = definePartsStyle({
     bg: 'rgba(0,0,0, 0.3)',
     backdropFilter: 'blur(5px)',
   },
-  dialog: {},
+  dialog: {
+    borderRadius:10,
+  },
   closeButton: {
     position: 'absolute',
     top: 1,

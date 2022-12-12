@@ -134,6 +134,22 @@ export const ButtonStyles = {
         transition: "all 0.4s",
       },
     }),
+    origemSidebarIcon: (props: any) => ({
+      bg: "transparent",
+      width: "48px",
+      height: "48px",
+      border: "2px solid #0048BB",
+      borderRadius: "5px",
+      color: mode("origem.500", "origem.500")(props),
+      backgroundColor: "white",
+      boxShadow: "0px 4px 4px rgba(2, 57, 195, 0.30)",
+      _hover: {
+        boxShadow: "0px 6px 6px rgba(2, 57, 195, 0.30)",
+        bg: mode("origem.500", "origem.500")(props),
+        color: mode("white", "white")(props),
+        transition: "all 0.4s",
+      },
+    }),
   },
   defaultProps: {},
 }

@@ -25,6 +25,8 @@ import { schematicWellState } from 'features/schematicWell/schematicWellSlice';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
 
+import { regexRemoverCaracteresEspeciais } from 'utils/RegexCaracteresEspeciais';
+
 interface FormValues {
   profundidadeMetros: number;
   xAxis: number;
@@ -50,6 +52,13 @@ function ModalCadastroComentarios() {
     event.preventDefault();
     // console.log('Payload', formValues);
     onClose();
+  };
+
+  const isButtonDisabled = () => {
+    if (formValues.comentarios === '' || formValues.profundidadeMetros === 0) {
+      return true;
+    }
+    return false;
   };
 
   useEffect(() => {
@@ -116,7 +125,7 @@ function ModalCadastroComentarios() {
                   placeholder={'Digite aqui os comentários'}
                   id={'comentarios'}
                   name={'comentarios'}
-                  value={formValues.comentarios}
+                  value={regexRemoverCaracteresEspeciais(formValues.comentarios)}
                   maxLength={5000}
                   onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
                     setFormValues({ ...formValues, comentarios: event.target.value })
@@ -134,6 +143,7 @@ function ModalCadastroComentarios() {
                 type="submit"
                 variant={'origemBlueSolid'}
                 onClick={(event: React.MouseEvent<HTMLElement>) => handleSubmit(event)}
+                isDisabled={isButtonDisabled()}
               >
                 Adicionar
               </Button>

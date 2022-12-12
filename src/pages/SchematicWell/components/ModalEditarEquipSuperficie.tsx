@@ -21,6 +21,8 @@ import { SurfaceEquipment } from 'features/schematicWell/interfaces';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
 
+import { regexRemoverCaracteresEspeciais } from 'utils/RegexCaracteresEspeciais';
+
 interface FormValues {
   equipamentoDeSuperficie: string;
   descricao: string;
@@ -33,7 +35,10 @@ interface Props {
 function ModalEditarEquipSuperficie({ equipment }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [formValues, setFormValues] = useState<FormValues>({} as FormValues);
+  const [formValues, setFormValues] = useState<FormValues>({
+    equipamentoDeSuperficie: '',
+    descricao: '',
+  } as FormValues);
 
   const handleCancel = () => {
     onClose();
@@ -43,6 +48,13 @@ function ModalEditarEquipSuperficie({ equipment }: Props) {
     event.preventDefault();
     // console.log('Payload', formValues);
     onClose();
+  };
+
+  const isButtonDisabled = () => {
+    if (formValues.equipamentoDeSuperficie === '') {
+      return true;
+    }
+    return false;
   };
 
   useEffect(() => {
@@ -84,7 +96,7 @@ function ModalEditarEquipSuperficie({ equipment }: Props) {
                   id="equipamentoDeSuperficie"
                   type="text"
                   name="equipamentoDeSuperficie"
-                  value={formValues.equipamentoDeSuperficie}
+                  value={regexRemoverCaracteresEspeciais(formValues.equipamentoDeSuperficie) || ''}
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                     setFormValues({
                       ...formValues,
@@ -97,7 +109,6 @@ function ModalEditarEquipSuperficie({ equipment }: Props) {
 
               <FormControl>
                 <Flex gap={1}>
-                  <RequiredField />
                   <Text fontWeight={'700'} fontSize={'12px'} color={'#949494'}>
                     DESCRIÇÃO
                   </Text>
@@ -109,7 +120,7 @@ function ModalEditarEquipSuperficie({ equipment }: Props) {
                   id="descricao"
                   type="text"
                   name="descricao"
-                  value={formValues.descricao}
+                  value={regexRemoverCaracteresEspeciais(formValues.descricao) || ''}
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                     setFormValues({
                       ...formValues,
@@ -130,6 +141,7 @@ function ModalEditarEquipSuperficie({ equipment }: Props) {
                 type="submit"
                 variant={'origemBlueSolid'}
                 onClick={(event: React.MouseEvent<HTMLElement>) => handleSubmit(event)}
+                isDisabled={isButtonDisabled()}
               >
                 Concluir
               </Button>
