@@ -1,17 +1,23 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Flex, Td, Text, Tr } from '@chakra-ui/react';
 import { SurfaceEquipment } from 'features/schematicWell/interfaces';
-import { setSurfaceEquipment } from 'features/schematicWell/schematicWellSlice';
+import { schematicWellState, setSurfaceEquipment } from 'features/schematicWell/schematicWellSlice';
+import { useDeleteSurfaceEquipmentMutation } from 'features/schematicWell/service/surfaceEquimentsCRUD';
 
 import TabelaGenerica from 'components/TabelaGenerica';
+
+import { usePayload } from 'hooks/usePayload';
 
 import ModalDeletar from './ModalDeletar';
 import ModalEditarEquipSuperficie from './ModalEditarEquipSuperficie';
 
 function TabelaEquipamentoSuperficie() {
   const dispacth = useDispatch();
+  const { surfaceEquipmentTable } = useSelector(schematicWellState);
+  const [deleteSurfaceEquipment] = useDeleteSurfaceEquipmentMutation();
+
   // Estados para paginação
   const [from, setFrom] = useState<number>(0);
   const [to, setTo] = useState<number>(5);
@@ -31,39 +37,23 @@ function TabelaEquipamentoSuperficie() {
     },
   ]);
   const header = ['EQUIPAMENTOS DE SUPERFÍCIE', 'DESCRIÇÃO', 'AÇÕES'];
-  const footer = ['PACKER FLUID - 9.8 lb/gal'];
+  const footer = [''];
+  // const footer = ['PACKER FLUID - 9.8 lb/gal'];
   //
 
-  const mock = [
-    {
-      surfaceEquipment: 'Árvore de Natal',
-      description: 'Descrição da árvore',
-    },
-    {
-      surfaceEquipment: 'Adaptador da Cabeça de Produção',
-      description: 'Descrição do adaptador',
-    },
-    {
-      surfaceEquipment: 'Suspensor da Cabeca de Produção',
-      description: 'Descrição do suspensor',
-    },
-    {
-      surfaceEquipment: 'Cabeça de Produção',
-      description: 'Descrição da cabeça de produção',
-    },
-    {
-      surfaceEquipment: 'Cabeça de Revestimento',
-      description: 'Descrição da cabeça de revestimento',
-    },
-  ];
-
   useEffect(() => {
-    dispacth(setSurfaceEquipment(mock));
-    setFilteredTable(mock);
+    dispacth(setSurfaceEquipment(surfaceEquipmentTable));
+    setFilteredTable(surfaceEquipmentTable);
   }, []);
 
-  const toDelete = (payload: SurfaceEquipment) => {
-    // console.log('Payload', payload);
+  useEffect(() => {
+    dispacth(setSurfaceEquipment(surfaceEquipmentTable));
+    setFilteredTable(surfaceEquipmentTable);
+  }, [surfaceEquipmentTable]);
+
+  const ToDelete = (equipment: SurfaceEquipment) => {
+    const payload = usePayload('schematic-well-surface-equipments', 'DELETE', equipment.hash);
+    deleteSurfaceEquipment(payload);
   };
 
   // Criar um componente com o corpo da tabela e chamar ele como children do TabelaGenerica
@@ -82,7 +72,7 @@ function TabelaEquipamentoSuperficie() {
               <Td textAlign={'center'} fontWeight={'semibold'}>
                 <Flex gap={2} align={'center'} justify={'center'}>
                   <ModalEditarEquipSuperficie equipment={tableLine} />
-                  <ModalDeletar equipment={tableLine} toDelete={toDelete} />
+                  <ModalDeletar equipment={tableLine} toDelete={ToDelete} />
                 </Flex>
               </Td>
             </Tr>

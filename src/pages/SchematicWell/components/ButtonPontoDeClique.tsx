@@ -4,6 +4,12 @@ import { useDispatch } from 'react-redux';
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { Comment, SubsurfaceEquipment } from 'features/schematicWell/interfaces';
 import { openPointOfClick } from 'features/schematicWell/schematicWellSlice';
+import { useDeleteCommentsMutation } from 'features/schematicWell/service/commentsCRUD';
+
+import { usePayload } from 'hooks/usePayload';
+
+import ModalDeletar from './ModalDeletar';
+import ModalEditarComentario from './ModalEditarComentario';
 
 interface Position {
   xAxis: number;
@@ -21,6 +27,7 @@ interface Props {
 function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment }: Props) {
   const { yAxis, xAxis, scaleYAxis } = position;
   const dispacth = useDispatch();
+  const [deleteComments] = useDeleteCommentsMutation();
 
   const [isHovering, setIsHovering] = useState(false);
 
@@ -96,6 +103,11 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment }:
     </Box>
   );
 
+  const ToDelete = (comment: Comment) => {
+    const payload = usePayload('schematic-well-comments', 'DELETE', comment);
+    deleteComments(payload);
+  };
+
   const CommentCard = () => (
     <Box
       zIndex={3}
@@ -108,18 +120,26 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment }:
       borderRadius={'4px'}
       p={5}
     >
-      <Flex gap={1} mb={3}>
-        <Text fontWeight={700} fontSize={'16px'}>
-          Profundidade
-        </Text>
-        <Flex>
+      <Flex mb={3} justify={'space-between'} align={'center'}>
+        <Flex gap={1}>
           <Text fontWeight={700} fontSize={'16px'}>
-            {comment?.yAxis}
+            Profundidade
           </Text>
-          <Text fontWeight={700} fontSize={'16px'}>
-            m
-          </Text>
+          <Flex>
+            <Text fontWeight={700} fontSize={'16px'}>
+              {comment?.depth}
+            </Text>
+            <Text fontWeight={700} fontSize={'16px'}>
+              m
+            </Text>
+          </Flex>
         </Flex>
+        {comment && (
+          <Flex gap={2}>
+            <ModalEditarComentario comment={comment} />
+            <ModalDeletar equipment={comment} toDelete={ToDelete} />
+          </Flex>
+        )}
       </Flex>
       <Flex gap={1}>
         <Text fontWeight={700} fontSize={'16px'}>
@@ -127,7 +147,7 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment }:
         </Text>
 
         <Text fontWeight={500} fontSize={'16px'}>
-          {comment?.comment}
+          {comment?.comments}
         </Text>
       </Flex>
     </Box>
@@ -200,7 +220,7 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment }:
         </Text>
 
         <Text fontWeight={500} fontSize={'16px'}>
-          {comment?.comment}
+          {comment?.comments}
         </Text>
       </Flex>
     </Box>
@@ -209,8 +229,8 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment }:
   return (
     <Flex
       position={'relative'}
-      right={xAxis}
-      top={scaleYAxis}
+      right={xAxis - 80}
+      top={scaleYAxis - 12}
       zIndex={2}
       height={'24px'}
       width={'30px'}
@@ -239,9 +259,9 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment }:
           onOpen();
         }}
       />
+      {isHovering && subsurfaceEquipment && comment && <CommentAndSubSurfaceEquipamentCard />}
       {isHovering && subsurfaceEquipment && <SubSurfaceEquipamentCard />}
       {isHovering && comment && <CommentCard />}
-      {isHovering && subsurfaceEquipment && comment && <CommentAndSubSurfaceEquipamentCard />}
     </Flex>
   );
 }

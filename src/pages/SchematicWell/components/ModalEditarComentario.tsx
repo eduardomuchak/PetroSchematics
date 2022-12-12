@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
+import { MdModeEdit } from 'react-icons/md';
 import { useSelector } from 'react-redux';
 
 import {
   Button,
   Flex,
   FormControl,
+  IconButton,
   Input,
   Modal,
   ModalBody,
@@ -21,8 +23,9 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
+import { Comment } from 'features/schematicWell/interfaces';
 import { schematicWellState } from 'features/schematicWell/schematicWellSlice';
-import { useAddSurfaceEquipmentMutation } from 'features/schematicWell/service/surfaceEquimentsCRUD';
+import { useUpdateCommentsMutation } from 'features/schematicWell/service/commentsCRUD';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
 
@@ -31,37 +34,42 @@ import { regexRemoverCaracteresEspeciais } from 'utils/RegexCaracteresEspeciais'
 import { usePayload } from 'hooks/usePayload';
 
 interface FormValues {
-  surfaceEquipment: string;
-  description: string;
   depth: number;
-  xAxis: number;
+  comments: string;
+  _id: string;
+  hash: string;
 }
 
-function ModalCadastroEquipSuperficie() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+interface Props {
+  comment: Comment;
+}
 
-  const { mousePosition, maxDepth } = useSelector(schematicWellState);
-  const [addSurfaceEquipment] = useAddSurfaceEquipmentMutation();
+function ModalEditarComentario({ comment }: Props) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [updateComments] = useUpdateCommentsMutation();
+  const { maxDepth } = useSelector(schematicWellState);
 
   const [formValues, setFormValues] = useState<FormValues>({
-    surfaceEquipment: '',
-    description: '',
+    depth: 0,
+    comments: '',
+    _id: '',
+    hash: '',
   } as FormValues);
 
   const handleCancel = () => {
     onClose();
   };
 
-  const payload = usePayload('schematic-well-surface-equipments', 'ADD', formValues);
+  const payload = usePayload('schematic-well-comments', 'UPDATE', formValues);
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    addSurfaceEquipment(payload);
+    updateComments(payload);
     onClose();
   };
 
   const isButtonDisabled = () => {
-    if (formValues.surfaceEquipment === '' || formValues.description === '' || formValues.depth === 0) {
+    if (formValues.comments === '') {
       return true;
     }
     return false;
@@ -70,85 +78,34 @@ function ModalCadastroEquipSuperficie() {
   useEffect(() => {
     setFormValues({
       ...formValues,
-      depth: mousePosition.yAxis,
-      xAxis: mousePosition.xAxis,
+      depth: comment.depth,
+      comments: comment.comments,
+      _id: comment._id,
+      hash: comment.hash,
     });
   }, [isOpen]);
 
   useEffect(() => {
     setFormValues({
-      surfaceEquipment: '',
-      description: '',
       depth: 0,
-      xAxis: 0,
+      comments: '',
+      _id: '',
+      hash: '',
     });
   }, [onClose]);
 
   return (
     <>
-      <Button variant={'origemBlueOutline'} onClick={onOpen} w={'100%'}>
-        Cadastrar Equipamento de Superfície
-      </Button>
+      <IconButton onClick={onOpen} aria-label="Botão de Editar" icon={<MdModeEdit />} variant="origemEditOutline" />
       <Modal isOpen={isOpen} onClose={onClose} size="lg">
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>CADASTRAR EQUIPAMENTO DE SUPERFÍCIE</ModalHeader>
+          <ModalHeader>EDITAR EQUIPAMENTO DE SUPERFÍCIE</ModalHeader>
           <ModalCloseButton color={'white'} onClick={handleCancel} />
           <ModalBody>
             <Flex direction={'column'} gap={4}>
               <FormControl>
                 <Flex gap={1}>
-                  <RequiredField />
-                  <Text fontWeight={'700'} fontSize={'12px'} color={'#949494'}>
-                    EQUIPAMENTO DE SUPERFÍCIE
-                  </Text>
-                </Flex>
-                <Input
-                  variant={'origem'}
-                  isRequired
-                  placeholder="Equipamento de Superfície"
-                  id="surfaceEquipment"
-                  type="text"
-                  name="surfaceEquipment"
-                  value={regexRemoverCaracteresEspeciais(formValues.surfaceEquipment)}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                    setFormValues({
-                      ...formValues,
-                      surfaceEquipment: event.target.value,
-                    })
-                  }
-                  maxLength={50}
-                />
-              </FormControl>
-
-              <FormControl>
-                <Flex gap={1}>
-                  <RequiredField />
-                  <Text fontWeight={'700'} fontSize={'12px'} color={'#949494'}>
-                    DESCRIÇÃO
-                  </Text>
-                </Flex>
-                <Input
-                  variant={'origem'}
-                  isRequired
-                  placeholder="Descrição"
-                  id="description"
-                  type="text"
-                  name="description"
-                  value={regexRemoverCaracteresEspeciais(formValues.description)}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                    setFormValues({
-                      ...formValues,
-                      description: event.target.value,
-                    })
-                  }
-                  maxLength={50}
-                />
-              </FormControl>
-
-              <FormControl>
-                <Flex gap={1}>
-                  <RequiredField />
                   <Text fontWeight={'700'} fontSize={'12px'} color={'#949494'}>
                     PROFUNDIDADE (METROS)
                   </Text>
@@ -171,6 +128,31 @@ function ModalCadastroEquipSuperficie() {
                   </NumberInputStepper>
                 </NumberInput>
               </FormControl>
+
+              <FormControl>
+                <Flex gap={1}>
+                  <RequiredField />
+                  <Text fontWeight={'700'} fontSize={'12px'} color={'#949494'}>
+                    COMENTÁRIO
+                  </Text>
+                </Flex>
+                <Input
+                  variant={'origem'}
+                  isRequired
+                  placeholder="Comentário"
+                  id="comments"
+                  type="text"
+                  name="comments"
+                  value={regexRemoverCaracteresEspeciais(formValues.comments) || ''}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    setFormValues({
+                      ...formValues,
+                      comments: event.target.value,
+                    })
+                  }
+                  maxLength={50}
+                />
+              </FormControl>
             </Flex>
           </ModalBody>
           <ModalFooter>
@@ -184,7 +166,7 @@ function ModalCadastroEquipSuperficie() {
                 onClick={(event: React.MouseEvent<HTMLElement>) => handleSubmit(event)}
                 isDisabled={isButtonDisabled()}
               >
-                Cadastrar
+                Concluir
               </Button>
             </Flex>
           </ModalFooter>
@@ -194,4 +176,4 @@ function ModalCadastroEquipSuperficie() {
   );
 }
 
-export default ModalCadastroEquipSuperficie;
+export default ModalEditarComentario;
