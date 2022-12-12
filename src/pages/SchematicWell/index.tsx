@@ -24,8 +24,8 @@ import {
 import { useGetSubsurfaceEquipmentsQuery } from 'features/schematicWell/service';
 import { BarChart, CartesianGrid, YAxis } from 'recharts';
 
-// import RequestError from 'components/RequestError';
 import Header from 'components/Header';
+import RequestError from 'components/RequestError';
 import { RingLoading } from 'components/RingLoading';
 
 import ButtonPontoDeClique from './components/ButtonPontoDeClique';
@@ -38,18 +38,22 @@ function SchematicWell() {
   const dispatch = useDispatch();
   const { subsurfaceEquipmentTable, comments } = useSelector(schematicWellState);
 
+  // Dados para requisição dos equipamentos de subsuperfície
   const DATA_SOURCE = `${process.env.REACT_APP_DATA_SOURCE_ID}`;
   const DATABASE = `${process.env.REACT_APP_DATABASE}`;
-
   const payload = {
     dataSource: DATA_SOURCE,
     database: DATABASE,
-    collection: 'form-xv',
+    collection: 'schematic-well-subsurface-equipments',
     filter: {},
   };
 
-  const { isLoading, data: subSurfaceEquipments } = useGetSubsurfaceEquipmentsQuery(payload);
+  const { isLoading, data: subSurfaceEquipments, error } = useGetSubsurfaceEquipmentsQuery(payload);
+  //
+
   const modalProps = { isOpen, onOpen, onClose };
+
+  // console.log('subSurfaceEquipments', subSurfaceEquipments);
 
   // Tamanho da escala da imagem do esquemático
   const imageSize = {
@@ -70,8 +74,8 @@ function SchematicWell() {
   }, []);
 
   useEffect(() => {
-    if (!isLoading && subSurfaceEquipments) {
-      dispatch(setSubsurfaceEquipment(subSurfaceEquipments));
+    if (!isLoading && subSurfaceEquipments?.documents) {
+      dispatch(setSubsurfaceEquipment(subSurfaceEquipments?.documents));
     }
   }, [subSurfaceEquipments]);
 
@@ -83,15 +87,13 @@ function SchematicWell() {
     );
   }
 
-  // if (error) {
-  //   return (
-  //     <Header>
-  //       <ContainerPagina>
-  //         <RequestError />
-  //       </ContainerPagina>
-  //     </Header>
-  //   );
-  // }
+  if (error) {
+    return (
+      <Header>
+        <RequestError />
+      </Header>
+    );
+  }
 
   return (
     <>
@@ -127,9 +129,9 @@ function SchematicWell() {
                     subsurfaceEquipment={equipment}
                     key={index}
                     position={{
-                      scaleYAxis: (equipment.yAxis * imageSize.height) / maxDepth[0].depth,
+                      scaleYAxis: (Number(equipment.depth) * imageSize.height) / maxDepth[0].depth,
                       xAxis: equipment.xAxis,
-                      yAxis: equipment.yAxis,
+                      yAxis: Number(equipment.depth),
                     }}
                     onOpen={onOpen}
                   />

@@ -22,17 +22,18 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { schematicWellState } from 'features/schematicWell/schematicWellSlice';
+import { useAddSubsurfaceEquipmentMutation } from 'features/schematicWell/service';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
 
 import { regexRemoverCaracteresEspeciais } from 'utils/RegexCaracteresEspeciais';
 
 interface FormValues {
-  equipamentoDeSubsuperficie: string;
-  odPolegada: string;
-  idPolegada: string;
-  fabricante: string;
-  profundidadeMetros: number;
+  subsurfaceEquipment: string;
+  odInch: string;
+  idInch: string;
+  manufacturer: string;
+  depth: number;
   xAxis: number;
 }
 
@@ -40,13 +41,14 @@ function ModalCadastroEquipSubSuperficie() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { mousePosition, maxDepth } = useSelector(schematicWellState);
+  const [addSubsurfaceEquipment] = useAddSubsurfaceEquipmentMutation();
 
   const [formValues, setFormValues] = useState<FormValues>({
-    equipamentoDeSubsuperficie: '',
-    odPolegada: '',
-    idPolegada: '',
-    fabricante: '',
-    profundidadeMetros: 0,
+    subsurfaceEquipment: '',
+    odInch: '',
+    idInch: '',
+    manufacturer: '',
+    depth: 0,
     xAxis: 0,
   });
 
@@ -54,19 +56,28 @@ function ModalCadastroEquipSubSuperficie() {
     onClose();
   };
 
+  const DATA_SOURCE = `${process.env.REACT_APP_DATA_SOURCE_ID}`;
+  const DATABASE = `${process.env.REACT_APP_DATABASE}`;
+  const payload = {
+    dataSource: DATA_SOURCE,
+    database: DATABASE,
+    collection: 'schematic-well-subsurface-equipments',
+    document: formValues,
+  };
+
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    // console.log('Payload', formValues);
+    addSubsurfaceEquipment(payload);
     onClose();
   };
 
   const isButtonDisabled = () => {
     if (
-      formValues.equipamentoDeSubsuperficie === '' ||
-      formValues.odPolegada === '' ||
-      formValues.idPolegada === '' ||
-      formValues.fabricante === '' ||
-      formValues.profundidadeMetros === 0
+      formValues.subsurfaceEquipment === '' ||
+      formValues.odInch === '' ||
+      formValues.idInch === '' ||
+      formValues.manufacturer === '' ||
+      formValues.depth === 0
     ) {
       return true;
     }
@@ -76,18 +87,18 @@ function ModalCadastroEquipSubSuperficie() {
   useEffect(() => {
     setFormValues({
       ...formValues,
-      profundidadeMetros: mousePosition.yAxis,
+      depth: mousePosition.yAxis,
       xAxis: mousePosition.xAxis,
     });
   }, [isOpen]);
 
   useEffect(() => {
     setFormValues({
-      equipamentoDeSubsuperficie: '',
-      odPolegada: '',
-      idPolegada: '',
-      fabricante: '',
-      profundidadeMetros: 0,
+      subsurfaceEquipment: '',
+      odInch: '',
+      idInch: '',
+      manufacturer: '',
+      depth: 0,
       xAxis: 0,
     });
   }, [onClose]);
@@ -115,14 +126,14 @@ function ModalCadastroEquipSubSuperficie() {
                   variant={'origem'}
                   isRequired
                   placeholder="Equipamento de Subsuperfície"
-                  id="equipamentoDeSubsuperficie"
+                  id="subsurfaceEquipment"
                   type="text"
-                  name="equipamentoDeSubsuperficie"
-                  value={regexRemoverCaracteresEspeciais(formValues.equipamentoDeSubsuperficie)}
+                  name="subsurfaceEquipment"
+                  value={regexRemoverCaracteresEspeciais(formValues.subsurfaceEquipment)}
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                     setFormValues({
                       ...formValues,
-                      equipamentoDeSubsuperficie: event.target.value,
+                      subsurfaceEquipment: event.target.value,
                     })
                   }
                   maxLength={50}
@@ -140,14 +151,14 @@ function ModalCadastroEquipSubSuperficie() {
                     variant={'origem'}
                     isRequired
                     placeholder="OD (inch/polegada)"
-                    id="odPolegada"
+                    id="odInch"
                     type="text"
-                    name="odPolegada"
-                    value={regexRemoverCaracteresEspeciais(formValues.odPolegada)}
+                    name="odInch"
+                    value={regexRemoverCaracteresEspeciais(formValues.odInch)}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                       setFormValues({
                         ...formValues,
-                        odPolegada: event.target.value,
+                        odInch: event.target.value,
                       })
                     }
                     maxLength={10}
@@ -164,14 +175,14 @@ function ModalCadastroEquipSubSuperficie() {
                     variant={'origem'}
                     isRequired
                     placeholder="ID (inch/polegada)"
-                    id="idPolegada"
+                    id="idInch"
                     type="text"
-                    name="idPolegada"
-                    value={regexRemoverCaracteresEspeciais(formValues.idPolegada)}
+                    name="idInch"
+                    value={regexRemoverCaracteresEspeciais(formValues.idInch)}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                       setFormValues({
                         ...formValues,
-                        idPolegada: event.target.value,
+                        idInch: event.target.value,
                       })
                     }
                     maxLength={10}
@@ -189,14 +200,14 @@ function ModalCadastroEquipSubSuperficie() {
                   variant={'origem'}
                   isRequired
                   placeholder="Fabricante"
-                  id="fabricante"
+                  id="manufacturer"
                   type="text"
-                  name="fabricante"
-                  value={regexRemoverCaracteresEspeciais(formValues.fabricante)}
+                  name="manufacturer"
+                  value={regexRemoverCaracteresEspeciais(formValues.manufacturer)}
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                     setFormValues({
                       ...formValues,
-                      fabricante: event.target.value,
+                      manufacturer: event.target.value,
                     })
                   }
                   maxLength={50}
@@ -212,11 +223,11 @@ function ModalCadastroEquipSubSuperficie() {
                 <NumberInput
                   min={0}
                   max={maxDepth}
-                  value={formValues.profundidadeMetros}
+                  value={formValues.depth}
                   onChange={(valueString) => {
                     setFormValues({
                       ...formValues,
-                      profundidadeMetros: Number(valueString),
+                      depth: Number(valueString),
                     });
                   }}
                 >

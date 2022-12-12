@@ -77,7 +77,7 @@ function ModalEditarEquipSubsuperficie({ equipment }: Props) {
       odPolegada: equipment.odInch,
       idPolegada: equipment.idInch,
       fabricante: equipment.manufacturer,
-      profundidadeMetros: Number(equipment.depth.split(',')[0]),
+      profundidadeMetros: Number(equipment.depth),
     });
   }, [isOpen]);
 
