@@ -24,4 +24,15 @@ export function usePayload(collection: string, document: any, method: string) {
     };
     return payload;
   }
+  if (method === 'DELETE') {
+    const DATA_SOURCE = `${process.env.REACT_APP_DATA_SOURCE_ID}`;
+    const DATABASE = `${process.env.REACT_APP_DATABASE}`;
+    const payload = {
+      dataSource: DATA_SOURCE,
+      database: DATABASE,
+      collection,
+      filter: { hash: document.hash },
+    };
+    return payload;
+  }
 }

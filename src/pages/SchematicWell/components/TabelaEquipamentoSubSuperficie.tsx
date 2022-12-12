@@ -4,8 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Flex, Td, Text, Tr } from '@chakra-ui/react';
 import { SubsurfaceEquipment } from 'features/schematicWell/interfaces';
 import { schematicWellState, setSubsurfaceEquipment } from 'features/schematicWell/schematicWellSlice';
+import { useDeleteSubsurfaceEquipmentMutation } from 'features/schematicWell/service';
 
 import TabelaGenerica from 'components/TabelaGenerica';
+
+import { usePayload } from 'hooks/usePayload';
 
 import ModalDeletar from './ModalDeletar';
 import ModalEditarEquipSubsuperficie from './ModalEditarEquipSubsuperficie';
@@ -13,6 +16,7 @@ import ModalEditarEquipSubsuperficie from './ModalEditarEquipSubsuperficie';
 function TabelaEquipamentoSubsuperficie() {
   const dispacth = useDispatch();
   const { subsurfaceEquipmentTable } = useSelector(schematicWellState);
+  const [deleteSubsurfaceEquipment] = useDeleteSubsurfaceEquipmentMutation();
 
   // Estados para paginação
   const [from, setFrom] = useState<number>(0);
@@ -56,8 +60,9 @@ function TabelaEquipamentoSubsuperficie() {
     setFilteredTable(subsurfaceEquipmentTable);
   }, [subsurfaceEquipmentTable]);
 
-  const toDelete = (payload: SubsurfaceEquipment) => {
-    // console.log('Payload', payload);
+  const ToDelete = (equipment: SubsurfaceEquipment) => {
+    const payload = usePayload('schematic-well-subsurface-equipments', equipment.hash, 'DELETE');
+    deleteSubsurfaceEquipment(payload);
   };
 
   // Criar um componente com o corpo da tabela e chamar ele como children do TabelaGenerica
@@ -85,7 +90,7 @@ function TabelaEquipamentoSubsuperficie() {
               <Td textAlign={'center'} fontWeight={'semibold'}>
                 <Flex gap={2} align={'center'} justify={'center'}>
                   <ModalEditarEquipSubsuperficie equipment={tableLine} />
-                  <ModalDeletar equipment={tableLine} toDelete={toDelete} />
+                  <ModalDeletar equipment={tableLine} toDelete={ToDelete} />
                 </Flex>
               </Td>
             </Tr>

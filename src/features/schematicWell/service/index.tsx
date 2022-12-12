@@ -25,7 +25,7 @@ export const subSurfaceEquipmentApiSlice = createApi({
         method: 'POST',
         body: payload,
       }),
-      // transformResponse: (res: any) => res.sort((a: any, b: any) => b.id - a.id),
+      // transformResponse: (res: any) => res.sort((a: any, b: any) => b.depth - a.depth),
       providesTags: ['SubsurfaceEquipment'],
     }),
     addSubsurfaceEquipment: builder.mutation({
@@ -46,7 +46,7 @@ export const subSurfaceEquipmentApiSlice = createApi({
     }),
     deleteSubsurfaceEquipment: builder.mutation({
       query: (payload) => ({
-        url: `/action/updateOne`,
+        url: `/action/deleteOne`,
         method: 'POST',
         body: payload,
       }),
