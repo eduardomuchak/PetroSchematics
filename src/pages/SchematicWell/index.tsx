@@ -32,6 +32,8 @@ import Header from 'components/Header';
 import RequestError from 'components/RequestError';
 import { RingLoading } from 'components/RingLoading';
 
+import { usePayload } from 'hooks/usePayload';
+
 import ButtonPontoDeClique from './components/ButtonPontoDeClique';
 import ModalDecisao from './components/ModalDecisao';
 import TabelaEquipamentoSubsuperficie from './components/TabelaEquipamentoSubSuperficie';
@@ -43,33 +45,15 @@ function SchematicWell() {
   const { subsurfaceEquipmentTable, comments } = useSelector(schematicWellState);
 
   // Dados para requisição dos equipamentos de subsuperfície
-  const DATA_SOURCE = `${process.env.REACT_APP_DATA_SOURCE_ID}`;
-  const DATABASE = `${process.env.REACT_APP_DATABASE}`;
 
-  const payloadSubsurface = {
-    dataSource: DATA_SOURCE,
-    database: DATABASE,
-    collection: 'schematic-well-subsurface-equipments',
-    filter: {},
-  };
-
-  const payloadSurface = {
-    dataSource: DATA_SOURCE,
-    database: DATABASE,
-    collection: 'schematic-well-surface-equipments',
-    filter: {},
-  };
-
-  const payloadComments = {
-    dataSource: DATA_SOURCE,
-    database: DATABASE,
-    collection: 'schematic-well-comments',
-    filter: {},
-  };
+  const payloadSubsurface = usePayload('schematic-well-subsurface-equipments', 'GET');
+  const payloadSurface = usePayload('schematic-well-surface-equipments', 'GET');
+  const payloadComments = usePayload('schematic-well-comments', 'GET');
 
   const subSurfaceEquipmentsRequest = useGetSubsurfaceEquipmentsQuery(payloadSubsurface);
   const surfaceEquipmentsRequest = useGetSurfaceEquipmentsQuery(payloadSurface);
   const commentsRequest = useGetCommentsQuery(payloadComments);
+
   //
 
   const modalProps = { isOpen, onOpen, onClose };
@@ -95,18 +79,20 @@ function SchematicWell() {
   }, []);
 
   useEffect(() => {
-    if (!subSurfaceEquipmentsRequest.isLoading && subSurfaceEquipmentsRequest.data?.documents) {
+    if (subSurfaceEquipmentsRequest.data?.documents) {
       dispatch(setSubsurfaceEquipment(subSurfaceEquipmentsRequest.data?.documents));
     }
-    if (!surfaceEquipmentsRequest.isLoading && surfaceEquipmentsRequest.data?.documents) {
+    if (surfaceEquipmentsRequest.data?.documents) {
       dispatch(setSurfaceEquipment(surfaceEquipmentsRequest.data?.documents));
     }
-    if (!commentsRequest.isLoading && commentsRequest.data?.documents) {
+    if (commentsRequest.data?.documents) {
       dispatch(setComments(commentsRequest.data?.documents));
     }
   }, [subSurfaceEquipmentsRequest.data, surfaceEquipmentsRequest.data, commentsRequest.data]);
 
-  if (subSurfaceEquipmentsRequest.isLoading || surfaceEquipmentsRequest.isLoading || commentsRequest.isLoading) {
+  const isLoading =
+    subSurfaceEquipmentsRequest.isLoading || surfaceEquipmentsRequest.isLoading || commentsRequest.isLoading;
+  if (isLoading) {
     return (
       <Header>
         <RingLoading />
@@ -114,7 +100,8 @@ function SchematicWell() {
     );
   }
 
-  if (subSurfaceEquipmentsRequest.error || surfaceEquipmentsRequest.error || commentsRequest.error) {
+  const error = subSurfaceEquipmentsRequest.error || surfaceEquipmentsRequest.error || commentsRequest.error;
+  if (error) {
     return (
       <Header>
         <RequestError />
