@@ -37,7 +37,8 @@ function TabelaEquipamentoSuperficie() {
     },
   ]);
   const header = ['EQUIPAMENTOS DE SUPERFÍCIE', 'DESCRIÇÃO', 'AÇÕES'];
-  const footer = ['PACKER FLUID - 9.8 lb/gal'];
+  const footer = [''];
+  // const footer = ['PACKER FLUID - 9.8 lb/gal'];
   //
 
   useEffect(() => {

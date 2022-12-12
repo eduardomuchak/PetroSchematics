@@ -33,6 +33,9 @@ export const schematicWellSlice = createSlice({
     setSubsurfaceEquipment: (state, action) => {
       state.subsurfaceEquipmentTable = action.payload;
     },
+    setComments: (state, action) => {
+      state.comments = action.payload;
+    },
     // A função abaixo deve ser usada para calcular a posição do clique do mouse
     // calculando a profundidade máxima e a posição do clique no eixo Y
     relativeCoordinates: (state, action) => {
@@ -55,7 +58,13 @@ export const schematicWellSlice = createSlice({
   },
 });
 
-export const { relativeCoordinates, setMaxDepth, setSurfaceEquipment, setSubsurfaceEquipment, openPointOfClick } =
-  schematicWellSlice.actions;
+export const {
+  relativeCoordinates,
+  setMaxDepth,
+  setSurfaceEquipment,
+  setSubsurfaceEquipment,
+  openPointOfClick,
+  setComments,
+} = schematicWellSlice.actions;
 
 export const schematicWellState = (state: SchematicState) => state.schematicWell;

@@ -22,25 +22,29 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { schematicWellState } from 'features/schematicWell/schematicWellSlice';
+import { useAddCommentsMutation } from 'features/schematicWell/service/commentsCRUD';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
 
 import { regexRemoverCaracteresEspeciais } from 'utils/RegexCaracteresEspeciais';
 
+import { usePayload } from 'hooks/usePayload';
+
 interface FormValues {
-  profundidadeMetros: number;
+  depth: number;
   xAxis: number;
-  comentarios: string;
+  comments: string;
 }
 
 function ModalCadastroComentarios() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { mousePosition, maxDepth } = useSelector(schematicWellState);
+  const [addComments] = useAddCommentsMutation();
 
   const [formValues, setFormValues] = useState<FormValues>({
-    comentarios: '',
-    profundidadeMetros: 0,
+    comments: '',
+    depth: 0,
     xAxis: 0,
   });
 
@@ -48,14 +52,16 @@ function ModalCadastroComentarios() {
     onClose();
   };
 
+  const payload = usePayload('schematic-well-comments', 'ADD', formValues);
+
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    // console.log('Payload', formValues);
+    addComments(payload);
     onClose();
   };
 
   const isButtonDisabled = () => {
-    if (formValues.comentarios === '' || formValues.profundidadeMetros === 0) {
+    if (formValues.comments === '' || formValues.depth === 0) {
       return true;
     }
     return false;
@@ -64,15 +70,15 @@ function ModalCadastroComentarios() {
   useEffect(() => {
     setFormValues({
       ...formValues,
-      profundidadeMetros: mousePosition.yAxis,
+      depth: mousePosition.yAxis,
       xAxis: mousePosition.xAxis,
     });
   }, [isOpen]);
 
   useEffect(() => {
     setFormValues({
-      comentarios: '',
-      profundidadeMetros: 0,
+      comments: '',
+      depth: 0,
       xAxis: 0,
     });
   }, [onClose]);
@@ -99,11 +105,11 @@ function ModalCadastroComentarios() {
                 <NumberInput
                   min={0}
                   max={maxDepth}
-                  value={formValues.profundidadeMetros}
+                  value={formValues.depth}
                   onChange={(valueString) => {
                     setFormValues({
                       ...formValues,
-                      profundidadeMetros: Number(valueString),
+                      depth: Number(valueString),
                     });
                   }}
                 >
@@ -123,12 +129,12 @@ function ModalCadastroComentarios() {
                 </Flex>
                 <Textarea
                   placeholder={'Digite aqui os comentários'}
-                  id={'comentarios'}
-                  name={'comentarios'}
-                  value={regexRemoverCaracteresEspeciais(formValues.comentarios)}
+                  id={'comments'}
+                  name={'comments'}
+                  value={regexRemoverCaracteresEspeciais(formValues.comments)}
                   maxLength={5000}
                   onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
-                    setFormValues({ ...formValues, comentarios: event.target.value })
+                    setFormValues({ ...formValues, comments: event.target.value })
                   }
                 />
               </FormControl>

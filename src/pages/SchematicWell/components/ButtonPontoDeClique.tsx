@@ -22,6 +22,8 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment }:
   const { yAxis, xAxis, scaleYAxis } = position;
   const dispacth = useDispatch();
 
+  console.log('comment', comment);
+
   const [isHovering, setIsHovering] = useState(false);
 
   const handleMouseOver = () => {
@@ -114,7 +116,7 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment }:
         </Text>
         <Flex>
           <Text fontWeight={700} fontSize={'16px'}>
-            {comment?.yAxis}
+            {comment?.depth}
           </Text>
           <Text fontWeight={700} fontSize={'16px'}>
             m
@@ -127,7 +129,7 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment }:
         </Text>
 
         <Text fontWeight={500} fontSize={'16px'}>
-          {comment?.comment}
+          {comment?.comments}
         </Text>
       </Flex>
     </Box>
@@ -200,7 +202,7 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment }:
         </Text>
 
         <Text fontWeight={500} fontSize={'16px'}>
-          {comment?.comment}
+          {comment?.comments}
         </Text>
       </Flex>
     </Box>
@@ -239,9 +241,9 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment }:
           onOpen();
         }}
       />
+      {isHovering && subsurfaceEquipment && comment && <CommentAndSubSurfaceEquipamentCard />}
       {isHovering && subsurfaceEquipment && <SubSurfaceEquipamentCard />}
       {isHovering && comment && <CommentCard />}
-      {isHovering && subsurfaceEquipment && comment && <CommentAndSubSurfaceEquipamentCard />}
     </Flex>
   );
 }

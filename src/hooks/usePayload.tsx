@@ -8,7 +8,7 @@ export function usePayload(collection: string, method: string, document?: any) {
       dataSource: DATA_SOURCE,
       database: DATABASE,
       collection,
-      document: { ...document, hash: md5(document) },
+      document: { ...document, hash: md5(document + Math.random()) },
     };
     return payload;
   }
