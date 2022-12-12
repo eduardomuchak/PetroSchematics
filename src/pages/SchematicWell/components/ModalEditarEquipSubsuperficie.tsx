@@ -25,17 +25,22 @@ import {
 } from '@chakra-ui/react';
 import { SubsurfaceEquipment } from 'features/schematicWell/interfaces';
 import { schematicWellState } from 'features/schematicWell/schematicWellSlice';
+import { useUpdateSubsurfaceEquipmentMutation } from 'features/schematicWell/service';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
 
 import { regexRemoverCaracteresEspeciais } from 'utils/RegexCaracteresEspeciais';
 
+import { usePayload } from 'hooks/usePayload';
+
 interface FormValues {
-  equipamentoDeSubsuperficie: string;
-  odPolegada: string;
-  idPolegada: string;
-  fabricante: string;
-  profundidadeMetros: number;
+  subsurfaceEquipment: string;
+  odInch: string;
+  idInch: string;
+  manufacturer: string;
+  depth: number;
+  _id: string;
+  hash: string;
 }
 
 interface Props {
@@ -45,26 +50,31 @@ interface Props {
 function ModalEditarEquipSubsuperficie({ equipment }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { maxDepth } = useSelector(schematicWellState);
+  const [updateSubsurfaceEquipment] = useUpdateSubsurfaceEquipmentMutation();
 
   const [formValues, setFormValues] = useState<FormValues>({
-    equipamentoDeSubsuperficie: '',
-    odPolegada: '',
-    idPolegada: '',
-    fabricante: '',
-    profundidadeMetros: 0,
+    subsurfaceEquipment: '',
+    odInch: '',
+    idInch: '',
+    manufacturer: '',
+    depth: 0,
+    _id: '',
+    hash: '',
   });
   const handleCancel = () => {
     onClose();
   };
 
+  const payload = usePayload('schematic-well-subsurface-equipments', formValues, 'UPDATE');
+
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    // console.log('Payload', formValues);
+    updateSubsurfaceEquipment(payload);
     onClose();
   };
 
   const isButtonDisabled = () => {
-    if (formValues.equipamentoDeSubsuperficie === '') {
+    if (formValues.subsurfaceEquipment === '') {
       return true;
     }
     return false;
@@ -73,21 +83,25 @@ function ModalEditarEquipSubsuperficie({ equipment }: Props) {
   useEffect(() => {
     setFormValues({
       ...formValues,
-      equipamentoDeSubsuperficie: equipment.subsurfaceEquipment,
-      odPolegada: equipment.odInch,
-      idPolegada: equipment.idInch,
-      fabricante: equipment.manufacturer,
-      profundidadeMetros: Number(equipment.depth),
+      subsurfaceEquipment: equipment.subsurfaceEquipment,
+      odInch: equipment.odInch,
+      idInch: equipment.idInch,
+      manufacturer: equipment.manufacturer,
+      depth: Number(equipment.depth),
+      _id: equipment._id,
+      hash: equipment.hash,
     });
   }, [isOpen]);
 
   useEffect(() => {
     setFormValues({
-      equipamentoDeSubsuperficie: '',
-      odPolegada: '',
-      idPolegada: '',
-      fabricante: '',
-      profundidadeMetros: 0,
+      subsurfaceEquipment: '',
+      odInch: '',
+      idInch: '',
+      manufacturer: '',
+      depth: 0,
+      _id: '',
+      hash: '',
     });
   }, [onClose]);
 
@@ -112,14 +126,14 @@ function ModalEditarEquipSubsuperficie({ equipment }: Props) {
                   variant={'origem'}
                   isRequired
                   placeholder="Equipamento de Subsuperfície"
-                  id="equipamentoDeSubsuperficie"
+                  id="subsurfaceEquipment"
                   type="text"
-                  name="equipamentoDeSubsuperficie"
-                  value={regexRemoverCaracteresEspeciais(formValues.equipamentoDeSubsuperficie)}
+                  name="subsurfaceEquipment"
+                  value={regexRemoverCaracteresEspeciais(formValues.subsurfaceEquipment)}
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                     setFormValues({
                       ...formValues,
-                      equipamentoDeSubsuperficie: event.target.value,
+                      subsurfaceEquipment: event.target.value,
                     })
                   }
                   maxLength={50}
@@ -136,14 +150,14 @@ function ModalEditarEquipSubsuperficie({ equipment }: Props) {
                     variant={'origem'}
                     isRequired
                     placeholder="OD (inch/polegada)"
-                    id="odPolegada"
+                    id="odInch"
                     type="text"
-                    name="odPolegada"
-                    value={regexRemoverCaracteresEspeciais(formValues.odPolegada)}
+                    name="odInch"
+                    value={regexRemoverCaracteresEspeciais(formValues.odInch)}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                       setFormValues({
                         ...formValues,
-                        odPolegada: event.target.value,
+                        odInch: event.target.value,
                       })
                     }
                     maxLength={10}
@@ -159,14 +173,14 @@ function ModalEditarEquipSubsuperficie({ equipment }: Props) {
                     variant={'origem'}
                     isRequired
                     placeholder="ID (inch/polegada)"
-                    id="idPolegada"
+                    id="idInch"
                     type="text"
-                    name="idPolegada"
-                    value={regexRemoverCaracteresEspeciais(formValues.idPolegada)}
+                    name="idInch"
+                    value={regexRemoverCaracteresEspeciais(formValues.idInch)}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                       setFormValues({
                         ...formValues,
-                        idPolegada: event.target.value,
+                        idInch: event.target.value,
                       })
                     }
                     maxLength={10}
@@ -183,14 +197,14 @@ function ModalEditarEquipSubsuperficie({ equipment }: Props) {
                   variant={'origem'}
                   isRequired
                   placeholder="Fabricante"
-                  id="fabricante"
+                  id="manufacturer"
                   type="text"
-                  name="fabricante"
-                  value={regexRemoverCaracteresEspeciais(formValues.fabricante)}
+                  name="manufacturer"
+                  value={regexRemoverCaracteresEspeciais(formValues.manufacturer)}
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                     setFormValues({
                       ...formValues,
-                      fabricante: event.target.value,
+                      manufacturer: event.target.value,
                     })
                   }
                   maxLength={50}
@@ -205,11 +219,11 @@ function ModalEditarEquipSubsuperficie({ equipment }: Props) {
                 <NumberInput
                   min={0}
                   max={maxDepth}
-                  value={formValues.profundidadeMetros}
+                  value={formValues.depth}
                   onChange={(valueString) => {
                     setFormValues({
                       ...formValues,
-                      profundidadeMetros: Number(valueString),
+                      depth: Number(valueString),
                     });
                   }}
                 >

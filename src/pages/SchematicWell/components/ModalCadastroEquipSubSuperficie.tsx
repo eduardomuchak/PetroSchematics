@@ -28,6 +28,8 @@ import { RequiredField } from 'components/RequiredField/RequiredField';
 
 import { regexRemoverCaracteresEspeciais } from 'utils/RegexCaracteresEspeciais';
 
+import { usePayload } from 'hooks/usePayload';
+
 interface FormValues {
   subsurfaceEquipment: string;
   odInch: string;
@@ -56,14 +58,7 @@ function ModalCadastroEquipSubSuperficie() {
     onClose();
   };
 
-  const DATA_SOURCE = `${process.env.REACT_APP_DATA_SOURCE_ID}`;
-  const DATABASE = `${process.env.REACT_APP_DATABASE}`;
-  const payload = {
-    dataSource: DATA_SOURCE,
-    database: DATABASE,
-    collection: 'schematic-well-subsurface-equipments',
-    document: formValues,
-  };
+  const payload = usePayload('schematic-well-subsurface-equipments', formValues, 'ADD');
 
   const handleSubmit = (event: any) => {
     event.preventDefault();

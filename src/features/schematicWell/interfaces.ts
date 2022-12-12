@@ -5,12 +5,14 @@ export interface MousePosition {
 
 export interface SurfaceEquipment extends MousePosition {
   _id: string;
+  hash: string;
   surfaceEquipment: string;
   description: string;
 }
 
 export interface SubsurfaceEquipment extends MousePosition {
   _id: string;
+  hash: string;
   subsurfaceEquipment: string;
   odInch: string;
   idInch: string;
