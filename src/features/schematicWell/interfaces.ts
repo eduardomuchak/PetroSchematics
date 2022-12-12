@@ -4,11 +4,15 @@ export interface MousePosition {
 }
 
 export interface SurfaceEquipment extends MousePosition {
+  _id: string;
+  hash: string;
   surfaceEquipment: string;
   description: string;
 }
 
 export interface SubsurfaceEquipment extends MousePosition {
+  _id: string;
+  hash: string;
   subsurfaceEquipment: string;
   odInch: string;
   idInch: string;
@@ -16,8 +20,12 @@ export interface SubsurfaceEquipment extends MousePosition {
   depth: string;
 }
 
-export interface Comment extends MousePosition {
-  comment: string;
+export interface Comment {
+  comments: string;
+  depth: number;
+  xAxis: number;
+  hash: string;
+  _id: string;
 }
 export interface InitialSchematicValue {
   maxDepth: number;

@@ -3,8 +3,8 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 const URL_ENDPOINT = `${process.env.REACT_APP_URL_ENDPOINT}`;
 const API_KEY = `${process.env.REACT_APP_API_KEY}`;
 
-export const subSurfaceEquipmentApiSlice = createApi({
-  reducerPath: 'subSurfaceEquipmentApiSlice',
+export const commentsApiSlice = createApi({
+  reducerPath: 'commentsApiSlice',
   baseQuery: fetchBaseQuery({
     baseUrl: URL_ENDPOINT,
     prepareHeaders: (headers, { getState }: any) => {
@@ -17,47 +17,42 @@ export const subSurfaceEquipmentApiSlice = createApi({
       return headers;
     },
   }),
-  tagTypes: ['SubsurfaceEquipment'],
+  tagTypes: ['SchematicComments'],
   endpoints: (builder) => ({
-    getSubsurfaceEquipments: builder.query({
+    getComments: builder.query({
       query: (payload) => ({
         url: '/action/find',
         method: 'POST',
         body: payload,
       }),
-      // transformResponse: (res: any) => res.sort((a: any, b: any) => b.id - a.id),
-      providesTags: ['SubsurfaceEquipment'],
+      providesTags: ['SchematicComments'],
     }),
-    addSubsurfaceEquipment: builder.mutation({
+    addComments: builder.mutation({
       query: (payload) => ({
         url: '/action/insertOne',
         method: 'POST',
         body: payload,
       }),
-      invalidatesTags: ['SubsurfaceEquipment'],
+      invalidatesTags: ['SchematicComments'],
     }),
-    updateSubsurfaceEquipment: builder.mutation({
+    updateComments: builder.mutation({
       query: (payload) => ({
         url: `/action/updateOne`,
         method: 'POST',
         body: payload,
       }),
-      invalidatesTags: ['SubsurfaceEquipment'],
+      invalidatesTags: ['SchematicComments'],
     }),
-    deleteSubsurfaceEquipment: builder.mutation({
+    deleteComments: builder.mutation({
       query: (payload) => ({
-        url: `/action/updateOne`,
+        url: `/action/deleteOne`,
         method: 'POST',
         body: payload,
       }),
-      invalidatesTags: ['SubsurfaceEquipment'],
+      invalidatesTags: ['SchematicComments'],
     }),
   }),
 });
 
-export const {
-  useGetSubsurfaceEquipmentsQuery,
-  useAddSubsurfaceEquipmentMutation,
-  useUpdateSubsurfaceEquipmentMutation,
-  useDeleteSubsurfaceEquipmentMutation,
-} = subSurfaceEquipmentApiSlice;
+export const { useGetCommentsQuery, useAddCommentsMutation, useUpdateCommentsMutation, useDeleteCommentsMutation } =
+  commentsApiSlice;

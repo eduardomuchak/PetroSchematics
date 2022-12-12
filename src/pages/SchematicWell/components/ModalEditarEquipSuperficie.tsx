@@ -18,14 +18,19 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { SurfaceEquipment } from 'features/schematicWell/interfaces';
+import { useUpdateSurfaceEquipmentMutation } from 'features/schematicWell/service/surfaceEquimentsCRUD';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
 
 import { regexRemoverCaracteresEspeciais } from 'utils/RegexCaracteresEspeciais';
 
+import { usePayload } from 'hooks/usePayload';
+
 interface FormValues {
-  equipamentoDeSuperficie: string;
-  descricao: string;
+  surfaceEquipment: string;
+  description: string;
+  _id: string;
+  hash: string;
 }
 
 interface Props {
@@ -34,24 +39,29 @@ interface Props {
 
 function ModalEditarEquipSuperficie({ equipment }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [updateSurfaceEquipment] = useUpdateSurfaceEquipmentMutation();
 
   const [formValues, setFormValues] = useState<FormValues>({
-    equipamentoDeSuperficie: '',
-    descricao: '',
+    surfaceEquipment: '',
+    description: '',
+    _id: '',
+    hash: '',
   } as FormValues);
 
   const handleCancel = () => {
     onClose();
   };
 
+  const payload = usePayload('schematic-well-surface-equipments', 'UPDATE', formValues);
+
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    // console.log('Payload', formValues);
+    updateSurfaceEquipment(payload);
     onClose();
   };
 
   const isButtonDisabled = () => {
-    if (formValues.equipamentoDeSuperficie === '') {
+    if (formValues.surfaceEquipment === '') {
       return true;
     }
     return false;
@@ -60,15 +70,19 @@ function ModalEditarEquipSuperficie({ equipment }: Props) {
   useEffect(() => {
     setFormValues({
       ...formValues,
-      equipamentoDeSuperficie: equipment.surfaceEquipment,
-      descricao: equipment.description,
+      surfaceEquipment: equipment.surfaceEquipment,
+      description: equipment.description,
+      _id: equipment._id,
+      hash: equipment.hash,
     });
   }, [isOpen]);
 
   useEffect(() => {
     setFormValues({
-      equipamentoDeSuperficie: '',
-      descricao: '',
+      surfaceEquipment: '',
+      description: '',
+      _id: '',
+      hash: '',
     });
   }, [onClose]);
 
@@ -93,14 +107,14 @@ function ModalEditarEquipSuperficie({ equipment }: Props) {
                   variant={'origem'}
                   isRequired
                   placeholder="Equipamento de Superfície"
-                  id="equipamentoDeSuperficie"
+                  id="surfaceEquipment"
                   type="text"
-                  name="equipamentoDeSuperficie"
-                  value={regexRemoverCaracteresEspeciais(formValues.equipamentoDeSuperficie) || ''}
+                  name="surfaceEquipment"
+                  value={regexRemoverCaracteresEspeciais(formValues.surfaceEquipment) || ''}
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                     setFormValues({
                       ...formValues,
-                      equipamentoDeSuperficie: event.target.value,
+                      surfaceEquipment: event.target.value,
                     })
                   }
                   maxLength={50}
@@ -117,14 +131,14 @@ function ModalEditarEquipSuperficie({ equipment }: Props) {
                   variant={'origem'}
                   isRequired
                   placeholder="Descrição"
-                  id="descricao"
+                  id="description"
                   type="text"
-                  name="descricao"
-                  value={regexRemoverCaracteresEspeciais(formValues.descricao) || ''}
+                  name="description"
+                  value={regexRemoverCaracteresEspeciais(formValues.description) || ''}
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                     setFormValues({
                       ...formValues,
-                      descricao: event.target.value,
+                      description: event.target.value,
                     })
                   }
                   maxLength={50}
