@@ -63,9 +63,11 @@ function PaginacaoTabela({ paginationBottom, setPaginationBottom, paginationShow
             <option value="100">100</option>
           </Select>
 
-          <Text fontSize={'14px'}>{`De ${paginationBottom} Até ${
-            Number(paginationBottom) + Number(paginationShow)
-          }`}</Text>
+          <Text fontSize={'14px'}>{`${Number(paginationBottom) + 1} - ${
+            Number(paginationBottom) + Number(paginationShow) > max
+              ? max
+              : Number(paginationBottom) + Number(paginationShow)
+          } de ${max}`}</Text>
         </Flex>
         <Flex gap={2}>
           <IconButton

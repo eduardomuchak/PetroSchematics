@@ -17,8 +17,7 @@ import {
   Button,
 } from '@chakra-ui/react';
 
-import ContainerPagina from 'components/ContainerPagina';
-import Sidebar from 'components/SideBar';
+import Header from 'components/Header';
 import TituloPagina from 'components/TituloPagina';
 // import { getAllPocos } from 'api/mongoDB';
 
@@ -153,6 +152,7 @@ export function Aprovacaopage() {
         dateEnd == '' ? val : new Date(val.dat_usu_aprov) <= dateEnd,
       );
       setRenderList(filtrarDateEnd);
+      setPaginationBottom(0);
     }
   }, [filterCampo, filterForm, filterPoco, dateIni, dateEnd]);
 
@@ -165,108 +165,81 @@ export function Aprovacaopage() {
   };
 
   return (
-    <Sidebar>
-      <ContainerPagina>
-        <TituloPagina botaoVoltar>TABELA DE APROVACÕES</TituloPagina>
-        <Flex direction={'column'} flex={1}>
-          <Flex gap={2} mb={8} flexWrap="wrap">
-            <Flex minW={200} maxW={200} direction={'column'}>
-              <Text fontWeight={700} fontSize={12} letterSpacing={0.3} color={'#A7A7A7'} w={'100%'}>
-                OPERAÇÃO DE POÇOS
-              </Text>
-              <Select
-                styles={customStyles}
-                components={{
-                  IndicatorSeparator: () => null,
-                }}
-                placeholder={'Selecione'}
-                options={campos}
-                onChange={(e) => setFilterCampo(e)}
-                defaultValue={'Selecione'}
-                value={filterCampo.value === 0 ? 'Selecione' : filterCampo}
-                isSearchable
-              />
-            </Flex>
-            <Flex minW={200} maxW={200} direction={'column'}>
-              <Text fontWeight={700} fontSize={12} letterSpacing={0.3} color={'#A7A7A7'} w={'100%'}>
-                POÇO
-              </Text>
-              <Select
-                styles={customStyles}
-                components={{
-                  IndicatorSeparator: () => null,
-                }}
-                placeholder={'Selecione'}
-                options={listaFiltroPoco}
-                onChange={(e) => setFilterPoco(e)}
-                defaultValue={'Selecione'}
-                value={filterPoco.value === 0 ? 'Selecione' : filterPoco}
-                isSearchable
-              />
-            </Flex>
-            <Flex minW={200} maxW={200} direction={'column'}>
-              <Text fontWeight={700} fontSize={12} letterSpacing={0.3} color={'#A7A7A7'} w={'100%'}>
-                FORMULÁRIO
-              </Text>
-              <Select
-                styles={customStyles}
-                components={{
-                  IndicatorSeparator: () => null,
-                }}
-                placeholder={'Selecione'}
-                options={listaFiltroForm}
-                onChange={(e) => setFilterForm(e)}
-                defaultValue={'Selecione'}
-                value={filterForm.value === 0 ? 'Selecione' : filterForm}
-                isSearchable
-              />
-            </Flex>
-            <Flex direction={'column'}>
-              <Text fontWeight={700} fontSize={12} letterSpacing={0.3} color={'#A7A7A7'} w={'100%'}>
-                INTERVALO INICIAL
-              </Text>
-              <DatePicker value={dateIni} seter={setDateIni} />
-            </Flex>
-            <Flex direction={'column'}>
-              <Text fontWeight={700} fontSize={12} letterSpacing={0.3} color={'#A7A7A7'} w={'100%'}>
-                INTERVALO FINAL
-              </Text>
-              <DatePicker value={dateEnd} seter={setDateEnd} />
-            </Flex>
-            <Flex align={'center'}>
-              <Button
-                h={'42px'}
-                w={'177px'}
-                variant="outline"
-                color={'origem.500'}
-                colorScheme="blue"
-                onClick={() => clearFilters()}
-                _hover={{
-                  shadow: '0px 0px 5px -1px rgba(0,72,187,1)',
-                  transition: 'all 0.4s',
-                }}
-                fontSize={'18px'}
-                fontWeight={'700'}
-                borderRadius={'96px'}
-              >
-                <Text fontSize={'14px'} fontWeight={'700'}>
-                  Limpar Filtros
-                </Text>
-              </Button>
-            </Flex>
-          </Flex>
-          <Flex pl={2} pr={2} mb={4} justify={'space-between'} align={'center'}>
-            <Text fontSize={'16px'} fontWeight={'700'}>
-              Dados pra validação
+    <Header>
+      <TituloPagina botaoVoltar>TABELA DE APROVACÕES</TituloPagina>
+      <Flex direction={'column'} flex={1}>
+        <Flex gap={2} mb={8} flexWrap="wrap">
+          <Flex minW={200} maxW={200} direction={'column'}>
+            <Text fontWeight={700} fontSize={12} letterSpacing={0.3} color={'#A7A7A7'} w={'100%'}>
+              OPERAÇÃO DE POÇOS
             </Text>
+            <Select
+              styles={customStyles}
+              components={{
+                IndicatorSeparator: () => null,
+              }}
+              placeholder={'Selecione'}
+              options={campos}
+              onChange={(e) => setFilterCampo(e)}
+              defaultValue={'Selecione'}
+              value={filterCampo.value === 0 ? 'Selecione' : filterCampo}
+              isSearchable
+            />
+          </Flex>
+          <Flex minW={200} maxW={200} direction={'column'}>
+            <Text fontWeight={700} fontSize={12} letterSpacing={0.3} color={'#A7A7A7'} w={'100%'}>
+              POÇO
+            </Text>
+            <Select
+              styles={customStyles}
+              components={{
+                IndicatorSeparator: () => null,
+              }}
+              placeholder={'Selecione'}
+              options={listaFiltroPoco}
+              onChange={(e) => setFilterPoco(e)}
+              defaultValue={'Selecione'}
+              value={filterPoco.value === 0 ? 'Selecione' : filterPoco}
+              isSearchable
+            />
+          </Flex>
+          <Flex minW={200} maxW={200} direction={'column'}>
+            <Text fontWeight={700} fontSize={12} letterSpacing={0.3} color={'#A7A7A7'} w={'100%'}>
+              FORMULÁRIO
+            </Text>
+            <Select
+              styles={customStyles}
+              components={{
+                IndicatorSeparator: () => null,
+              }}
+              placeholder={'Selecione'}
+              options={listaFiltroForm}
+              onChange={(e) => setFilterForm(e)}
+              defaultValue={'Selecione'}
+              value={filterForm.value === 0 ? 'Selecione' : filterForm}
+              isSearchable
+            />
+          </Flex>
+          <Flex direction={'column'}>
+            <Text fontWeight={700} fontSize={12} letterSpacing={0.3} color={'#A7A7A7'} w={'100%'}>
+              INTERVALO INICIAL
+            </Text>
+            <DatePicker value={dateIni} seter={setDateIni} />
+          </Flex>
+          <Flex direction={'column'}>
+            <Text fontWeight={700} fontSize={12} letterSpacing={0.3} color={'#A7A7A7'} w={'100%'}>
+              INTERVALO FINAL
+            </Text>
+            <DatePicker value={dateEnd} seter={setDateEnd} />
+          </Flex>
+          <Flex align={'center'}>
             <Button
-              disabled={formsList.filter((val: any) => val.checked === true).length == 0}
               h={'42px'}
               w={'177px'}
               variant="outline"
               color={'origem.500'}
               colorScheme="blue"
-              onClick={() => []}
+              onClick={() => clearFilters()}
               _hover={{
                 shadow: '0px 0px 5px -1px rgba(0,72,187,1)',
                 transition: 'all 0.4s',
@@ -276,168 +249,193 @@ export function Aprovacaopage() {
               borderRadius={'96px'}
             >
               <Text fontSize={'14px'} fontWeight={'700'}>
-                Aprovar selecionados
+                Limpar Filtros
               </Text>
             </Button>
           </Flex>
-          <TableContainer>
-            <Table>
-              <TableCaption>
-                <PaginacaoTabela
-                  paginationBottom={paginationBottom}
-                  setPaginationBottom={setPaginationBottom}
-                  paginationShow={paginationShow}
-                  setPaginationShow={setPaginationShow}
-                  max={renderList.length}
-                />
-              </TableCaption>
-              <Thead>
-                <Tr height={'40px'}>
-                  <Th
-                    height={'40px'}
-                    width={'16%'}
-                    borderBottomWidth={'1px'}
-                    borderTopWidth={'1px'}
-                    borderColor={'#9FA2B4'}
-                  >
-                    <Flex justify={'center'}>Aprovar</Flex>
-                  </Th>
-                  <Th
-                    height={'40px'}
-                    width={'16%'}
-                    borderBottomWidth={'1px'}
-                    borderTopWidth={'1px'}
-                    borderColor={'#9FA2B4'}
-                  >
-                    <Flex justify={'center'}>Hora</Flex>
-                  </Th>
-                  <Th
-                    height={'40px'}
-                    width={'16%'}
-                    borderBottomWidth={'1px'}
-                    borderTopWidth={'1px'}
-                    borderColor={'#9FA2B4'}
-                  >
-                    <Flex justify={'center'}>Operador</Flex>
-                  </Th>
-                  <Th
-                    height={'40px'}
-                    width={'16%'}
-                    borderBottomWidth={'1px'}
-                    borderTopWidth={'1px'}
-                    borderColor={'#9FA2B4'}
-                  >
-                    <Flex justify={'center'}>Data</Flex>
-                  </Th>
-                  <Th
-                    height={'40px'}
-                    width={'16%'}
-                    borderBottomWidth={'1px'}
-                    borderTopWidth={'1px'}
-                    borderColor={'#9FA2B4'}
-                  >
-                    <Flex justify={'center'}>Status</Flex>
-                  </Th>
-                  <Th
-                    height={'40px'}
-                    width={'16%'}
-                    borderBottomWidth={'1px'}
-                    borderTopWidth={'1px'}
-                    borderColor={'#9FA2B4'}
-                  >
-                    <Flex justify={'center'}>Ações</Flex>
-                  </Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {renderList.map((item: any, index: number) => (
-                  <>
-                    {index >= paginationBottom && index < paginationBottom + paginationShow ? (
-                      <Tr
-                        key={index}
-                        height={'56px'}
-                        // eslint-disable-next-line no-nested-ternary
-                        background={item.checked ? '#D9EAFD' : index % 2 == 0 ? '#FEFEFE' : '#F9F9F9'}
-                      >
-                        <Td
-                          height={'56px'}
-                          width={'16%'}
-                          borderBottomWidth={'1px'}
-                          borderTopWidth={'1px'}
-                          borderColor={'#9FA2B4'}
-                        >
-                          <Flex justify={'center'}>
-                            <Checkbox value={item.checked} onChange={(e) => handleCheckbox(e.target.checked, index)} />
-                          </Flex>
-                        </Td>
-                        <Td
-                          height={'56px'}
-                          width={'16%'}
-                          borderBottomWidth={'1px'}
-                          borderTopWidth={'1px'}
-                          borderColor={'#9FA2B4'}
-                        >
-                          <Flex justify={'center'}>
-                            {`${new Date(item.dat_usu_aprov).getHours() < 10 ? '0' : ''}${new Date(
-                              item.dat_usu_aprov,
-                            ).getHours()}:${new Date(item.dat_usu_aprov).getMinutes() < 10 ? '0' : ''}${new Date(
-                              item.dat_usu_aprov,
-                            ).getMinutes()}`}
-                          </Flex>
-                        </Td>
-                        <Td
-                          height={'56px'}
-                          width={'16%'}
-                          borderBottomWidth={'1px'}
-                          borderTopWidth={'1px'}
-                          borderColor={'#9FA2B4'}
-                        >
-                          <Flex justify={'center'}>{item.nom_usu_aprov}</Flex>
-                        </Td>
-                        <Td
-                          height={'56px'}
-                          width={'16%'}
-                          borderBottomWidth={'1px'}
-                          borderTopWidth={'1px'}
-                          borderColor={'#9FA2B4'}
-                        >
-                          <Flex justify={'center'}>
-                            {`${new Date(item.dat_usu_aprov).getDate() < 10 ? '0' : ''}${new Date(
-                              item.dat_usu_aprov,
-                            ).getDate()}/${new Date(item.dat_usu_aprov).getMonth() + 1 < 10 ? '0' : ''}${
-                              new Date(item.dat_usu_aprov).getMonth() + 1
-                            }/${new Date(item.dat_usu_aprov).getFullYear()}`}
-                          </Flex>
-                        </Td>
-                        <Td
-                          height={'56px'}
-                          width={'16%'}
-                          borderBottomWidth={'1px'}
-                          borderTopWidth={'1px'}
-                          borderColor={'#9FA2B4'}
-                        >
-                          <Flex justify={'center'}>Aprovado</Flex>
-                        </Td>
-                        <Td
-                          height={'56px'}
-                          width={'16%'}
-                          borderBottomWidth={'1px'}
-                          borderTopWidth={'1px'}
-                          borderColor={'#9FA2B4'}
-                        >
-                          <Flex justify={'center'}>
-                            <BsFillEyeFill />
-                          </Flex>
-                        </Td>
-                      </Tr>
-                    ) : undefined}
-                  </>
-                ))}
-              </Tbody>
-            </Table>
-          </TableContainer>
         </Flex>
-      </ContainerPagina>
-    </Sidebar>
+        <Flex pl={2} pr={2} mb={4} justify={'space-between'} align={'center'}>
+          <Text fontSize={'16px'} fontWeight={'700'}>
+            Dados pra validação
+          </Text>
+          <Button
+            disabled={formsList.filter((val: any) => val.checked === true).length == 0}
+            h={'42px'}
+            w={'177px'}
+            variant="outline"
+            color={'origem.500'}
+            colorScheme="blue"
+            onClick={() => []}
+            _hover={{
+              shadow: '0px 0px 5px -1px rgba(0,72,187,1)',
+              transition: 'all 0.4s',
+            }}
+            fontSize={'18px'}
+            fontWeight={'700'}
+            borderRadius={'96px'}
+          >
+            <Text fontSize={'14px'} fontWeight={'700'}>
+              Aprovar selecionados
+            </Text>
+          </Button>
+        </Flex>
+        <TableContainer>
+          <Table>
+            <TableCaption>
+              <PaginacaoTabela
+                paginationBottom={paginationBottom}
+                setPaginationBottom={setPaginationBottom}
+                paginationShow={paginationShow}
+                setPaginationShow={setPaginationShow}
+                max={renderList.length}
+              />
+            </TableCaption>
+            <Thead>
+              <Tr height={'40px'}>
+                <Th
+                  height={'40px'}
+                  width={'16%'}
+                  borderBottomWidth={'1px'}
+                  borderTopWidth={'1px'}
+                  borderColor={'#9FA2B4'}
+                >
+                  <Flex justify={'center'}>Aprovar</Flex>
+                </Th>
+                <Th
+                  height={'40px'}
+                  width={'16%'}
+                  borderBottomWidth={'1px'}
+                  borderTopWidth={'1px'}
+                  borderColor={'#9FA2B4'}
+                >
+                  <Flex justify={'center'}>Hora</Flex>
+                </Th>
+                <Th
+                  height={'40px'}
+                  width={'16%'}
+                  borderBottomWidth={'1px'}
+                  borderTopWidth={'1px'}
+                  borderColor={'#9FA2B4'}
+                >
+                  <Flex justify={'center'}>Operador</Flex>
+                </Th>
+                <Th
+                  height={'40px'}
+                  width={'16%'}
+                  borderBottomWidth={'1px'}
+                  borderTopWidth={'1px'}
+                  borderColor={'#9FA2B4'}
+                >
+                  <Flex justify={'center'}>Data</Flex>
+                </Th>
+                <Th
+                  height={'40px'}
+                  width={'16%'}
+                  borderBottomWidth={'1px'}
+                  borderTopWidth={'1px'}
+                  borderColor={'#9FA2B4'}
+                >
+                  <Flex justify={'center'}>Status</Flex>
+                </Th>
+                <Th
+                  height={'40px'}
+                  width={'16%'}
+                  borderBottomWidth={'1px'}
+                  borderTopWidth={'1px'}
+                  borderColor={'#9FA2B4'}
+                >
+                  <Flex justify={'center'}>Ações</Flex>
+                </Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {renderList.map((item: any, index: number) => (
+                <>
+                  {index >= paginationBottom && index < paginationBottom + paginationShow ? (
+                    <Tr
+                      key={index}
+                      height={'56px'}
+                      // eslint-disable-next-line no-nested-ternary
+                      background={item.checked ? '#D9EAFD' : index % 2 == 0 ? '#FEFEFE' : '#F9F9F9'}
+                    >
+                      <Td
+                        height={'56px'}
+                        width={'16%'}
+                        borderBottomWidth={'1px'}
+                        borderTopWidth={'1px'}
+                        borderColor={'#9FA2B4'}
+                      >
+                        <Flex justify={'center'}>
+                          <Checkbox value={item.checked} onChange={(e) => handleCheckbox(e.target.checked, index)} />
+                        </Flex>
+                      </Td>
+                      <Td
+                        height={'56px'}
+                        width={'16%'}
+                        borderBottomWidth={'1px'}
+                        borderTopWidth={'1px'}
+                        borderColor={'#9FA2B4'}
+                      >
+                        <Flex justify={'center'}>
+                          {`${new Date(item.dat_usu_aprov).getHours() < 10 ? '0' : ''}${new Date(
+                            item.dat_usu_aprov,
+                          ).getHours()}:${new Date(item.dat_usu_aprov).getMinutes() < 10 ? '0' : ''}${new Date(
+                            item.dat_usu_aprov,
+                          ).getMinutes()}`}
+                        </Flex>
+                      </Td>
+                      <Td
+                        height={'56px'}
+                        width={'16%'}
+                        borderBottomWidth={'1px'}
+                        borderTopWidth={'1px'}
+                        borderColor={'#9FA2B4'}
+                      >
+                        <Flex justify={'center'}>{item.nom_usu_aprov}</Flex>
+                      </Td>
+                      <Td
+                        height={'56px'}
+                        width={'16%'}
+                        borderBottomWidth={'1px'}
+                        borderTopWidth={'1px'}
+                        borderColor={'#9FA2B4'}
+                      >
+                        <Flex justify={'center'}>
+                          {`${new Date(item.dat_usu_aprov).getDate() < 10 ? '0' : ''}${new Date(
+                            item.dat_usu_aprov,
+                          ).getDate()}/${new Date(item.dat_usu_aprov).getMonth() + 1 < 10 ? '0' : ''}${
+                            new Date(item.dat_usu_aprov).getMonth() + 1
+                          }/${new Date(item.dat_usu_aprov).getFullYear()}`}
+                        </Flex>
+                      </Td>
+                      <Td
+                        height={'56px'}
+                        width={'16%'}
+                        borderBottomWidth={'1px'}
+                        borderTopWidth={'1px'}
+                        borderColor={'#9FA2B4'}
+                      >
+                        <Flex justify={'center'}>Aprovado</Flex>
+                      </Td>
+                      <Td
+                        height={'56px'}
+                        width={'16%'}
+                        borderBottomWidth={'1px'}
+                        borderTopWidth={'1px'}
+                        borderColor={'#9FA2B4'}
+                      >
+                        <Flex justify={'center'}>
+                          <BsFillEyeFill />
+                        </Flex>
+                      </Td>
+                    </Tr>
+                  ) : undefined}
+                </>
+              ))}
+            </Tbody>
+          </Table>
+        </TableContainer>
+      </Flex>
+    </Header>
   );
 }
