@@ -26,6 +26,8 @@ import {
 import { SubsurfaceEquipment } from 'features/schematicWell/interfaces';
 import { schematicWellState } from 'features/schematicWell/schematicWellSlice';
 
+import { RequiredField } from 'components/RequiredField/RequiredField';
+
 import { regexRemoverCaracteresEspeciais } from 'utils/RegexCaracteresEspeciais';
 
 interface FormValues {
@@ -61,6 +63,13 @@ function ModalEditarEquipSubsuperficie({ equipment }: Props) {
     onClose();
   };
 
+  const isButtonDisabled = () => {
+    if (formValues.equipamentoDeSubsuperficie === '') {
+      return true;
+    }
+    return false;
+  };
+
   useEffect(() => {
     setFormValues({
       ...formValues,
@@ -94,6 +103,7 @@ function ModalEditarEquipSubsuperficie({ equipment }: Props) {
             <Flex direction={'column'} gap={4}>
               <FormControl>
                 <Flex gap={1}>
+                  <RequiredField />
                   <Text fontWeight={'700'} fontSize={'12px'} color={'#949494'}>
                     EQUIPAMENTO DE SUBSUPERFÍCIE
                   </Text>
@@ -221,6 +231,7 @@ function ModalEditarEquipSubsuperficie({ equipment }: Props) {
                 type="submit"
                 variant={'origemBlueSolid'}
                 onClick={(event: React.MouseEvent<HTMLElement>) => handleSubmit(event)}
+                isDisabled={isButtonDisabled()}
               >
                 Concluir
               </Button>

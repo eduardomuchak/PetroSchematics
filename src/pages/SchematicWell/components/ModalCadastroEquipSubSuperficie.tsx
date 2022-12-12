@@ -60,6 +60,19 @@ function ModalCadastroEquipSubSuperficie() {
     onClose();
   };
 
+  const isButtonDisabled = () => {
+    if (
+      formValues.equipamentoDeSubsuperficie === '' ||
+      formValues.odPolegada === '' ||
+      formValues.idPolegada === '' ||
+      formValues.fabricante === '' ||
+      formValues.profundidadeMetros === 0
+    ) {
+      return true;
+    }
+    return false;
+  };
+
   useEffect(() => {
     setFormValues({
       ...formValues,
@@ -225,6 +238,7 @@ function ModalCadastroEquipSubSuperficie() {
                 type="submit"
                 variant={'origemBlueSolid'}
                 onClick={(event: React.MouseEvent<HTMLElement>) => handleSubmit(event)}
+                isDisabled={isButtonDisabled()}
               >
                 Cadastrar
               </Button>

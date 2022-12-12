@@ -39,7 +39,10 @@ function ModalCadastroEquipSuperficie() {
 
   const { mousePosition, maxDepth } = useSelector(schematicWellState);
 
-  const [formValues, setFormValues] = useState<FormValues>({} as FormValues);
+  const [formValues, setFormValues] = useState<FormValues>({
+    equipamentoDeSuperficie: '',
+    descricao: '',
+  } as FormValues);
 
   const handleCancel = () => {
     onClose();
@@ -49,6 +52,17 @@ function ModalCadastroEquipSuperficie() {
     event.preventDefault();
     // console.log('Payload', formValues);
     onClose();
+  };
+
+  const isButtonDisabled = () => {
+    if (
+      formValues.equipamentoDeSuperficie === '' ||
+      formValues.descricao === '' ||
+      formValues.profundidadeMetros === 0
+    ) {
+      return true;
+    }
+    return false;
   };
 
   useEffect(() => {
@@ -166,6 +180,7 @@ function ModalCadastroEquipSuperficie() {
                 type="submit"
                 variant={'origemBlueSolid'}
                 onClick={(event: React.MouseEvent<HTMLElement>) => handleSubmit(event)}
+                isDisabled={isButtonDisabled()}
               >
                 Cadastrar
               </Button>

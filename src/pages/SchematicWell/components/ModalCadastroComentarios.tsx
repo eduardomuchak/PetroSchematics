@@ -54,6 +54,13 @@ function ModalCadastroComentarios() {
     onClose();
   };
 
+  const isButtonDisabled = () => {
+    if (formValues.comentarios === '' || formValues.profundidadeMetros === 0) {
+      return true;
+    }
+    return false;
+  };
+
   useEffect(() => {
     setFormValues({
       ...formValues,
@@ -136,6 +143,7 @@ function ModalCadastroComentarios() {
                 type="submit"
                 variant={'origemBlueSolid'}
                 onClick={(event: React.MouseEvent<HTMLElement>) => handleSubmit(event)}
+                isDisabled={isButtonDisabled()}
               >
                 Adicionar
               </Button>
