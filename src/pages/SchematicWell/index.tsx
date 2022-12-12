@@ -106,7 +106,7 @@ function SchematicWell() {
     }
   }, [subSurfaceEquipmentsRequest.data, surfaceEquipmentsRequest.data, commentsRequest.data]);
 
-  if (subSurfaceEquipmentsRequest.isLoading || surfaceEquipmentsRequest.isLoading) {
+  if (subSurfaceEquipmentsRequest.isLoading || surfaceEquipmentsRequest.isLoading || commentsRequest.isLoading) {
     return (
       <Header>
         <RingLoading />
@@ -114,7 +114,7 @@ function SchematicWell() {
     );
   }
 
-  if (subSurfaceEquipmentsRequest.error || surfaceEquipmentsRequest.error) {
+  if (subSurfaceEquipmentsRequest.error || surfaceEquipmentsRequest.error || commentsRequest.error) {
     return (
       <Header>
         <RequestError />

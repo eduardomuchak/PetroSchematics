@@ -1,0 +1,179 @@
+import { useEffect, useState } from 'react';
+import { MdModeEdit } from 'react-icons/md';
+import { useSelector } from 'react-redux';
+
+import {
+  Button,
+  Flex,
+  FormControl,
+  IconButton,
+  Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  Text,
+  useDisclosure,
+} from '@chakra-ui/react';
+import { Comment } from 'features/schematicWell/interfaces';
+import { schematicWellState } from 'features/schematicWell/schematicWellSlice';
+import { useUpdateCommentsMutation } from 'features/schematicWell/service/commentsCRUD';
+
+import { RequiredField } from 'components/RequiredField/RequiredField';
+
+import { regexRemoverCaracteresEspeciais } from 'utils/RegexCaracteresEspeciais';
+
+import { usePayload } from 'hooks/usePayload';
+
+interface FormValues {
+  depth: number;
+  comments: string;
+  _id: string;
+  hash: string;
+}
+
+interface Props {
+  comment: Comment;
+}
+
+function ModalEditarComentario({ comment }: Props) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [updateComments] = useUpdateCommentsMutation();
+  const { maxDepth } = useSelector(schematicWellState);
+
+  const [formValues, setFormValues] = useState<FormValues>({
+    depth: 0,
+    comments: '',
+    _id: '',
+    hash: '',
+  } as FormValues);
+
+  const handleCancel = () => {
+    onClose();
+  };
+
+  const payload = usePayload('schematic-well-comments', 'UPDATE', formValues);
+
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+    updateComments(payload);
+    onClose();
+  };
+
+  const isButtonDisabled = () => {
+    if (formValues.comments === '') {
+      return true;
+    }
+    return false;
+  };
+
+  useEffect(() => {
+    setFormValues({
+      ...formValues,
+      depth: comment.depth,
+      comments: comment.comments,
+      _id: comment._id,
+      hash: comment.hash,
+    });
+  }, [isOpen]);
+
+  useEffect(() => {
+    setFormValues({
+      depth: 0,
+      comments: '',
+      _id: '',
+      hash: '',
+    });
+  }, [onClose]);
+
+  return (
+    <>
+      <IconButton onClick={onOpen} aria-label="Botão de Editar" icon={<MdModeEdit />} variant="origemEditOutline" />
+      <Modal isOpen={isOpen} onClose={onClose} size="lg">
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>EDITAR EQUIPAMENTO DE SUPERFÍCIE</ModalHeader>
+          <ModalCloseButton color={'white'} onClick={handleCancel} />
+          <ModalBody>
+            <Flex direction={'column'} gap={4}>
+              <FormControl>
+                <Flex gap={1}>
+                  <Text fontWeight={'700'} fontSize={'12px'} color={'#949494'}>
+                    PROFUNDIDADE (METROS)
+                  </Text>
+                </Flex>
+                <NumberInput
+                  min={0}
+                  max={maxDepth}
+                  value={formValues.depth}
+                  onChange={(valueString) => {
+                    setFormValues({
+                      ...formValues,
+                      depth: Number(valueString),
+                    });
+                  }}
+                >
+                  <NumberInputField h={'56px'} />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              </FormControl>
+
+              <FormControl>
+                <Flex gap={1}>
+                  <RequiredField />
+                  <Text fontWeight={'700'} fontSize={'12px'} color={'#949494'}>
+                    COMENTÁRIO
+                  </Text>
+                </Flex>
+                <Input
+                  variant={'origem'}
+                  isRequired
+                  placeholder="Comentário"
+                  id="comments"
+                  type="text"
+                  name="comments"
+                  value={regexRemoverCaracteresEspeciais(formValues.comments) || ''}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    setFormValues({
+                      ...formValues,
+                      comments: event.target.value,
+                    })
+                  }
+                  maxLength={50}
+                />
+              </FormControl>
+            </Flex>
+          </ModalBody>
+          <ModalFooter>
+            <Flex gap={2}>
+              <Button variant={'origemRedGhost'} onClick={handleCancel}>
+                Cancelar
+              </Button>
+              <Button
+                type="submit"
+                variant={'origemBlueSolid'}
+                onClick={(event: React.MouseEvent<HTMLElement>) => handleSubmit(event)}
+                isDisabled={isButtonDisabled()}
+              >
+                Concluir
+              </Button>
+            </Flex>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
+  );
+}
+
+export default ModalEditarComentario;

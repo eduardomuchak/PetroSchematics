@@ -14,10 +14,10 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
-import { SubsurfaceEquipment, SurfaceEquipment } from 'features/schematicWell/interfaces';
+import { Comment, SubsurfaceEquipment, SurfaceEquipment } from 'features/schematicWell/interfaces';
 
 interface Props {
-  equipment: SurfaceEquipment | SubsurfaceEquipment;
+  equipment: SurfaceEquipment | SubsurfaceEquipment | Comment;
   toDelete: Function;
 }
 
