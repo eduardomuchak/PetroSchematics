@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { AiOutlineClockCircle } from 'react-icons/ai';
-import { BsCalendarEvent, BsChevronLeft } from 'react-icons/bs';
+import { BsCalendarEvent } from 'react-icons/bs';
 import { useLocation } from 'react-router';
 
 import { Flex, Text } from '@chakra-ui/react';
@@ -12,6 +12,7 @@ import TituloPagina from 'components/TituloPagina';
 
 import ModalAprove from './Modais/Aprove';
 import ModalNext from './Modais/Next';
+import ModalPrevious from './Modais/Previous';
 import ModalReprove from './Modais/Reprove';
 
 export function Formulariopage() {
@@ -57,7 +58,7 @@ export function Formulariopage() {
     <Header>
       <TituloPagina botaoVoltar>Formulário para Aprovação</TituloPagina>
       <Flex justify={'center'} gap={10} direction={'row'} flex={1}>
-        <BsChevronLeft size={48} color={'#0048BB'} style={{ marginTop: '200px' }} />
+        <ModalPrevious />
         <Flex direction={'column'}>
           <Flex align={'center'} gap={4} w={'700px'} flexWrap="wrap">
             {renderList.map((item: any) => (
