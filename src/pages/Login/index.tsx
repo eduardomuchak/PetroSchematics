@@ -8,12 +8,14 @@ import logo from 'assets/logo.png';
 import { useLoginMutation } from 'features/auth/authApiSlice';
 import { setCredentials } from 'features/auth/authSlice';
 
+import { capitalizeFirstLetter } from 'utils/CapitalizeFirstLetter';
+
 import { useToast } from 'contexts/Toast';
 
-const Login: any = () => {
+const Login = () => {
   const { toast } = useToast();
 
-  const [form, setForm] = useState({ email: '', senha: '' });
+  const [form, setForm] = useState({ email: '', password: '' });
   const navigate = useNavigate();
 
   const [login, { isLoading }] = useLoginMutation();
@@ -21,17 +23,21 @@ const Login: any = () => {
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
+    navigate('/esquematico-well');
+    toast.success(`Bem vindo, ${capitalizeFirstLetter(form.email.split('@')[0])}!`, {
+      id: 'toast-principal',
+    });
 
     try {
-      const { email, senha } = form;
-      const userData = await login({ email, senha }).unwrap();
+      const { email, password } = form;
+      const userData = await login({ email, password }).unwrap();
       dispatch(setCredentials({ ...userData, email }));
-      setForm({ email: '', senha: '' });
-      navigate('/style-guide');
+      setForm({ email: '', password: '' });
+      // navigate('/style-guide');
     } catch (err) {
-      toast.error('Usuário ou senha inválidos', {
-        id: 'toast-principal',
-      });
+      // toast.error('Usuário ou senha inválidos', {
+      //   id: 'toast-principal',
+      // });
     }
   };
 
@@ -39,6 +45,8 @@ const Login: any = () => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   };
+
+  const isButtonDisabled = form.email === '' || form.password === '';
 
   return (
     <>
@@ -93,7 +101,7 @@ const Login: any = () => {
                   </Stack>
                   <Stack spacing="5">
                     <FormControl>
-                      <FormLabel htmlFor="senha" justifyContent="space-between" display="flex">
+                      <FormLabel htmlFor="password" justifyContent="space-between" display="flex">
                         Senha
                         <Button variant="link" color="gray.400" size="sm" onClick={() => navigate('/esqueci-a-senha')}>
                           Esqueceu sua senha?
@@ -102,10 +110,10 @@ const Login: any = () => {
                       <Input
                         variant={'origem'}
                         isRequired
-                        id="senha"
+                        id="password"
                         type="password"
-                        name="senha"
-                        value={form.senha}
+                        name="password"
+                        value={form.password}
                         onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleChange(event)}
                         maxLength={255}
                       />
@@ -113,6 +121,7 @@ const Login: any = () => {
                   </Stack>
                   <Stack display={'flex'} spacing="6" align={'center'}>
                     <Button
+                      isDisabled={isButtonDisabled}
                       mt={4}
                       w={'80%'}
                       type="submit"
