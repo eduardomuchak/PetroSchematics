@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import {
   Accordion,
@@ -123,54 +124,79 @@ function SchematicWell() {
           justify={'space-between'}
           direction={{ base: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'row' }}
         >
-          <Flex flex={1}>
-            <Box position={'absolute'} zIndex={0}>
-              <BarChart width={Number(imageSize.width + 60)} height={Number(imageSize.height)} data={maxDepthToChart}>
-                <CartesianGrid strokeDasharray="4 4" />
-                <YAxis dataKey="depth" reversed={true} tickCount={5} />
-              </BarChart>
-            </Box>
-            <Image
-              onClick={(event) => {
-                dispatch(relativeCoordinates(event));
-                onOpen();
-              }}
-              src={SchematicSVG}
-              h={imageSize.height}
-              zIndex={1}
-              position={'relative'}
-              top={1}
-              left={100}
-            />
-            <Flex direction={'row-reverse'}>
-              {subsurfaceEquipmentTable.length &&
-                subsurfaceEquipmentTable.map((equipment: SubsurfaceEquipment, index: number) => (
-                  <ButtonPontoDeClique
-                    subsurfaceEquipment={equipment}
-                    key={index}
-                    position={{
-                      scaleYAxis: (Number(equipment.depth) * imageSize.height) / maxDepthToChart[0].depth,
-                      xAxis: equipment.xAxis,
-                      yAxis: Number(equipment.depth),
-                    }}
-                    onOpen={onOpen}
-                  />
-                ))}
-              {comments.length &&
-                comments.map((comment: Comment, index: number) => (
-                  <ButtonPontoDeClique
-                    comment={comment}
-                    key={index}
-                    position={{
-                      scaleYAxis: (comment.depth * imageSize.height) / maxDepthToChart[0].depth,
-                      xAxis: comment.xAxis,
-                      yAxis: comment.depth,
-                    }}
-                    onOpen={onOpen}
-                  />
-                ))}
+          {maxDepth === 0 ? (
+            <Flex flex={1}>
+              <Link to={'/esquematico-well-config'}>
+                <Box position={'absolute'} zIndex={0}>
+                  <Text textAlign={'center'} fontWeight={700}>
+                    Configure a profundidade máxima do esquemático!
+                  </Text>
+                </Box>
+                <Image
+                  onClick={(event) => {
+                    dispatch(relativeCoordinates(event));
+                    onOpen();
+                  }}
+                  src={SchematicSVG}
+                  h={imageSize.height}
+                  zIndex={1}
+                  position={'relative'}
+                  top={10}
+                  left={10}
+                />
+              </Link>
             </Flex>
-          </Flex>
+          ) : (
+            <Flex flex={1}>
+              <Box position={'absolute'} zIndex={0}>
+                <BarChart width={Number(imageSize.width + 60)} height={Number(imageSize.height)} data={maxDepthToChart}>
+                  <CartesianGrid strokeDasharray="4 4" />
+                  <YAxis dataKey="depth" reversed={true} tickCount={5} />
+                </BarChart>
+              </Box>
+              <Image
+                onClick={(event) => {
+                  dispatch(relativeCoordinates(event));
+                  onOpen();
+                }}
+                src={SchematicSVG}
+                h={imageSize.height}
+                zIndex={1}
+                position={'relative'}
+                top={1}
+                left={100}
+              />
+              <Flex direction={'row-reverse'}>
+                {subsurfaceEquipmentTable.length &&
+                  subsurfaceEquipmentTable.map((equipment: SubsurfaceEquipment, index: number) => (
+                    <ButtonPontoDeClique
+                      subsurfaceEquipment={equipment}
+                      key={index}
+                      position={{
+                        scaleYAxis: (Number(equipment.depth) * imageSize.height) / maxDepthToChart[0].depth,
+                        xAxis: equipment.xAxis,
+                        yAxis: Number(equipment.depth),
+                      }}
+                      onOpen={onOpen}
+                    />
+                  ))}
+                {comments.length &&
+                  comments.map((comment: Comment, index: number) => (
+                    <ButtonPontoDeClique
+                      comment={comment}
+                      key={index}
+                      position={{
+                        scaleYAxis: (comment.depth * imageSize.height) / maxDepthToChart[0].depth,
+                        xAxis: comment.xAxis,
+                        yAxis: comment.depth,
+                      }}
+                      onOpen={onOpen}
+                    />
+                  ))}
+              </Flex>
+            </Flex>
+          )}
+
           <Flex direction={'column'} flex={2} overflowX={'scroll'} gap={4} pt={{ base: 5, sm: 5, md: 5, lg: 5, xl: 0 }}>
             <Accordion defaultIndex={[0, 1]} allowMultiple flex={2}>
               <AccordionItem border={'none'}>
