@@ -19,7 +19,7 @@ import {
   relativeCoordinates,
   schematicWellState,
   setComments,
-  setMaxDepth,
+  // setMaxDepth,
   setSubsurfaceEquipment,
   setSurfaceEquipment,
 } from 'features/schematicWell/schematicWellSlice';
@@ -42,7 +42,7 @@ import TabelaEquipamentoSuperficie from './components/TabelaEquipamentoSuperfici
 function SchematicWell() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch = useDispatch();
-  const { subsurfaceEquipmentTable, comments } = useSelector(schematicWellState);
+  const { subsurfaceEquipmentTable, comments, maxDepth } = useSelector(schematicWellState);
 
   // Dados para requisição dos equipamentos de subsuperfície
 
@@ -67,16 +67,16 @@ function SchematicWell() {
   };
 
   // Dados para o eixo Y
-  const maxDepth = [
+  const maxDepthToChart = [
     {
-      depth: 3000,
+      depth: maxDepth,
     },
   ];
   //
 
-  useEffect(() => {
-    dispatch(setMaxDepth(maxDepth[0].depth));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(setMaxDepth(maxDepth[0].depth));
+  // }, []);
 
   useEffect(() => {
     if (subSurfaceEquipmentsRequest.data?.documents) {
@@ -91,7 +91,13 @@ function SchematicWell() {
   }, [subSurfaceEquipmentsRequest.data, surfaceEquipmentsRequest.data, commentsRequest.data]);
 
   const isLoading =
-    subSurfaceEquipmentsRequest.isLoading || surfaceEquipmentsRequest.isLoading || commentsRequest.isLoading;
+    subSurfaceEquipmentsRequest.isLoading ||
+    surfaceEquipmentsRequest.isLoading ||
+    commentsRequest.isLoading ||
+    subSurfaceEquipmentsRequest.isFetching ||
+    surfaceEquipmentsRequest.isFetching ||
+    commentsRequest.isFetching;
+
   if (isLoading) {
     return (
       <Header>
@@ -119,7 +125,7 @@ function SchematicWell() {
         >
           <Flex flex={1}>
             <Box position={'absolute'} zIndex={0}>
-              <BarChart width={Number(imageSize.width + 60)} height={Number(imageSize.height)} data={maxDepth}>
+              <BarChart width={Number(imageSize.width + 60)} height={Number(imageSize.height)} data={maxDepthToChart}>
                 <CartesianGrid strokeDasharray="4 4" />
                 <YAxis dataKey="depth" reversed={true} tickCount={5} />
               </BarChart>
@@ -143,7 +149,7 @@ function SchematicWell() {
                     subsurfaceEquipment={equipment}
                     key={index}
                     position={{
-                      scaleYAxis: (Number(equipment.depth) * imageSize.height) / maxDepth[0].depth,
+                      scaleYAxis: (Number(equipment.depth) * imageSize.height) / maxDepthToChart[0].depth,
                       xAxis: equipment.xAxis,
                       yAxis: Number(equipment.depth),
                     }}
@@ -156,7 +162,7 @@ function SchematicWell() {
                     comment={comment}
                     key={index}
                     position={{
-                      scaleYAxis: (comment.depth * imageSize.height) / maxDepth[0].depth,
+                      scaleYAxis: (comment.depth * imageSize.height) / maxDepthToChart[0].depth,
                       xAxis: comment.xAxis,
                       yAxis: comment.depth,
                     }}

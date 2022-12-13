@@ -23,7 +23,7 @@ const Login = () => {
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    navigate('/esquematico-well');
+    navigate('/esquematico-well-config');
     toast.success(`Bem vindo, ${capitalizeFirstLetter(form.email.split('@')[0])}!`, {
       id: 'toast-principal',
     });

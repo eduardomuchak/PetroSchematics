@@ -51,6 +51,14 @@ export const surfaceEquipmentApiSlice = createApi({
       }),
       invalidatesTags: ['SurfaceEquipment'],
     }),
+    addManySurfaceEquipments: builder.mutation({
+      query: (payload) => ({
+        url: '/action/insertMany',
+        method: 'POST',
+        body: payload,
+      }),
+      invalidatesTags: ['SurfaceEquipment'],
+    }),
   }),
 });
 
@@ -59,4 +67,5 @@ export const {
   useAddSurfaceEquipmentMutation,
   useUpdateSurfaceEquipmentMutation,
   useDeleteSurfaceEquipmentMutation,
+  useAddManySurfaceEquipmentsMutation,
 } = surfaceEquipmentApiSlice;
