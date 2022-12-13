@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 
 import {
   Button,
@@ -13,15 +13,15 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
+  // NumberDecrementStepper,
+  // NumberIncrementStepper,
+  // NumberInput,
+  // NumberInputField,
+  // NumberInputStepper,
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
-import { schematicWellState } from 'features/schematicWell/schematicWellSlice';
+// import { schematicWellState } from 'features/schematicWell/schematicWellSlice';
 import { useAddSurfaceEquipmentMutation } from 'features/schematicWell/service/surfaceEquimentsCRUD';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
@@ -33,14 +33,14 @@ import { usePayload } from 'hooks/usePayload';
 interface FormValues {
   surfaceEquipment: string;
   description: string;
-  depth: number;
-  xAxis: number;
+  // depth: number;
+  // xAxis: number;
 }
 
 function ModalCadastroEquipSuperficie() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const { mousePosition, maxDepth } = useSelector(schematicWellState);
+  // const { mousePosition } = useSelector(schematicWellState);
   const [addSurfaceEquipment] = useAddSurfaceEquipmentMutation();
 
   const [formValues, setFormValues] = useState<FormValues>({
@@ -61,26 +61,26 @@ function ModalCadastroEquipSuperficie() {
   };
 
   const isButtonDisabled = () => {
-    if (formValues.surfaceEquipment === '' || formValues.description === '' || formValues.depth === 0) {
+    if (formValues.surfaceEquipment === '' || formValues.description === '') {
       return true;
     }
     return false;
   };
 
-  useEffect(() => {
-    setFormValues({
-      ...formValues,
-      depth: mousePosition.yAxis,
-      xAxis: mousePosition.xAxis,
-    });
-  }, [isOpen]);
+  // useEffect(() => {
+  //   setFormValues({
+  //     ...formValues,
+  //     depth: mousePosition.yAxis,
+  //     xAxis: mousePosition.xAxis,
+  //   });
+  // }, [isOpen]);
 
   useEffect(() => {
     setFormValues({
       surfaceEquipment: '',
       description: '',
-      depth: 0,
-      xAxis: 0,
+      // depth: 0,
+      // xAxis: 0,
     });
   }, [onClose]);
 
@@ -146,7 +146,7 @@ function ModalCadastroEquipSuperficie() {
                 />
               </FormControl>
 
-              <FormControl>
+              {/* <FormControl>
                 <Flex gap={1}>
                   <RequiredField />
                   <Text fontWeight={'700'} fontSize={'12px'} color={'#949494'}>
@@ -170,7 +170,7 @@ function ModalCadastroEquipSuperficie() {
                     <NumberDecrementStepper />
                   </NumberInputStepper>
                 </NumberInput>
-              </FormControl>
+              </FormControl> */}
             </Flex>
           </ModalBody>
           <ModalFooter>

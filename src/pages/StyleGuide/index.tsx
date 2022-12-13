@@ -17,6 +17,7 @@ export function StyleGuide() {
             <Button variant={'origemBlueGhost'}>Ghost</Button>
             <IconButton aria-label="Botão de Editar" icon={<MdModeEdit />} variant="origemEditSolid" />
             <IconButton aria-label="Botão de Editar" icon={<MdModeEdit />} variant="origemEditOutline" />
+            <IconButton aria-label="Botão de Editar" icon={<MdModeEdit />} variant="origemEditGhost" />
           </Flex>
           <Flex direction={'column'} gap={5} align={'center'}>
             <Button variant={'origemRedSolid'}>Solid</Button>
@@ -24,6 +25,7 @@ export function StyleGuide() {
             <Button variant={'origemRedGhost'}>Ghost</Button>
             <IconButton aria-label="Botão de Lixeira" icon={<FiTrash />} variant="origemDeleteSolid" />
             <IconButton aria-label="Botão de Lixeira" icon={<FiTrash />} variant="origemDeleteOutline" />
+            <IconButton aria-label="Botão de Lixeira" icon={<FiTrash />} variant="origemDeleteGhost" />
           </Flex>
         </Flex>
       </Flex>
