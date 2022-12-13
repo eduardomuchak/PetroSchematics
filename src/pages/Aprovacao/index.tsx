@@ -30,7 +30,6 @@ import TituloPagina from 'components/TituloPagina';
 
 import CheckButton from './CheckButton';
 import DatePicker from './DatePicker';
-// import { listaBastoes, listaReg, listaTeste, listaXV } from './mockFile';
 import EyePopover from './EyePopover';
 import PaginacaoTabela from './PaginacaoTabela';
 
@@ -92,6 +91,7 @@ export function Aprovacaopage() {
   const [dateEnd, setDateEnd] = useState<any>('');
   const [paginationBottom, setPaginationBottom] = useState<number>(0);
   const [paginationShow, setPaginationShow] = useState<number>(10);
+  const [eyePopOverInfo, setEyePopOverInfo] = useState<any>({ form_data: {} });
 
   useEffect(() => {
     getAll();
@@ -439,7 +439,7 @@ export function Aprovacaopage() {
                           borderTopWidth={'1px'}
                           borderColor={'#9FA2B4'}
                         >
-                          <Flex justify={'center'}>
+                          <Flex onClick={() => setEyePopOverInfo(item)} justify={'center'}>
                             <PopoverTrigger>
                               <BsFillEyeFill />
                             </PopoverTrigger>
@@ -465,7 +465,7 @@ export function Aprovacaopage() {
         </Flex>
         <PopoverContent w={'fit-content'}>
           <PopoverBody w={'fit-content'}>
-            <EyePopover />
+            <EyePopover infos={eyePopOverInfo} />
           </PopoverBody>
         </PopoverContent>
       </Popover>

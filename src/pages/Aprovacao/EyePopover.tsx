@@ -1,39 +1,43 @@
-import { BsCheckCircleFill, BsXCircleFill, BsFillEyeFill } from 'react-icons/bs';
+import { useEffect, useState } from 'react';
 
-import { Flex, Text, Popover, PopoverTrigger, PopoverContent, PopoverBody } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
 
-function EyePopover() {
+import { keyName } from './keyNamePairs';
+
+function EyePopover({ infos }: any) {
+  const [renderInfos, setRenderInfos] = useState<any[]>([]);
+  useEffect(() => {
+    // const keys = Object.keys(infos.form_data);
+    // console.log('keys', keys);
+    // const values = Object.values(infos.form_data);
+    // console.log('values', values);
+    // setRenderInfos(values);
+    const renderArray = [];
+    for (const property in infos.form_data) {
+      const newItem = {
+        name: keyName.filter((val: any) => val.key === property)[0].title,
+        value: infos.form_data[property],
+      };
+      if (typeof newItem.value === 'string' || typeof newItem.value === 'number') {
+        renderArray.push(newItem);
+      }
+    }
+    setRenderInfos(renderArray);
+  }, [infos]);
+
   return (
-    <Popover>
-      <PopoverContent w={'fit-content'}>
-        <PopoverBody w={'fit-content'}>
-          <Flex
-            cursor={'pointer'}
-            w={'136px'}
-            align={'center'}
-            pt={3}
-            pb={3}
-            justify={'space-between'}
-            borderBottomColor={'#D9D9D9'}
-            borderBottomWidth={'1px'}
-          >
-            <Text fontWeight={700} fontSize={13} letterSpacing={0.3} color={'#0048BB'}>
-              Aprovar
-            </Text>
-            <BsCheckCircleFill color={'#00B53D'} size={22} />
-          </Flex>
-          <Flex cursor={'pointer'} w={'136px'} align={'center'} pt={3} pb={3} justify={'space-between'}>
-            <Text fontWeight={700} fontSize={13} letterSpacing={0.3} color={'#0048BB'}>
-              Recusar
-            </Text>
-            <BsXCircleFill color={'#F40606'} size={22} />
-          </Flex>
-        </PopoverBody>
-      </PopoverContent>
-      <PopoverTrigger>
-        <BsFillEyeFill />
-      </PopoverTrigger>
-    </Popover>
+    <Flex direction={'column'} pl={1}>
+      {renderInfos.map((item: any) => (
+        <Flex>
+          <Text fontWeight={700} fontSize={13} letterSpacing={0.3} color={'#1C1B1B'} mb={'4px'}>
+            {item.name}:
+          </Text>
+          <Text ml={'5px'} fontSize={13} letterSpacing={0.3} color={'#1C1B1B'}>
+            {item.value}
+          </Text>
+        </Flex>
+      ))}
+    </Flex>
   );
 }
 
