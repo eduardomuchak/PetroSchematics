@@ -18,14 +18,18 @@ import { Comment, SubsurfaceEquipment } from 'features/schematicWell/interfaces'
 import {
   relativeCoordinates,
   schematicWellState,
+  setComments,
   setMaxDepth,
   setSubsurfaceEquipment,
+  setSurfaceEquipment,
 } from 'features/schematicWell/schematicWellSlice';
-import { useGetSubsurfaceEquipmentsQuery } from 'features/schematicWell/service';
+import { useGetCommentsQuery } from 'features/schematicWell/service/commentsCRUD';
+import { useGetSubsurfaceEquipmentsQuery } from 'features/schematicWell/service/subSurfaceEquimentsCRUD';
+import { useGetSurfaceEquipmentsQuery } from 'features/schematicWell/service/surfaceEquimentsCRUD';
 import { BarChart, CartesianGrid, YAxis } from 'recharts';
 
-// import RequestError from 'components/RequestError';
 import Header from 'components/Header';
+import RequestError from 'components/RequestError';
 import { RingLoading } from 'components/RingLoading';
 
 import ButtonPontoDeClique from './components/ButtonPontoDeClique';
@@ -38,18 +42,39 @@ function SchematicWell() {
   const dispatch = useDispatch();
   const { subsurfaceEquipmentTable, comments } = useSelector(schematicWellState);
 
+  // Dados para requisição dos equipamentos de subsuperfície
   const DATA_SOURCE = `${process.env.REACT_APP_DATA_SOURCE_ID}`;
   const DATABASE = `${process.env.REACT_APP_DATABASE}`;
 
-  const payload = {
+  const payloadSubsurface = {
     dataSource: DATA_SOURCE,
     database: DATABASE,
-    collection: 'form-xv',
+    collection: 'schematic-well-subsurface-equipments',
     filter: {},
   };
 
-  const { isLoading, data: subSurfaceEquipments } = useGetSubsurfaceEquipmentsQuery(payload);
+  const payloadSurface = {
+    dataSource: DATA_SOURCE,
+    database: DATABASE,
+    collection: 'schematic-well-surface-equipments',
+    filter: {},
+  };
+
+  const payloadComments = {
+    dataSource: DATA_SOURCE,
+    database: DATABASE,
+    collection: 'schematic-well-comments',
+    filter: {},
+  };
+
+  const subSurfaceEquipmentsRequest = useGetSubsurfaceEquipmentsQuery(payloadSubsurface);
+  const surfaceEquipmentsRequest = useGetSurfaceEquipmentsQuery(payloadSurface);
+  const commentsRequest = useGetCommentsQuery(payloadComments);
+  //
+
   const modalProps = { isOpen, onOpen, onClose };
+
+  // console.log('subSurfaceEquipments', subSurfaceEquipments);
 
   // Tamanho da escala da imagem do esquemático
   const imageSize = {
@@ -70,12 +95,18 @@ function SchematicWell() {
   }, []);
 
   useEffect(() => {
-    if (!isLoading && subSurfaceEquipments) {
-      dispatch(setSubsurfaceEquipment(subSurfaceEquipments));
+    if (!subSurfaceEquipmentsRequest.isLoading && subSurfaceEquipmentsRequest.data?.documents) {
+      dispatch(setSubsurfaceEquipment(subSurfaceEquipmentsRequest.data?.documents));
     }
-  }, [subSurfaceEquipments]);
+    if (!surfaceEquipmentsRequest.isLoading && surfaceEquipmentsRequest.data?.documents) {
+      dispatch(setSurfaceEquipment(surfaceEquipmentsRequest.data?.documents));
+    }
+    if (!commentsRequest.isLoading && commentsRequest.data?.documents) {
+      dispatch(setComments(commentsRequest.data?.documents));
+    }
+  }, [subSurfaceEquipmentsRequest.data, surfaceEquipmentsRequest.data, commentsRequest.data]);
 
-  if (isLoading) {
+  if (subSurfaceEquipmentsRequest.isLoading || surfaceEquipmentsRequest.isLoading || commentsRequest.isLoading) {
     return (
       <Header>
         <RingLoading />
@@ -83,15 +114,13 @@ function SchematicWell() {
     );
   }
 
-  // if (error) {
-  //   return (
-  //     <Header>
-  //       <ContainerPagina>
-  //         <RequestError />
-  //       </ContainerPagina>
-  //     </Header>
-  //   );
-  // }
+  if (subSurfaceEquipmentsRequest.error || surfaceEquipmentsRequest.error || commentsRequest.error) {
+    return (
+      <Header>
+        <RequestError />
+      </Header>
+    );
+  }
 
   return (
     <>
@@ -127,9 +156,9 @@ function SchematicWell() {
                     subsurfaceEquipment={equipment}
                     key={index}
                     position={{
-                      scaleYAxis: (equipment.yAxis * imageSize.height) / maxDepth[0].depth,
+                      scaleYAxis: (Number(equipment.depth) * imageSize.height) / maxDepth[0].depth,
                       xAxis: equipment.xAxis,
-                      yAxis: equipment.yAxis,
+                      yAxis: Number(equipment.depth),
                     }}
                     onOpen={onOpen}
                   />
@@ -140,9 +169,9 @@ function SchematicWell() {
                     comment={comment}
                     key={index}
                     position={{
-                      scaleYAxis: (comment.yAxis * imageSize.height) / maxDepth[0].depth,
+                      scaleYAxis: (comment.depth * imageSize.height) / maxDepth[0].depth,
                       xAxis: comment.xAxis,
-                      yAxis: comment.yAxis,
+                      yAxis: comment.depth,
                     }}
                     onOpen={onOpen}
                   />
@@ -150,7 +179,7 @@ function SchematicWell() {
             </Flex>
           </Flex>
           <Flex direction={'column'} flex={2} overflowX={'scroll'} gap={4} pt={{ base: 5, sm: 5, md: 5, lg: 5, xl: 0 }}>
-            <Accordion defaultIndex={[0]} allowMultiple flex={2}>
+            <Accordion defaultIndex={[0, 1]} allowMultiple flex={2}>
               <AccordionItem border={'none'}>
                 <h2>
                   <AccordionButton borderBottom={'2px solid #9FA2B4'} borderRadius={'6px 6px 0px 0px'}>
