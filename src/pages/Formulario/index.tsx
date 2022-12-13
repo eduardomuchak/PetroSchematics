@@ -1,14 +1,18 @@
 import { useEffect, useState } from 'react';
 import { AiOutlineClockCircle } from 'react-icons/ai';
-import { BsCalendarEvent, BsChevronLeft, BsChevronRight } from 'react-icons/bs';
+import { BsCalendarEvent, BsChevronLeft } from 'react-icons/bs';
 import { useLocation } from 'react-router';
 
-import { Button, Flex, Text } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
 
 import { keyName } from 'pages/Aprovacao/keyNamePairs';
 
 import Header from 'components/Header';
 import TituloPagina from 'components/TituloPagina';
+
+import ModalAprove from './Modais/Aprove';
+import ModalNext from './Modais/Next';
+import ModalReprove from './Modais/Reprove';
 
 export function Formulariopage() {
   const { state }: any = useLocation();
@@ -86,45 +90,11 @@ export function Formulariopage() {
             ))}
           </Flex>
           <Flex justify={'center'} gap={2} mt={'24px'} direction={'row'} w={'100%'}>
-            <Button
-              w={'232px'}
-              h={'56px'}
-              color={'#F40606'}
-              backgroundColor={'#fff'}
-              onClick={() => []}
-              _hover={{
-                shadow: '0px 0px 5px -1px rgba(244, 6, 6,1)',
-                transition: 'all 0.4s',
-              }}
-              fontSize={'18px'}
-              fontWeight={'700'}
-              borderRadius={'8px'}
-            >
-              <Text fontSize={'18px'} fontWeight={'700'}>
-                Reprovar
-              </Text>
-            </Button>
-            <Button
-              w={'232px'}
-              h={'56px'}
-              color={'#fff'}
-              backgroundColor={'#0048BB'}
-              onClick={() => []}
-              _hover={{
-                shadow: '0px 0px 5px -1px rgba(0,72,187,1)',
-                transition: 'all 0.4s',
-              }}
-              fontSize={'18px'}
-              fontWeight={'700'}
-              borderRadius={'8px'}
-            >
-              <Text fontSize={'18px'} fontWeight={'700'}>
-                Aprovar
-              </Text>
-            </Button>
+            <ModalReprove />
+            <ModalAprove />
           </Flex>
         </Flex>
-        <BsChevronRight size={48} color={'#0048BB'} style={{ marginTop: '200px' }} />
+        <ModalNext />
       </Flex>
     </Header>
   );
