@@ -29,7 +29,7 @@ import { useGetSubsurfaceEquipmentsQuery } from 'features/schematicWell/service/
 import { useGetSurfaceEquipmentsQuery } from 'features/schematicWell/service/surfaceEquimentsCRUD';
 import { BarChart, CartesianGrid, YAxis } from 'recharts';
 
-import Header from 'components/Header';
+import GridLayout from 'components/Grid';
 import RequestError from 'components/RequestError';
 import { RingLoading } from 'components/RingLoading';
 
@@ -101,24 +101,24 @@ function SchematicWell() {
 
   if (isLoading) {
     return (
-      <Header>
+      <GridLayout>
         <RingLoading />
-      </Header>
+      </GridLayout>
     );
   }
 
   const error = subSurfaceEquipmentsRequest.error || surfaceEquipmentsRequest.error || commentsRequest.error;
   if (error) {
     return (
-      <Header>
+      <GridLayout>
         <RequestError />
-      </Header>
+      </GridLayout>
     );
   }
 
   return (
     <>
-      <Header>
+      <GridLayout>
         <ModalDecisao modalProps={modalProps} />
         <Flex
           justify={'space-between'}
@@ -228,7 +228,7 @@ function SchematicWell() {
             </Accordion>
           </Flex>
         </Flex>
-      </Header>
+      </GridLayout>
     </>
   );
 }
