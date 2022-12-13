@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { BsFillEyeFill } from 'react-icons/bs';
+import { useNavigate } from 'react-router';
 import Select from 'react-select';
 
 import {
@@ -17,7 +18,6 @@ import {
   Button,
   Tfoot,
   Popover,
-  PopoverTrigger,
   PopoverContent,
   PopoverBody,
   PopoverAnchor,
@@ -26,7 +26,6 @@ import { getAllPocos, getAllDocs } from 'features/aprovacao';
 
 import Header from 'components/Header';
 import TituloPagina from 'components/TituloPagina';
-// import { getAllPocos } from 'api/mongoDB';
 
 import CheckButton from './CheckButton';
 import DatePicker from './DatePicker';
@@ -92,6 +91,8 @@ export function Aprovacaopage() {
   const [paginationBottom, setPaginationBottom] = useState<number>(0);
   const [paginationShow, setPaginationShow] = useState<number>(10);
   const [eyePopOverInfo, setEyePopOverInfo] = useState<any>({ form_data: {} });
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getAll();
@@ -186,10 +187,18 @@ export function Aprovacaopage() {
     setDateEnd('');
   };
 
+  const transfer = (item: any) => {
+    navigate(`/formulario`, {
+      state: {
+        item,
+      },
+    });
+  };
+
   return (
     <Header>
       <TituloPagina botaoVoltar>TABELA DE APROVACÕES</TituloPagina>
-      <Popover>
+      <Popover isOpen={open} onClose={() => setOpen(false)} placement="left-start">
         <Flex direction={'column'} flex={1}>
           <Flex gap={2} mb={8} flexWrap="wrap">
             <Flex minW={200} maxW={200} direction={'column'}>
@@ -439,10 +448,14 @@ export function Aprovacaopage() {
                           borderTopWidth={'1px'}
                           borderColor={'#9FA2B4'}
                         >
-                          <Flex onClick={() => setEyePopOverInfo(item)} justify={'center'}>
-                            <PopoverTrigger>
-                              <BsFillEyeFill />
-                            </PopoverTrigger>
+                          <Flex
+                            cursor={'pointer'}
+                            justify={'center'}
+                            onMouseEnter={() => [setEyePopOverInfo(item), setOpen(true)]}
+                            onMouseLeave={() => [setOpen(false)]}
+                            onClick={() => transfer(item)}
+                          >
+                            <BsFillEyeFill />
                           </Flex>
                         </Td>
                       </Tr>

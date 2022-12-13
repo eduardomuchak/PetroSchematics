@@ -7,11 +7,6 @@ import { keyName } from './keyNamePairs';
 function EyePopover({ infos }: any) {
   const [renderInfos, setRenderInfos] = useState<any[]>([]);
   useEffect(() => {
-    // const keys = Object.keys(infos.form_data);
-    // console.log('keys', keys);
-    // const values = Object.values(infos.form_data);
-    // console.log('values', values);
-    // setRenderInfos(values);
     const renderArray = [];
     for (const property in infos.form_data) {
       if (property == 'poco') {
@@ -20,7 +15,7 @@ function EyePopover({ infos }: any) {
           value: infos.form_data[property].nome_poco,
         };
         if (typeof newItem.value === 'string' || typeof newItem.value === 'number') {
-          renderArray.push(newItem);
+          renderArray.splice(0, 0, newItem);
         }
       } else if (property == 'tanque') {
         const newItem = {
@@ -28,7 +23,7 @@ function EyePopover({ infos }: any) {
           value: infos.form_data[property].nom_tanque,
         };
         if (typeof newItem.value === 'string' || typeof newItem.value === 'number') {
-          renderArray.push(newItem);
+          renderArray.splice(0, 0, newItem);
         }
       } else {
         const newItem = {
