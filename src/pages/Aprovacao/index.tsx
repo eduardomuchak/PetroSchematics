@@ -114,12 +114,12 @@ export function Aprovacaopage() {
   const getAll = async () => {
     // const tqs = await getAllTanques();
     const pocos = await getAllPocos();
-    console.log('pocos', pocos);
-    const pocosLocal = pocos.documents.map((val: any) => ({
-      ...val,
-      value: val._id,
-      label: val.nome_poco,
-    }));
+    const pocosLocal =
+      pocos.documents.map((val: any) => ({
+        ...val,
+        value: val._id,
+        label: val.nome_poco,
+      })) || [];
     setListaFiltroPoco(pocosLocal);
     setListaPocoOriginais(pocosLocal);
     setListaFiltroForm(options);
@@ -132,11 +132,9 @@ export function Aprovacaopage() {
     // });
     for await (const results of options) {
       const local = await getAllDocs(results.form);
-      console.log('local', local);
       const prev = all;
       all = prev.concat(local.documents);
     }
-    console.log('all', all);
     setFormsList(all);
     setRenderList(all);
   };

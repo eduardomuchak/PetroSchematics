@@ -19,14 +19,8 @@ export const getAllDocs = async (form: string) => {
   };
   const result = await fetch(`${URL_ENDPOINT}/action/find`, options)
     .then((response) => response.json())
-    .then((response) => {
-      console.log('response', response);
-      return response;
-    })
-    .catch((err) => {
-      console.log('err', err);
-      return err;
-    });
+    .then((response) => response)
+    .catch((err) => err);
 
   return result;
 };
@@ -47,14 +41,8 @@ export const getAllPocos = async () => {
   };
   const result = await fetch(`${URL_ENDPOINT}/action/find`, options)
     .then((response) => response.json())
-    .then((response) => {
-      console.log('getAllPocos', response);
-      return response;
-    })
-    .catch((err) => {
-      console.log('err', err);
-      return null;
-    });
+    .then((response) => response)
+    .catch((err) => err);
 
   return result;
 };
@@ -75,14 +63,8 @@ export const getAllTanques = async () => {
   };
   const result = await fetch(`${URL_ENDPOINT}/action/find`, options)
     .then((response) => response.json())
-    .then((response) => {
-      console.log('getAllTanques', response);
-      return response;
-    })
-    .catch((err) => {
-      console.log('err', err);
-      return null;
-    });
+    .then((response) => response)
+    .catch((err) => err);
 
   return result;
 };
@@ -103,14 +85,8 @@ export const insertOneForm = async (item: any, form: string) => {
   };
   const result = await fetch(`${URL_ENDPOINT}/action/insertOne`, options)
     .then((response) => response.json())
-    .then((response) => {
-      console.log('response', response);
-      return response;
-    })
-    .catch((err) => {
-      console.log('err', err);
-      return err;
-    });
+    .then((response) => response)
+    .catch((err) => err);
 
   return result;
 };
