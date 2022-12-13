@@ -18,14 +18,16 @@ import ModalReprove from './Modais/Reprove';
 export function Formulariopage() {
   const { state }: any = useLocation();
   const [renderList, setRenderList] = useState<any[]>([]);
+  const [currentIndex, setCurrentIndex] = useState<number>(state.index);
 
   useEffect(() => {
+    const first = state.list[state.index];
     const renderArray = [];
-    for (const property in state.item.form_data) {
+    for (const property in first.form_data) {
       if (property == 'poco') {
         const newItem = {
           name: 'Poco',
-          value: state.item.form_data[property].nome_poco,
+          value: first.form_data[property].nome_poco,
           type: 'poco',
         };
         if (typeof newItem.value === 'string' || typeof newItem.value === 'number') {
@@ -34,7 +36,7 @@ export function Formulariopage() {
       } else if (property == 'tanque') {
         const newItem = {
           name: 'Tanque',
-          value: state.item.form_data[property].nom_tanque,
+          value: first.form_data[property].nom_tanque,
           type: 'poco',
         };
         if (typeof newItem.value === 'string' || typeof newItem.value === 'number') {
@@ -43,7 +45,7 @@ export function Formulariopage() {
       } else {
         const newItem = {
           name: keyName.filter((val: any) => val.key === property)[0].title,
-          value: state.item.form_data[property],
+          value: first.form_data[property],
           type: keyName.filter((val: any) => val.key === property)[0].type,
         };
         if (typeof newItem.value === 'string' || typeof newItem.value === 'number') {
@@ -54,11 +56,49 @@ export function Formulariopage() {
     setRenderList(renderArray);
   }, []);
 
+  const handlePrev = (value: boolean) => {
+    const newIndex = value ? currentIndex - 1 : currentIndex + 1;
+    const first = state.list[newIndex];
+    const renderArray = [];
+    for (const property in first.form_data) {
+      if (property == 'poco') {
+        const newItem = {
+          name: 'Poco',
+          value: first.form_data[property].nome_poco,
+          type: 'poco',
+        };
+        if (typeof newItem.value === 'string' || typeof newItem.value === 'number') {
+          renderArray.splice(0, 0, newItem);
+        }
+      } else if (property == 'tanque') {
+        const newItem = {
+          name: 'Tanque',
+          value: first.form_data[property].nom_tanque,
+          type: 'poco',
+        };
+        if (typeof newItem.value === 'string' || typeof newItem.value === 'number') {
+          renderArray.splice(0, 0, newItem);
+        }
+      } else {
+        const newItem = {
+          name: keyName.filter((val: any) => val.key === property)[0].title,
+          value: first.form_data[property],
+          type: keyName.filter((val: any) => val.key === property)[0].type,
+        };
+        if (typeof newItem.value === 'string' || typeof newItem.value === 'number') {
+          renderArray.push(newItem);
+        }
+      }
+    }
+    setCurrentIndex(newIndex);
+    setRenderList(renderArray);
+  };
+
   return (
     <Header>
       <TituloPagina botaoVoltar>Formulário para Aprovação</TituloPagina>
       <Flex justify={'center'} gap={10} direction={'row'} flex={1}>
-        <ModalPrevious />
+        {currentIndex == 0 ? undefined : <ModalPrevious handle={handlePrev} />}
         <Flex direction={'column'}>
           <Flex align={'center'} gap={4} w={'700px'} flexWrap="wrap">
             {renderList.map((item: any) => (
@@ -95,7 +135,7 @@ export function Formulariopage() {
             <ModalAprove />
           </Flex>
         </Flex>
-        <ModalNext />
+        {currentIndex == state.list.length - 1 ? undefined : <ModalNext handle={handlePrev} />}
       </Flex>
     </Header>
   );

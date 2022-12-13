@@ -188,10 +188,11 @@ export function Aprovacaopage() {
     setDateEnd('');
   };
 
-  const transfer = (item: any) => {
+  const transfer = (list: any, index: number) => {
     navigate(`/formulario`, {
       state: {
-        item,
+        list,
+        index,
       },
     });
   };
@@ -458,7 +459,7 @@ export function Aprovacaopage() {
                                 justify={'center'}
                                 onMouseEnter={() => [setEyePopOverInfo(item), setOpen(true)]}
                                 onMouseLeave={() => [setOpen(false)]}
-                                onClick={() => transfer(item)}
+                                onClick={() => transfer(renderList, index)}
                               >
                                 <BsFillEyeFill />
                               </Flex>

@@ -16,7 +16,7 @@ import {
   ModalCloseButton,
 } from '@chakra-ui/react';
 
-function ModalNext() {
+function ModalNext({ handle }: any) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -76,7 +76,7 @@ function ModalNext() {
                 background="origem.500"
                 variant="primary"
                 color="white"
-                onClick={() => []}
+                onClick={() => [handle(false), onClose()]}
                 _hover={{
                   background: 'origem.600',
                   transition: 'all 0.4s',
