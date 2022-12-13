@@ -20,15 +20,14 @@ import {
   relativeCoordinates,
   schematicWellState,
   setComments,
-  // setMaxDepth,
   setSubsurfaceEquipment,
   setSurfaceEquipment,
 } from 'features/schematicWell/schematicWellSlice';
 import { useGetCommentsQuery } from 'features/schematicWell/service/commentsCRUD';
 import { useGetSubsurfaceEquipmentsQuery } from 'features/schematicWell/service/subSurfaceEquimentsCRUD';
 import { useGetSurfaceEquipmentsQuery } from 'features/schematicWell/service/surfaceEquimentsCRUD';
-import { BarChart, CartesianGrid, YAxis } from 'recharts';
 
+import EscalaProfundidadeEsquematico from 'components/EscalaProfundidadeEsquematico';
 import GridLayout from 'components/Grid';
 import RequestError from 'components/RequestError';
 import { RingLoading } from 'components/RingLoading';
@@ -59,25 +58,11 @@ function SchematicWell() {
 
   const modalProps = { isOpen, onOpen, onClose };
 
-  // console.log('subSurfaceEquipments', subSurfaceEquipments);
-
   // Tamanho da escala da imagem do esquemático
   const imageSize = {
     width: 400,
     height: 1000,
   };
-
-  // Dados para o eixo Y
-  const maxDepthToChart = [
-    {
-      depth: maxDepth,
-    },
-  ];
-  //
-
-  // useEffect(() => {
-  //   dispatch(setMaxDepth(maxDepth[0].depth));
-  // }, []);
 
   useEffect(() => {
     if (subSurfaceEquipmentsRequest.data?.documents) {
@@ -148,52 +133,45 @@ function SchematicWell() {
             </Flex>
           ) : (
             <Flex flex={1}>
-              <Box position={'absolute'} zIndex={0}>
-                <BarChart width={Number(imageSize.width + 60)} height={Number(imageSize.height)} data={maxDepthToChart}>
-                  <CartesianGrid strokeDasharray="4 4" />
-                  <YAxis dataKey="depth" reversed={true} tickCount={5} />
-                </BarChart>
-              </Box>
-              <Image
-                onClick={(event) => {
-                  dispatch(relativeCoordinates(event));
-                  onOpen();
-                }}
-                src={SchematicSVG}
-                h={imageSize.height}
-                zIndex={1}
-                position={'relative'}
-                top={1}
-                left={100}
-              />
-              <Flex direction={'row-reverse'}>
-                {subsurfaceEquipmentTable.length &&
-                  subsurfaceEquipmentTable.map((equipment: SubsurfaceEquipment, index: number) => (
-                    <ButtonPontoDeClique
-                      subsurfaceEquipment={equipment}
-                      key={index}
-                      position={{
-                        scaleYAxis: (Number(equipment.depth) * imageSize.height) / maxDepthToChart[0].depth,
-                        xAxis: equipment.xAxis,
-                        yAxis: Number(equipment.depth),
-                      }}
-                      onOpen={onOpen}
-                    />
-                  ))}
-                {comments.length &&
-                  comments.map((comment: Comment, index: number) => (
-                    <ButtonPontoDeClique
-                      comment={comment}
-                      key={index}
-                      position={{
-                        scaleYAxis: (comment.depth * imageSize.height) / maxDepthToChart[0].depth,
-                        xAxis: comment.xAxis,
-                        yAxis: comment.depth,
-                      }}
-                      onOpen={onOpen}
-                    />
-                  ))}
-              </Flex>
+              <EscalaProfundidadeEsquematico>
+                <Image
+                  onClick={(event) => {
+                    dispatch(relativeCoordinates(event));
+                    onOpen();
+                  }}
+                  src={SchematicSVG}
+                  h={imageSize.height}
+                />
+
+                <Flex direction={'row-reverse'}>
+                  {subsurfaceEquipmentTable.length &&
+                    subsurfaceEquipmentTable.map((equipment: SubsurfaceEquipment, index: number) => (
+                      <ButtonPontoDeClique
+                        subsurfaceEquipment={equipment}
+                        key={index}
+                        position={{
+                          scaleYAxis: (Number(equipment.depth) * imageSize.height) / maxDepth,
+                          xAxis: equipment.xAxis,
+                          yAxis: Number(equipment.depth),
+                        }}
+                        onOpen={onOpen}
+                      />
+                    ))}
+                  {comments.length &&
+                    comments.map((comment: Comment, index: number) => (
+                      <ButtonPontoDeClique
+                        comment={comment}
+                        key={index}
+                        position={{
+                          scaleYAxis: (comment.depth * imageSize.height) / maxDepth,
+                          xAxis: comment.xAxis,
+                          yAxis: comment.depth,
+                        }}
+                        onOpen={onOpen}
+                      />
+                    ))}
+                </Flex>
+              </EscalaProfundidadeEsquematico>
             </Flex>
           )}
 
