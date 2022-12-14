@@ -11,13 +11,13 @@ function EscalaProfundidadeEsquematico({ children }: { children: React.ReactNode
       scale: 0,
     },
     {
-      scale: maxDepth * 0.25,
+      scale: (maxDepth * 0.25).toString().replace('.', ','),
     },
     {
-      scale: maxDepth * 0.5,
+      scale: (maxDepth * 0.5).toString().replace('.', ','),
     },
     {
-      scale: maxDepth * 0.75,
+      scale: (maxDepth * 0.75).toString().replace('.', ','),
     },
     {
       scale: maxDepth,
