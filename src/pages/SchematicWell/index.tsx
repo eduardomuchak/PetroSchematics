@@ -31,8 +31,8 @@ import {
 
 import EscalaProfundidadeEsquematico from 'components/EscalaProfundidadeEsquematico';
 import GridLayout from 'components/Grid';
+import { Loading } from 'components/Loading';
 import RequestError from 'components/RequestError';
-import { RingLoading } from 'components/RingLoading';
 
 import { usePayload } from 'hooks/usePayload';
 
@@ -89,7 +89,7 @@ function SchematicWell() {
   if (isLoading) {
     return (
       <GridLayout>
-        <RingLoading />
+        <Loading />
       </GridLayout>
     );
   }
