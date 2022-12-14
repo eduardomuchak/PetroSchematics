@@ -13,6 +13,7 @@ function GridLayout({ children }: { children: React.ReactNode }) {
                       "nav main"`}
       gridTemplateRows={'152px 1fr'}
       gridTemplateColumns={'88px 1fr'}
+      minH={'100vh'}
     >
       <GridItem bg="origem.500" area={'header'} px={20} py={5} as="header">
         <Flex direction={'column'} justify={'space-between'} flex={1} height={'100%'}>
@@ -52,7 +53,7 @@ function GridLayout({ children }: { children: React.ReactNode }) {
           ))}
         </Flex>
       </GridItem>
-      <GridItem area={'main'} as="main" p={5}>
+      <GridItem area={'main'} as="main" p={5} flex={1}>
         {children}
       </GridItem>
     </Grid>
