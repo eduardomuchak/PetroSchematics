@@ -22,3 +22,7 @@ export const regexCnpj = (stringToReplace: string | undefined | null) =>
         .replace(/(\d{4})(\d)/, '$1-$2')
         .replace(/(-\d{2})\d+?$/, '$1') // captura os dois últimos 2 números, com um - antes dos dois números
     : null;
+
+export const regexApenasNumeroseBarra = (stringToReplace: string | any) =>
+  // Caracteres permitidos: 0-9 e /
+  stringToReplace.replace(/[a-z]/gi, '').replace(/[§ª°º`´¨~!@#$%^&*()_|+=?;:'",.<>{}[]\]*/gi, '');
