@@ -36,7 +36,7 @@ function ModalDeletar({ equipment, toDelete }: Props) {
 
   return (
     <>
-      <IconButton onClick={onOpen} aria-label="Botão de Lixeira" icon={<FiTrash />} variant="origemDeleteOutline" />
+      <IconButton onClick={onOpen} aria-label="Botão de Lixeira" icon={<FiTrash />} variant="origemDeleteGhost" />
 
       <Modal isOpen={isOpen} onClose={onClose} size="lg">
         <ModalOverlay />

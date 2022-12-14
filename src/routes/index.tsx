@@ -8,6 +8,7 @@ import { Formulariopage } from 'pages/Formulario';
 import Login from 'pages/Login';
 import { NotFound } from 'pages/NotFound';
 import SchematicWell from 'pages/SchematicWell';
+import SchematicWellConfig from 'pages/SchematicWellConfig';
 import { StyleGuide } from 'pages/StyleGuide';
 import { UnderDevelopment } from 'pages/UnderDevelopment';
 
@@ -20,6 +21,7 @@ export function MainRoutes() {
         {/* public routes */}
         <Route index element={<Login />} />
         <Route path="esquematico-well" element={<SchematicWell />} />
+        <Route path="esquematico-well-config" element={<SchematicWellConfig />} />
         <Route path="style-guide" element={<StyleGuide />} />
         <Route path="cadastre-se" element={<UnderDevelopment />} />
         <Route path="esqueci-a-senha" element={<UnderDevelopment />} />

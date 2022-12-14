@@ -25,7 +25,7 @@ import {
 } from '@chakra-ui/react';
 import { Comment } from 'features/schematicWell/interfaces';
 import { schematicWellState } from 'features/schematicWell/schematicWellSlice';
-import { useUpdateCommentsMutation } from 'features/schematicWell/service/commentsCRUD';
+import { useUpdateCommentsMutation } from 'features/schematicWell/service/schematicWellApi';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
 
@@ -38,6 +38,7 @@ interface FormValues {
   comments: string;
   _id: string;
   hash: string;
+  xAxis: number;
 }
 
 interface Props {
@@ -54,6 +55,7 @@ function ModalEditarComentario({ comment }: Props) {
     comments: '',
     _id: '',
     hash: '',
+    xAxis: 0,
   } as FormValues);
 
   const handleCancel = () => {
@@ -82,6 +84,7 @@ function ModalEditarComentario({ comment }: Props) {
       comments: comment.comments,
       _id: comment._id,
       hash: comment.hash,
+      xAxis: comment.xAxis,
     });
   }, [isOpen]);
 
@@ -91,12 +94,13 @@ function ModalEditarComentario({ comment }: Props) {
       comments: '',
       _id: '',
       hash: '',
+      xAxis: 0,
     });
   }, [onClose]);
 
   return (
     <>
-      <IconButton onClick={onOpen} aria-label="Botão de Editar" icon={<MdModeEdit />} variant="origemEditOutline" />
+      <IconButton onClick={onOpen} aria-label="Botão de Editar" icon={<MdModeEdit />} variant="origemEditGhost" />
       <Modal isOpen={isOpen} onClose={onClose} size="lg">
         <ModalOverlay />
         <ModalContent>

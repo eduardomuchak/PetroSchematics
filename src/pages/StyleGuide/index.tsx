@@ -3,11 +3,11 @@ import { MdModeEdit } from 'react-icons/md';
 
 import { Button, Flex, Heading, IconButton, Input } from '@chakra-ui/react';
 
-import Header from 'components/Header';
+import GridLayout from 'components/Grid';
 
 export function StyleGuide() {
   return (
-    <Header>
+    <GridLayout>
       <Flex direction={'column'} align={'start'} justify={'center'} gap={5}>
         <Heading>Botões</Heading>
         <Flex gap={5}>
@@ -17,6 +17,7 @@ export function StyleGuide() {
             <Button variant={'origemBlueGhost'}>Ghost</Button>
             <IconButton aria-label="Botão de Editar" icon={<MdModeEdit />} variant="origemEditSolid" />
             <IconButton aria-label="Botão de Editar" icon={<MdModeEdit />} variant="origemEditOutline" />
+            <IconButton aria-label="Botão de Editar" icon={<MdModeEdit />} variant="origemEditGhost" />
           </Flex>
           <Flex direction={'column'} gap={5} align={'center'}>
             <Button variant={'origemRedSolid'}>Solid</Button>
@@ -24,6 +25,7 @@ export function StyleGuide() {
             <Button variant={'origemRedGhost'}>Ghost</Button>
             <IconButton aria-label="Botão de Lixeira" icon={<FiTrash />} variant="origemDeleteSolid" />
             <IconButton aria-label="Botão de Lixeira" icon={<FiTrash />} variant="origemDeleteOutline" />
+            <IconButton aria-label="Botão de Lixeira" icon={<FiTrash />} variant="origemDeleteGhost" />
           </Flex>
         </Flex>
       </Flex>
@@ -33,6 +35,6 @@ export function StyleGuide() {
           <Input variant={'origem'} placeholder={'Origem'} />
         </Flex>
       </Flex>
-    </Header>
+    </GridLayout>
   );
 }
