@@ -22,11 +22,11 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { schematicWellState } from 'features/schematicWell/schematicWellSlice';
-import { useAddSubsurfaceEquipmentMutation } from 'features/schematicWell/service/subSurfaceEquimentsCRUD';
+import { useAddSubsurfaceEquipmentMutation } from 'features/schematicWell/service/schematicWellApi';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
 
-import { regexRemoverCaracteresEspeciais } from 'utils/RegexCaracteresEspeciais';
+import { regexApenasNumeroseBarra, regexRemoverCaracteresEspeciais } from 'utils/RegexCaracteresEspeciais';
 
 import { usePayload } from 'hooks/usePayload';
 
@@ -149,7 +149,7 @@ function ModalCadastroEquipSubSuperficie() {
                     id="odInch"
                     type="text"
                     name="odInch"
-                    value={regexRemoverCaracteresEspeciais(formValues.odInch)}
+                    value={regexApenasNumeroseBarra(formValues.odInch)}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                       setFormValues({
                         ...formValues,
@@ -173,7 +173,7 @@ function ModalCadastroEquipSubSuperficie() {
                     id="idInch"
                     type="text"
                     name="idInch"
-                    value={regexRemoverCaracteresEspeciais(formValues.idInch)}
+                    value={regexApenasNumeroseBarra(formValues.idInch)}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                       setFormValues({
                         ...formValues,

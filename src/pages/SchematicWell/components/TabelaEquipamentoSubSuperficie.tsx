@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Flex, Td, Text, Tr } from '@chakra-ui/react';
 import { SubsurfaceEquipment } from 'features/schematicWell/interfaces';
 import { schematicWellState, setSubsurfaceEquipment } from 'features/schematicWell/schematicWellSlice';
-import { useDeleteSubsurfaceEquipmentMutation } from 'features/schematicWell/service/subSurfaceEquimentsCRUD';
+import { useDeleteSubsurfaceEquipmentMutation } from 'features/schematicWell/service/schematicWellApi';
 
 import TabelaGenerica from 'components/TabelaGenerica';
 
