@@ -25,7 +25,7 @@ import {
 } from '@chakra-ui/react';
 import { Comment } from 'features/schematicWell/interfaces';
 import { schematicWellState } from 'features/schematicWell/schematicWellSlice';
-import { useUpdateCommentsMutation } from 'features/schematicWell/service/commentsCRUD';
+import { useUpdateCommentsMutation } from 'features/schematicWell/service/schematicWellApi';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
 

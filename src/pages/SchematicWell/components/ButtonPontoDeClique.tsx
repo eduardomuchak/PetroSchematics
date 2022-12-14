@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { Comment, SubsurfaceEquipment } from 'features/schematicWell/interfaces';
 import { openPointOfClick } from 'features/schematicWell/schematicWellSlice';
-import { useDeleteCommentsMutation } from 'features/schematicWell/service/commentsCRUD';
+import { useDeleteCommentsMutation } from 'features/schematicWell/service/schematicWellApi';
 
 import { usePayload } from 'hooks/usePayload';
 

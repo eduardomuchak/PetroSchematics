@@ -23,9 +23,11 @@ import {
   setSubsurfaceEquipment,
   setSurfaceEquipment,
 } from 'features/schematicWell/schematicWellSlice';
-import { useGetCommentsQuery } from 'features/schematicWell/service/commentsCRUD';
-import { useGetSubsurfaceEquipmentsQuery } from 'features/schematicWell/service/subSurfaceEquimentsCRUD';
-import { useGetSurfaceEquipmentsQuery } from 'features/schematicWell/service/surfaceEquimentsCRUD';
+import {
+  useGetCommentsQuery,
+  useGetSubsurfaceEquipmentsQuery,
+  useGetSurfaceEquipmentsQuery,
+} from 'features/schematicWell/service/schematicWellApi';
 
 import EscalaProfundidadeEsquematico from 'components/EscalaProfundidadeEsquematico';
 import GridLayout from 'components/Grid';

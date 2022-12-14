@@ -25,7 +25,7 @@ import {
 } from '@chakra-ui/react';
 import { SubsurfaceEquipment } from 'features/schematicWell/interfaces';
 import { schematicWellState } from 'features/schematicWell/schematicWellSlice';
-import { useUpdateSubsurfaceEquipmentMutation } from 'features/schematicWell/service/subSurfaceEquimentsCRUD';
+import { useUpdateSubsurfaceEquipmentMutation } from 'features/schematicWell/service/schematicWellApi';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
 
