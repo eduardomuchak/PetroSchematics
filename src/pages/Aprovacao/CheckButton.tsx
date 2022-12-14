@@ -20,7 +20,7 @@ import {
   ModalCloseButton,
 } from '@chakra-ui/react';
 
-function CheckButton() {
+function CheckButton({ handle }: any) {
   const [openAprove, setOpenAprove] = useState(false);
   const [openReprove, setOpenReprove] = useState(false);
 
@@ -84,7 +84,7 @@ function CheckButton() {
                 background="origem.500"
                 variant="primary"
                 color="white"
-                onClick={() => []}
+                onClick={() => [handle(true), setOpenAprove(false)]}
                 _hover={{
                   background: 'origem.600',
                   transition: 'all 0.4s',
@@ -160,7 +160,7 @@ function CheckButton() {
                 background="origem.500"
                 variant="primary"
                 color="white"
-                onClick={() => []}
+                onClick={() => [handle(false), setOpenReprove(false)]}
                 _hover={{
                   background: 'origem.600',
                   transition: 'all 0.4s',

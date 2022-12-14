@@ -7,8 +7,8 @@ import { Flex, Text } from '@chakra-ui/react';
 
 import { keyName } from 'pages/Aprovacao/keyNamePairs';
 
-import Header from 'components/Header';
-import TituloPagina from 'components/TituloPagina';
+import GridLayout from 'components/Grid';
+// import TituloPagina from 'components/TituloPagina';
 
 import ModalAprove from './Modais/Aprove';
 import ModalNext from './Modais/Next';
@@ -95,8 +95,8 @@ export function Formulariopage() {
   };
 
   return (
-    <Header>
-      <TituloPagina botaoVoltar>Formulário para Aprovação</TituloPagina>
+    <GridLayout>
+      {/* <TituloPagina botaoVoltar>Formulário para Aprovação</TituloPagina> */}
       <Flex justify={'center'} gap={10} direction={'row'} flex={1}>
         {currentIndex == 0 ? undefined : <ModalPrevious handle={handlePrev} />}
         <Flex direction={'column'}>
@@ -137,6 +137,6 @@ export function Formulariopage() {
         </Flex>
         {currentIndex == state.list.length - 1 ? undefined : <ModalNext handle={handlePrev} />}
       </Flex>
-    </Header>
+    </GridLayout>
   );
 }

@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import { useState, useEffect } from 'react';
 import { BsFillEyeFill } from 'react-icons/bs';
 import { useNavigate } from 'react-router';
@@ -24,9 +25,9 @@ import {
 } from '@chakra-ui/react';
 import { getAllPocos, getAllDocs } from 'features/aprovacao';
 
-import Header from 'components/Header';
+import GridLayout from 'components/Grid';
 import { RingLoading } from 'components/RingLoading';
-import TituloPagina from 'components/TituloPagina';
+// import TituloPagina from 'components/TituloPagina';
 
 import CheckButton from './CheckButton';
 import DatePicker from './DatePicker';
@@ -112,7 +113,6 @@ export function Aprovacaopage() {
   ];
 
   const getAll = async () => {
-    // const tqs = await getAllTanques();
     const pocos = await getAllPocos();
     const pocosLocal =
       pocos.documents.map((val: any) => ({
@@ -124,12 +124,6 @@ export function Aprovacaopage() {
     setListaPocoOriginais(pocosLocal);
     setListaFiltroForm(options);
     let all: any[] = [];
-    // options.forEach(async (val: any) => {
-    //   const local = await getAllDocs(val.form);
-    //   console.log('local', local);
-    //   const prev = all;
-    //   all = prev.concat(local);
-    // });
     for await (const results of options) {
       const local = await getAllDocs(results.form);
       const prev = all;
@@ -195,9 +189,19 @@ export function Aprovacaopage() {
     });
   };
 
+  const handleCheckButton = (aproved: boolean) => {
+    console.log('aproved', aproved);
+    const updateList = renderList.filter((val: any) => val.checked === true);
+    if (aproved) {
+      console.log('s', updateList);
+    } else {
+      console.log('s', updateList);
+    }
+  };
+
   return (
-    <Header>
-      <TituloPagina botaoVoltar>TABELA DE APROVACÕES</TituloPagina>
+    <GridLayout>
+      {/* <TituloPagina botaoVoltar>TABELA DE APROVACÕES</TituloPagina> */}
       <Popover isOpen={open} onClose={() => setOpen(false)} placement="left-start">
         <Flex direction={'column'} flex={1}>
           {renderList.length === 0 ? (
@@ -311,7 +315,7 @@ export function Aprovacaopage() {
                         borderTopWidth={'1px'}
                         borderColor={'#9FA2B4'}
                       >
-                        <CheckButton />
+                        <CheckButton handle={handleCheckButton} />
                       </Th>
                       <Th
                         height={'40px'}
@@ -405,10 +409,10 @@ export function Aprovacaopage() {
                               borderColor={'#9FA2B4'}
                             >
                               <Flex justify={'center'}>
-                                {`${new Date(item.dat_usu_aprov).getHours() < 10 ? '0' : ''}${new Date(
-                                  item.dat_usu_aprov,
-                                ).getHours()}:${new Date(item.dat_usu_aprov).getMinutes() < 10 ? '0' : ''}${new Date(
-                                  item.dat_usu_aprov,
+                                {`${new Date(item.dat_log).getHours() < 10 ? '0' : ''}${new Date(
+                                  item.dat_log,
+                                ).getHours()}:${new Date(item.dat_log).getMinutes() < 10 ? '0' : ''}${new Date(
+                                  item.dat_log,
                                 ).getMinutes()}`}
                               </Flex>
                             </Td>
@@ -419,7 +423,7 @@ export function Aprovacaopage() {
                               borderTopWidth={'1px'}
                               borderColor={'#9FA2B4'}
                             >
-                              <Flex justify={'center'}>{item.nom_usu_aprov}</Flex>
+                              <Flex justify={'center'}>{item.usu_log}</Flex>
                             </Td>
                             <Td
                               height={'56px'}
@@ -429,11 +433,11 @@ export function Aprovacaopage() {
                               borderColor={'#9FA2B4'}
                             >
                               <Flex justify={'center'}>
-                                {`${new Date(item.dat_usu_aprov).getDate() < 10 ? '0' : ''}${new Date(
-                                  item.dat_usu_aprov,
-                                ).getDate()}/${new Date(item.dat_usu_aprov).getMonth() + 1 < 10 ? '0' : ''}${
-                                  new Date(item.dat_usu_aprov).getMonth() + 1
-                                }/${new Date(item.dat_usu_aprov).getFullYear()}`}
+                                {`${new Date(item.dat_log).getDate() < 10 ? '0' : ''}${new Date(
+                                  item.dat_log,
+                                ).getDate()}/${new Date(item.dat_log).getMonth() + 1 < 10 ? '0' : ''}${
+                                  new Date(item.dat_log).getMonth() + 1
+                                }/${new Date(item.dat_log).getFullYear()}`}
                               </Flex>
                             </Td>
                             <Td
@@ -443,7 +447,13 @@ export function Aprovacaopage() {
                               borderTopWidth={'1px'}
                               borderColor={'#9FA2B4'}
                             >
-                              <Flex justify={'center'}>Aprovado</Flex>
+                              <Flex justify={'center'}>
+                                {item.ind_situacao == 2
+                                  ? 'Aprovado'
+                                  : item.ind_situacao == 3
+                                  ? 'Reprovado'
+                                  : 'Pendente'}
+                              </Flex>
                             </Td>
                             <Td
                               height={'56px'}
@@ -488,6 +498,6 @@ export function Aprovacaopage() {
           </PopoverBody>
         </PopoverContent>
       </Popover>
-    </Header>
+    </GridLayout>
   );
 }
