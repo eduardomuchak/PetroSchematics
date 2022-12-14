@@ -37,7 +37,7 @@ function EscalaProfundidadeEsquematico({ children }: { children: React.ReactNode
               gap={2}
               key={index}
             >
-              <Text>{slice.scale}</Text>
+              <Text>{slice.scale}m</Text>
               <Box
                 w={'100%'}
                 h={'1px'}
