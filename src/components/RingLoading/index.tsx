@@ -1,8 +1,8 @@
 import { Flex } from '@chakra-ui/react';
-import { Ring } from '@uiball/loaders';
+import { Jelly } from '@uiball/loaders';
 
 export const RingLoading = () => (
   <Flex display={'flex'} align={'center'} justify={'center'} h={'90vh'}>
-    <Ring speed={2} lineWeight={5} color="blue" size={64} />
+    <Jelly speed={0.9} color="blue" size={80} />
   </Flex>
 );

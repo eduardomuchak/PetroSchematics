@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { Flex, Grid, GridItem } from '@chakra-ui/react';
 import { Well } from 'features/wells/interfaces';
 import { useGetWellsListQuery } from 'features/wells/service/wellsApi';
 import { setWellsList, wellsState } from 'features/wells/wellsSlice';
@@ -55,10 +56,17 @@ function WellsList() {
   // Handle Success
   return (
     <GridLayout>
-      <h1>Lista de Poços</h1>
-      {wellsList.length > 0
-        ? wellsList.map((well: Well, index: number) => <WellNameCard well={well} key={index} />)
-        : null}
+      <Flex justify={'center'} h={'77vh'} overflowX={'scroll'}>
+        <Grid templateColumns={'repeat(2, 5fr)'} gap={5} justifyItems={'center'} width={'fit-content'}>
+          {wellsList.length > 0
+            ? wellsList.map((well: Well, index: number) => (
+                <GridItem key={index}>
+                  <WellNameCard well={well} />
+                </GridItem>
+              ))
+            : null}
+        </Grid>
+      </Flex>
     </GridLayout>
   );
   //

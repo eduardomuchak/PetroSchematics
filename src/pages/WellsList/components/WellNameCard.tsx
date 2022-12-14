@@ -8,7 +8,7 @@ interface Props {
 function WellNameCard({ well }: Props) {
   return (
     <Button variant={'origemBlueSolid'} w={'328px'}>
-      <Text>Well Name</Text>
+      <Text>{well.nome_poco}</Text>
     </Button>
   );
 }
