@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { Comment, SubsurfaceEquipment } from 'features/schematicWell/interfaces';
 import { openPointOfClick } from 'features/schematicWell/schematicWellSlice';
-import { useDeleteCommentsMutation } from 'features/schematicWell/service/commentsCRUD';
+import { useDeleteCommentsMutation } from 'features/schematicWell/service/schematicWellApi';
 
 import { usePayload } from 'hooks/usePayload';
 
@@ -228,8 +228,8 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment }:
 
   return (
     <Flex
-      position={'relative'}
-      right={xAxis - 80}
+      position={'absolute'}
+      left={xAxis - 12}
       top={scaleYAxis - 12}
       zIndex={2}
       height={'24px'}

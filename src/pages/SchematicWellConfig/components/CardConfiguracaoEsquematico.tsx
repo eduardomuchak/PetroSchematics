@@ -18,7 +18,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { schematicWellState, setMaxDepth } from 'features/schematicWell/schematicWellSlice';
-import { useAddManySurfaceEquipmentsMutation } from 'features/schematicWell/service/surfaceEquimentsCRUD';
+import { useAddManySurfaceEquipmentsMutation } from 'features/schematicWell/service/schematicWellApi';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
 

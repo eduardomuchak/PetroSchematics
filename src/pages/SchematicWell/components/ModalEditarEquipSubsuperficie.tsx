@@ -25,11 +25,11 @@ import {
 } from '@chakra-ui/react';
 import { SubsurfaceEquipment } from 'features/schematicWell/interfaces';
 import { schematicWellState } from 'features/schematicWell/schematicWellSlice';
-import { useUpdateSubsurfaceEquipmentMutation } from 'features/schematicWell/service/subSurfaceEquimentsCRUD';
+import { useUpdateSubsurfaceEquipmentMutation } from 'features/schematicWell/service/schematicWellApi';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
 
-import { regexRemoverCaracteresEspeciais } from 'utils/RegexCaracteresEspeciais';
+import { regexApenasNumeroseBarra, regexRemoverCaracteresEspeciais } from 'utils/RegexCaracteresEspeciais';
 
 import { usePayload } from 'hooks/usePayload';
 
@@ -153,7 +153,7 @@ function ModalEditarEquipSubsuperficie({ equipment }: Props) {
                     id="odInch"
                     type="text"
                     name="odInch"
-                    value={regexRemoverCaracteresEspeciais(formValues.odInch)}
+                    value={regexApenasNumeroseBarra(formValues.odInch)}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                       setFormValues({
                         ...formValues,
@@ -176,7 +176,7 @@ function ModalEditarEquipSubsuperficie({ equipment }: Props) {
                     id="idInch"
                     type="text"
                     name="idInch"
-                    value={regexRemoverCaracteresEspeciais(formValues.idInch)}
+                    value={regexApenasNumeroseBarra(formValues.idInch)}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                       setFormValues({
                         ...formValues,
