@@ -4,6 +4,7 @@ import { BsCalendarEvent } from 'react-icons/bs';
 import { useLocation } from 'react-router';
 
 import { Flex, Text } from '@chakra-ui/react';
+import { aproveForm } from 'features/aprovacao';
 
 import { keyName } from 'pages/Aprovacao/keyNamePairs';
 
@@ -94,6 +95,16 @@ export function Formulariopage() {
     setRenderList(renderArray);
   };
 
+  const handleModal = async (aproved: boolean) => {
+    const first = state.list[state.index];
+    if (aproved) {
+      await aproveForm(first.form_type, first.id_document, 2);
+    } else {
+      await aproveForm(first.form_type, first.id_document, 3);
+    }
+    handlePrev(false);
+  };
+
   return (
     <GridLayout>
       {/* <TituloPagina botaoVoltar>Formulário para Aprovação</TituloPagina> */}
@@ -131,8 +142,8 @@ export function Formulariopage() {
             ))}
           </Flex>
           <Flex justify={'center'} gap={2} mt={'24px'} direction={'row'} w={'100%'}>
-            <ModalReprove />
-            <ModalAprove />
+            <ModalReprove handle={handleModal} />
+            <ModalAprove handle={handleModal} />
           </Flex>
         </Flex>
         {currentIndex == state.list.length - 1 ? undefined : <ModalNext handle={handlePrev} />}

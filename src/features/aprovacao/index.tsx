@@ -90,3 +90,32 @@ export const insertOneForm = async (item: any, form: string) => {
 
   return result;
 };
+
+export const aproveForm = async (form: string, id: string, value: number) => {
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json',
+      'api-key': API_KEY,
+    },
+    body: JSON.stringify({
+      dataSource: Cluster,
+      database: Database,
+      collection: form,
+      filter: {
+        id_document: id,
+      },
+      update: {
+        $set: {
+          ind_situacao: value,
+        },
+      },
+    }),
+  };
+  const result = await fetch(`${URL_ENDPOINT}/action/updateOne`, options)
+    .then((response) => response.json())
+    .then((response) => response)
+    .catch((err) => err);
+
+  return result;
+};

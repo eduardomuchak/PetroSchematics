@@ -14,7 +14,7 @@ import {
   ModalCloseButton,
 } from '@chakra-ui/react';
 
-function ModalReprove() {
+function ModalReprove({ handle }: any) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -96,7 +96,7 @@ function ModalReprove() {
                 background="origem.500"
                 variant="primary"
                 color="white"
-                onClick={() => []}
+                onClick={() => [handle(false), onClose()]}
                 _hover={{
                   background: 'origem.600',
                   transition: 'all 0.4s',

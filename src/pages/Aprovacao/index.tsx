@@ -23,7 +23,7 @@ import {
   PopoverBody,
   PopoverAnchor,
 } from '@chakra-ui/react';
-import { getAllPocos, getAllDocs } from 'features/aprovacao';
+import { getAllPocos, getAllDocs, aproveForm } from 'features/aprovacao';
 
 import GridLayout from 'components/Grid';
 import { RingLoading } from 'components/RingLoading';
@@ -131,6 +131,7 @@ export function Aprovacaopage() {
     }
     setFormsList(all);
     setRenderList(all);
+    console.log('all', all);
   };
 
   const handleCheckbox = (value: any, index: number) => {
@@ -189,13 +190,16 @@ export function Aprovacaopage() {
     });
   };
 
-  const handleCheckButton = (aproved: boolean) => {
-    console.log('aproved', aproved);
+  const handleCheckButton = async (aproved: boolean) => {
     const updateList = renderList.filter((val: any) => val.checked === true);
     if (aproved) {
-      console.log('s', updateList);
+      for await (const results of updateList) {
+        await aproveForm(results.form_type, results.id_document, 2);
+      }
     } else {
-      console.log('s', updateList);
+      for await (const results of updateList) {
+        await aproveForm(results.form_type, results.id_document, 3);
+      }
     }
   };
 
