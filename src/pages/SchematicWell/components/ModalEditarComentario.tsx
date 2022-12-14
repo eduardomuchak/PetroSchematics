@@ -38,6 +38,7 @@ interface FormValues {
   comments: string;
   _id: string;
   hash: string;
+  xAxis: number;
 }
 
 interface Props {
@@ -54,6 +55,7 @@ function ModalEditarComentario({ comment }: Props) {
     comments: '',
     _id: '',
     hash: '',
+    xAxis: 0,
   } as FormValues);
 
   const handleCancel = () => {
@@ -82,6 +84,7 @@ function ModalEditarComentario({ comment }: Props) {
       comments: comment.comments,
       _id: comment._id,
       hash: comment.hash,
+      xAxis: comment.xAxis,
     });
   }, [isOpen]);
 
@@ -91,6 +94,7 @@ function ModalEditarComentario({ comment }: Props) {
       comments: '',
       _id: '',
       hash: '',
+      xAxis: 0,
     });
   }, [onClose]);
 

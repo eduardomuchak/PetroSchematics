@@ -144,32 +144,34 @@ function SchematicWell() {
                 />
 
                 <Flex direction={'row-reverse'}>
-                  {subsurfaceEquipmentTable.length &&
-                    subsurfaceEquipmentTable.map((equipment: SubsurfaceEquipment, index: number) => (
-                      <ButtonPontoDeClique
-                        subsurfaceEquipment={equipment}
-                        key={index}
-                        position={{
-                          scaleYAxis: (Number(equipment.depth) * imageSize.height) / maxDepth,
-                          xAxis: equipment.xAxis,
-                          yAxis: Number(equipment.depth),
-                        }}
-                        onOpen={onOpen}
-                      />
-                    ))}
-                  {comments.length &&
-                    comments.map((comment: Comment, index: number) => (
-                      <ButtonPontoDeClique
-                        comment={comment}
-                        key={index}
-                        position={{
-                          scaleYAxis: (comment.depth * imageSize.height) / maxDepth,
-                          xAxis: comment.xAxis,
-                          yAxis: comment.depth,
-                        }}
-                        onOpen={onOpen}
-                      />
-                    ))}
+                  {subsurfaceEquipmentTable.length
+                    ? subsurfaceEquipmentTable.map((equipment: SubsurfaceEquipment, index: number) => (
+                        <ButtonPontoDeClique
+                          subsurfaceEquipment={equipment}
+                          key={index}
+                          position={{
+                            scaleYAxis: (Number(equipment.depth) * imageSize.height) / maxDepth,
+                            xAxis: equipment.xAxis,
+                            yAxis: Number(equipment.depth),
+                          }}
+                          onOpen={onOpen}
+                        />
+                      ))
+                    : null}
+                  {comments.length
+                    ? comments.map((comment: Comment, index: number) => (
+                        <ButtonPontoDeClique
+                          comment={comment}
+                          key={index}
+                          position={{
+                            scaleYAxis: (comment.depth * imageSize.height) / maxDepth,
+                            xAxis: comment.xAxis,
+                            yAxis: comment.depth,
+                          }}
+                          onOpen={onOpen}
+                        />
+                      ))
+                    : null}
                 </Flex>
               </EscalaProfundidadeEsquematico>
             </Flex>

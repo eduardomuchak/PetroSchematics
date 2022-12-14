@@ -228,8 +228,8 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment }:
 
   return (
     <Flex
-      position={'relative'}
-      right={xAxis - 80}
+      position={'absolute'}
+      left={xAxis - 12}
       top={scaleYAxis - 12}
       zIndex={2}
       height={'24px'}
