@@ -77,6 +77,16 @@ function containsObject(obj: any, list: any) {
   return false;
 }
 
+function compare(a: any, b: any) {
+  if (new Date(a.dat_log) < new Date(b.dat_log)) {
+    return -1;
+  }
+  if (new Date(a.dat_log) > new Date(b.dat_log)) {
+    return 1;
+  }
+  return 0;
+}
+
 export function Aprovacaopage() {
   const [render, setRender] = useState<boolean>(false);
   const [renderList, setRenderList] = useState<any[]>([]);
@@ -116,7 +126,6 @@ export function Aprovacaopage() {
   const status: any[] = [
     { value: 0, label: 'Todos' },
     { value: 1, label: 'Pendentes' },
-    { value: 2, label: 'Aprovados' },
     { value: 3, label: 'Reprovados' },
   ];
 
@@ -137,8 +146,9 @@ export function Aprovacaopage() {
       const prev = all;
       all = prev.concat(local.documents);
     }
-    setFormsList(all);
-    setRenderList(all);
+    const filtered = all.filter((val: any) => val.ind_situacao != 2);
+    setFormsList(filtered.sort(compare));
+    setRenderList(filtered.sort(compare));
     setloading(false);
   };
 
@@ -223,9 +233,10 @@ export function Aprovacaopage() {
       const prev = all;
       all = prev.concat(local.documents);
     }
-    setFormsList(all);
-    setRenderList(all);
-    refilter(all);
+    const filtered = all.filter((val: any) => val.ind_situacao != 2);
+    setFormsList(filtered.sort(compare));
+    setRenderList(filtered.sort(compare));
+    refilter(filtered.sort(compare));
   };
 
   const refilter = async (all: any[]) => {
