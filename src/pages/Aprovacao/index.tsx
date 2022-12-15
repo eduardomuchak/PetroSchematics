@@ -87,6 +87,7 @@ export function Aprovacaopage() {
   const [filterCampo, setFilterCampo] = useState<any>({ value: 0, label: '' });
   const [filterForm, setFilterForm] = useState<any>({ value: 0, label: '' });
   const [filterPoco, setFilterPoco] = useState<any>({ value: 0, label: '' });
+  const [filterStatus, setFilterStatus] = useState<any>({ value: 0, label: 'Todos' });
   const [dateIni, setDateIni] = useState<any>('');
   const [dateEnd, setDateEnd] = useState<any>('');
   const [paginationBottom, setPaginationBottom] = useState<number>(0);
@@ -112,6 +113,13 @@ export function Aprovacaopage() {
     { value: 2, label: 'Campo de Furado' },
   ];
 
+  const status: any[] = [
+    { value: 0, label: 'Todos' },
+    { value: 1, label: 'Pendentes' },
+    { value: 2, label: 'Aprovados' },
+    { value: 3, label: 'Reprovados' },
+  ];
+
   const getAll = async () => {
     const pocos = await getAllPocos();
     const pocosLocal =
@@ -135,7 +143,7 @@ export function Aprovacaopage() {
   };
 
   const handleCheckbox = (value: any, index: number) => {
-    const newList = formsList;
+    const newList = renderList;
     newList[index].checked = value;
     setFormsList(newList);
     setRender(!render);
@@ -164,19 +172,22 @@ export function Aprovacaopage() {
       const filtrarDateIni = filtrarForm.filter((val: any) =>
         dateIni == '' ? val : new Date(val.dat_usu_aprov) > dateIni,
       );
-
       const filtrarDateEnd = filtrarDateIni.filter((val: any) =>
         dateEnd == '' ? val : new Date(val.dat_usu_aprov) <= dateEnd,
       );
-      setRenderList(filtrarDateEnd);
+      const filtrarStatus = filtrarDateEnd.filter((val: any) =>
+        filterStatus.value == 0 ? val : val.ind_situacao == filterStatus.value,
+      );
+      setRenderList(filtrarStatus);
       setPaginationBottom(0);
     }
-  }, [filterCampo, filterForm, filterPoco, dateIni, dateEnd]);
+  }, [filterCampo, filterForm, filterPoco, dateIni, dateEnd, filterStatus]);
 
   const clearFilters = () => {
     setFilterCampo({ value: 0, label: '' });
     setFilterForm({ value: 0, label: '' });
     setFilterPoco({ value: 0, label: '' });
+    setFilterStatus({ value: 0, label: 'Todos' });
     setDateIni('');
     setDateEnd('');
   };
@@ -214,6 +225,41 @@ export function Aprovacaopage() {
     }
     setFormsList(all);
     setRenderList(all);
+    refilter(all);
+  };
+
+  const refilter = async (all: any[]) => {
+    if (all.length > 0) {
+      const listBase = all;
+      const allPocos = listaPocoOriginais;
+      const filtered = allPocos.filter((val: any) =>
+        filterCampo.value == 0 ? true : val.id_poco == filterCampo.value,
+      );
+      setListaFiltroPoco(filtered);
+      if (filterCampo.value != 0) {
+        setFilterPoco({ value: 0, label: '' });
+      }
+      const filtrarCampo = listBase.filter((val: any) =>
+        filterCampo.label == '' ? val : containsObject(val.form_data?.poco, filtered),
+      );
+      const filtrarPoco = filtrarCampo.filter((val: any) =>
+        filterPoco.label == '' ? val : val.form_data.poco?.nome_poco?.includes(filterPoco.label),
+      );
+      const filtrarForm = filtrarPoco.filter((val: any) =>
+        filterForm.label == '' ? val : val.form_type?.includes(filterForm.form),
+      );
+      const filtrarDateIni = filtrarForm.filter((val: any) =>
+        dateIni == '' ? val : new Date(val.dat_usu_aprov) > dateIni,
+      );
+      const filtrarDateEnd = filtrarDateIni.filter((val: any) =>
+        dateEnd == '' ? val : new Date(val.dat_usu_aprov) <= dateEnd,
+      );
+      const filtrarStatus = filtrarDateEnd.filter((val: any) =>
+        filterStatus.value == 0 ? val : val.ind_situacao == filterStatus.value,
+      );
+      setRenderList(filtrarStatus);
+      setPaginationBottom(0);
+    }
     setloading(false);
   };
 
@@ -222,6 +268,23 @@ export function Aprovacaopage() {
       <Popover isOpen={open} onClose={() => setOpen(false)} placement="left-start">
         <Flex direction={'column'} flex={1}>
           <Flex gap={2} mb={8} flexWrap="wrap">
+            <Flex minW={200} maxW={200} direction={'column'}>
+              <Text fontWeight={700} fontSize={12} letterSpacing={0.3} color={'#A7A7A7'} w={'100%'}>
+                STATUS
+              </Text>
+              <Select
+                styles={customStyles}
+                components={{
+                  IndicatorSeparator: () => null,
+                }}
+                placeholder={'Selecione'}
+                options={status}
+                onChange={(e) => setFilterStatus(e)}
+                defaultValue={'Selecione'}
+                value={filterStatus}
+                isSearchable
+              />
+            </Flex>
             <Flex minW={200} maxW={200} direction={'column'}>
               <Text fontWeight={700} fontSize={12} letterSpacing={0.3} color={'#A7A7A7'} w={'100%'}>
                 OPERAÇÃO DE POÇOS
