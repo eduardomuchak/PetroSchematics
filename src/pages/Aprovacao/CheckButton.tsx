@@ -7,7 +7,6 @@ import {
   Button,
   Text,
   Popover,
-  PopoverTrigger,
   PopoverContent,
   PopoverBody,
   Modal,
@@ -18,14 +17,16 @@ import {
   Stack,
   ModalHeader,
   ModalCloseButton,
+  PopoverAnchor,
 } from '@chakra-ui/react';
 
-function CheckButton({ handle }: any) {
+function CheckButton({ disabled, handle }: any) {
   const [openAprove, setOpenAprove] = useState(false);
   const [openReprove, setOpenReprove] = useState(false);
+  const [open, setOpen] = useState(false);
 
   return (
-    <Popover>
+    <Popover isOpen={open} onClose={() => setOpen(false)}>
       <Modal isOpen={openAprove} onClose={() => setOpenAprove(false)} size="lg">
         <ModalOverlay />
         <ModalContent>
@@ -212,12 +213,12 @@ function CheckButton({ handle }: any) {
           </Flex>
         </PopoverBody>
       </PopoverContent>
-      <PopoverTrigger>
-        <Flex cursor={'pointer'} justify={'center'}>
-          <BsSquare color={'#fff'} size={22} style={{ marginLeft: 23 }} />
-          <RxTriangleDown color={'#fff'} size={22} />
+      <PopoverAnchor>
+        <Flex cursor={'pointer'} justify={'center'} onClick={() => !disabled && setOpen(true)}>
+          <BsSquare color={disabled ? '#aaa' : '#fff'} size={22} style={{ marginLeft: 23 }} />
+          <RxTriangleDown color={disabled ? '#aaa' : '#fff'} size={22} />
         </Flex>
-      </PopoverTrigger>
+      </PopoverAnchor>
     </Popover>
   );
 }

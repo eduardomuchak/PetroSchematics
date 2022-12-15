@@ -93,6 +93,7 @@ export function Aprovacaopage() {
   const [paginationBottom, setPaginationBottom] = useState<number>(0);
   const [paginationShow, setPaginationShow] = useState<number>(10);
   const [eyePopOverInfo, setEyePopOverInfo] = useState<any>({ form_data: {} });
+  const [loading, setloading] = useState(true);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -131,7 +132,7 @@ export function Aprovacaopage() {
     }
     setFormsList(all);
     setRenderList(all);
-    console.log('all', all);
+    setloading(false);
   };
 
   const handleCheckbox = (value: any, index: number) => {
@@ -191,6 +192,7 @@ export function Aprovacaopage() {
   };
 
   const handleCheckButton = async (aproved: boolean) => {
+    setloading(true);
     const updateList = renderList.filter((val: any) => val.checked === true);
     if (aproved) {
       for await (const results of updateList) {
@@ -201,6 +203,19 @@ export function Aprovacaopage() {
         await aproveForm(results.form_type, results.id_document, 3);
       }
     }
+    getFormsAgain();
+  };
+
+  const getFormsAgain = async () => {
+    let all: any[] = [];
+    for await (const results of options) {
+      const local = await getAllDocs(results.form);
+      const prev = all;
+      all = prev.concat(local.documents);
+    }
+    setFormsList(all);
+    setRenderList(all);
+    setloading(false);
   };
 
   return (
@@ -208,97 +223,96 @@ export function Aprovacaopage() {
       {/* <TituloPagina botaoVoltar>TABELA DE APROVACÕES</TituloPagina> */}
       <Popover isOpen={open} onClose={() => setOpen(false)} placement="left-start">
         <Flex direction={'column'} flex={1}>
-          {renderList.length === 0 ? (
+          <Flex gap={2} mb={8} flexWrap="wrap">
+            <Flex minW={200} maxW={200} direction={'column'}>
+              <Text fontWeight={700} fontSize={12} letterSpacing={0.3} color={'#A7A7A7'} w={'100%'}>
+                OPERAÇÃO DE POÇOS
+              </Text>
+              <Select
+                styles={customStyles}
+                components={{
+                  IndicatorSeparator: () => null,
+                }}
+                placeholder={'Selecione'}
+                options={campos}
+                onChange={(e) => setFilterCampo(e)}
+                defaultValue={'Selecione'}
+                value={filterCampo.value === 0 ? 'Selecione' : filterCampo}
+                isSearchable
+              />
+            </Flex>
+            <Flex minW={200} maxW={200} direction={'column'}>
+              <Text fontWeight={700} fontSize={12} letterSpacing={0.3} color={'#A7A7A7'} w={'100%'}>
+                POÇO
+              </Text>
+              <Select
+                styles={customStyles}
+                components={{
+                  IndicatorSeparator: () => null,
+                }}
+                placeholder={'Selecione'}
+                options={listaFiltroPoco}
+                onChange={(e) => setFilterPoco(e)}
+                defaultValue={'Selecione'}
+                value={filterPoco.value === 0 ? 'Selecione' : filterPoco}
+                isSearchable
+              />
+            </Flex>
+            <Flex minW={200} maxW={200} direction={'column'}>
+              <Text fontWeight={700} fontSize={12} letterSpacing={0.3} color={'#A7A7A7'} w={'100%'}>
+                FORMULÁRIO
+              </Text>
+              <Select
+                styles={customStyles}
+                components={{
+                  IndicatorSeparator: () => null,
+                }}
+                placeholder={'Selecione'}
+                options={listaFiltroForm}
+                onChange={(e) => setFilterForm(e)}
+                defaultValue={'Selecione'}
+                value={filterForm.value === 0 ? 'Selecione' : filterForm}
+                isSearchable
+              />
+            </Flex>
+            <Flex direction={'column'}>
+              <Text fontWeight={700} fontSize={12} letterSpacing={0.3} color={'#A7A7A7'} w={'100%'}>
+                INTERVALO INICIAL
+              </Text>
+              <DatePicker value={dateIni} seter={setDateIni} />
+            </Flex>
+            <Flex direction={'column'}>
+              <Text fontWeight={700} fontSize={12} letterSpacing={0.3} color={'#A7A7A7'} w={'100%'}>
+                INTERVALO FINAL
+              </Text>
+              <DatePicker value={dateEnd} seter={setDateEnd} />
+            </Flex>
+            <Flex align={'center'}>
+              <Button
+                h={'42px'}
+                w={'177px'}
+                variant="outline"
+                color={'origem.500'}
+                colorScheme="blue"
+                onClick={() => clearFilters()}
+                _hover={{
+                  shadow: '0px 0px 5px -1px rgba(0,72,187,1)',
+                  transition: 'all 0.4s',
+                }}
+                fontSize={'18px'}
+                fontWeight={'700'}
+                borderRadius={'96px'}
+              >
+                <Text fontSize={'14px'} fontWeight={'700'}>
+                  Limpar Filtros
+                </Text>
+              </Button>
+            </Flex>
+          </Flex>
+          {loading ? (
             <RingLoading />
           ) : (
             <>
-              <Flex gap={2} mb={8} flexWrap="wrap">
-                <Flex minW={200} maxW={200} direction={'column'}>
-                  <Text fontWeight={700} fontSize={12} letterSpacing={0.3} color={'#A7A7A7'} w={'100%'}>
-                    OPERAÇÃO DE POÇOS
-                  </Text>
-                  <Select
-                    styles={customStyles}
-                    components={{
-                      IndicatorSeparator: () => null,
-                    }}
-                    placeholder={'Selecione'}
-                    options={campos}
-                    onChange={(e) => setFilterCampo(e)}
-                    defaultValue={'Selecione'}
-                    value={filterCampo.value === 0 ? 'Selecione' : filterCampo}
-                    isSearchable
-                  />
-                </Flex>
-                <Flex minW={200} maxW={200} direction={'column'}>
-                  <Text fontWeight={700} fontSize={12} letterSpacing={0.3} color={'#A7A7A7'} w={'100%'}>
-                    POÇO
-                  </Text>
-                  <Select
-                    styles={customStyles}
-                    components={{
-                      IndicatorSeparator: () => null,
-                    }}
-                    placeholder={'Selecione'}
-                    options={listaFiltroPoco}
-                    onChange={(e) => setFilterPoco(e)}
-                    defaultValue={'Selecione'}
-                    value={filterPoco.value === 0 ? 'Selecione' : filterPoco}
-                    isSearchable
-                  />
-                </Flex>
-                <Flex minW={200} maxW={200} direction={'column'}>
-                  <Text fontWeight={700} fontSize={12} letterSpacing={0.3} color={'#A7A7A7'} w={'100%'}>
-                    FORMULÁRIO
-                  </Text>
-                  <Select
-                    styles={customStyles}
-                    components={{
-                      IndicatorSeparator: () => null,
-                    }}
-                    placeholder={'Selecione'}
-                    options={listaFiltroForm}
-                    onChange={(e) => setFilterForm(e)}
-                    defaultValue={'Selecione'}
-                    value={filterForm.value === 0 ? 'Selecione' : filterForm}
-                    isSearchable
-                  />
-                </Flex>
-                <Flex direction={'column'}>
-                  <Text fontWeight={700} fontSize={12} letterSpacing={0.3} color={'#A7A7A7'} w={'100%'}>
-                    INTERVALO INICIAL
-                  </Text>
-                  <DatePicker value={dateIni} seter={setDateIni} />
-                </Flex>
-                <Flex direction={'column'}>
-                  <Text fontWeight={700} fontSize={12} letterSpacing={0.3} color={'#A7A7A7'} w={'100%'}>
-                    INTERVALO FINAL
-                  </Text>
-                  <DatePicker value={dateEnd} seter={setDateEnd} />
-                </Flex>
-                <Flex align={'center'}>
-                  <Button
-                    h={'42px'}
-                    w={'177px'}
-                    variant="outline"
-                    color={'origem.500'}
-                    colorScheme="blue"
-                    onClick={() => clearFilters()}
-                    _hover={{
-                      shadow: '0px 0px 5px -1px rgba(0,72,187,1)',
-                      transition: 'all 0.4s',
-                    }}
-                    fontSize={'18px'}
-                    fontWeight={'700'}
-                    borderRadius={'96px'}
-                  >
-                    <Text fontSize={'14px'} fontWeight={'700'}>
-                      Limpar Filtros
-                    </Text>
-                  </Button>
-                </Flex>
-              </Flex>
-
               <TableContainer borderRadius={'8px'}>
                 <Table>
                   <TableCaption>
@@ -319,7 +333,10 @@ export function Aprovacaopage() {
                         borderTopWidth={'1px'}
                         borderColor={'#9FA2B4'}
                       >
-                        <CheckButton handle={handleCheckButton} />
+                        <CheckButton
+                          disabled={renderList.filter((val: any) => val.checked === true).length == 0}
+                          handle={handleCheckButton}
+                        />
                       </Th>
                       <Th
                         height={'40px'}
