@@ -77,6 +77,17 @@ function containsObject(obj: any, list: any) {
   return false;
 }
 
+function containsObject2(obj: any, list: any) {
+  let i;
+  for (i = 0; i < list.length; i++) {
+    if (list[i].id_document === obj?.id_document) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 function compare(a: any, b: any) {
   if (new Date(a.dat_log) < new Date(b.dat_log)) {
     return -1;
@@ -260,9 +271,27 @@ export function Aprovacaopage() {
       all = prev.concat(local.documents);
     }
     const filtered = all.filter((val: any) => val.ind_situacao != 2);
-    setFormsList(filtered.sort(compare));
-    setRenderList(filtered.sort(compare));
-    refilter(filtered.sort(compare));
+    const sorted = filtered.sort(compare);
+    const oldChecked = renderList.filter((val: any) => val.checked === true);
+    const newList = [];
+    for (const item of sorted) {
+      if (oldChecked.length > 0) {
+        if (containsObject2(item, oldChecked)) {
+          const newItem = {
+            checked: true,
+            ...item,
+          };
+          newList.push(newItem);
+        } else {
+          newList.push(item);
+        }
+      } else {
+        newList.push(item);
+      }
+    }
+    setFormsList(newList);
+    setRenderList(newList);
+    refilter(newList);
   };
 
   const refilter = async (all: any[]) => {
