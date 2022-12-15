@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { BsFillEyeFill } from 'react-icons/bs';
 import { useNavigate } from 'react-router';
 import Select from 'react-select';
@@ -87,6 +87,28 @@ function compare(a: any, b: any) {
   return 0;
 }
 
+function useInterval(callback: () => void, delay: number | null) {
+  const savedCallback = useRef(callback);
+
+  // Remember the latest callback if it changes.
+  useEffect(() => {
+    savedCallback.current = callback;
+  }, [callback]);
+
+  // Set up the interval.
+  useEffect(() => {
+    // Don't schedule if no delay is specified.
+    // Note: 0 is a valid value for delay.
+    if (!delay && delay !== 0) {
+      return;
+    }
+
+    const id = setInterval(() => savedCallback.current(), delay);
+
+    return () => clearInterval(id);
+  }, [delay]);
+}
+
 export function Aprovacaopage() {
   const [render, setRender] = useState<boolean>(false);
   const [renderList, setRenderList] = useState<any[]>([]);
@@ -110,6 +132,10 @@ export function Aprovacaopage() {
   useEffect(() => {
     getAll();
   }, []);
+
+  useInterval(() => {
+    getFormsAgain();
+  }, 5000);
 
   const options: Operacao[] = [
     { value: 1, label: 'Acompanhamento XV', form: 'form-xv' },
@@ -269,7 +295,6 @@ export function Aprovacaopage() {
         filterStatus.value == 0 ? val : val.ind_situacao == filterStatus.value,
       );
       setRenderList(filtrarStatus);
-      setPaginationBottom(0);
     }
     setloading(false);
   };
