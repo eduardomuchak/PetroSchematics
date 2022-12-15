@@ -9,7 +9,6 @@ import { aproveForm } from 'features/aprovacao';
 import { keyName } from 'pages/Aprovacao/keyNamePairs';
 
 import GridLayout from 'components/Grid';
-// import TituloPagina from 'components/TituloPagina';
 
 import ModalAprove from './Modais/Aprove';
 import ModalNext from './Modais/Next';
@@ -111,8 +110,7 @@ export function Formulariopage() {
   };
 
   return (
-    <GridLayout>
-      {/* <TituloPagina botaoVoltar>Formulário para Aprovação</TituloPagina> */}
+    <GridLayout title={'FORMULÁRIO PARA APROVAÇÃO'}>
       <Flex justify={'center'} gap={10} direction={'row'} flex={1}>
         {currentIndex == 0 ? undefined : <ModalPrevious handle={handlePrev} />}
         <Fade in={isOpen}>

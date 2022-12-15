@@ -27,7 +27,6 @@ import { getAllPocos, getAllDocs, aproveForm } from 'features/aprovacao';
 
 import GridLayout from 'components/Grid';
 import { RingLoading } from 'components/RingLoading';
-// import TituloPagina from 'components/TituloPagina';
 
 import CheckButton from './CheckButton';
 import DatePicker from './DatePicker';
@@ -219,8 +218,7 @@ export function Aprovacaopage() {
   };
 
   return (
-    <GridLayout>
-      {/* <TituloPagina botaoVoltar>TABELA DE APROVACÕES</TituloPagina> */}
+    <GridLayout title={'TABELA DE APROVACÕES'}>
       <Popover isOpen={open} onClose={() => setOpen(false)} placement="left-start">
         <Flex direction={'column'} flex={1}>
           <Flex gap={2} mb={8} flexWrap="wrap">

@@ -1,12 +1,12 @@
 import { IoIosArrowBack } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 
-import { Flex, Grid, GridItem, IconButton, Image } from '@chakra-ui/react';
+import { Flex, Grid, GridItem, IconButton, Image, Text } from '@chakra-ui/react';
 import logoImage from 'assets/logo_origem_branco.svg';
 
 import { sidebarIcons } from './items';
 
-function GridLayout({ children }: { children: React.ReactNode }) {
+function GridLayout({ children, title }: { children: React.ReactNode; title?: string }) {
   return (
     <Grid
       templateAreas={`"header header"
@@ -19,23 +19,30 @@ function GridLayout({ children }: { children: React.ReactNode }) {
           <Link to="/">
             <Image src={logoImage} alt="Logo Origem Energias" />
           </Link>
-          <IconButton
-            aria-label="Botão Voltar"
-            icon={<IoIosArrowBack size={20} />}
-            borderRadius={'10px'}
-            background={'transparent'}
-            color={'white'}
-            _hover={{
-              background: 'white',
-              transition: 'all 0.4s',
-              color: 'origem.500',
-            }}
-            onClick={() => {
-              window.history.back();
-            }}
-            height={'40px'}
-            width={'40px'}
-          />
+          <Flex direction={'row'} align={'center'} w={'100%'}>
+            <IconButton
+              aria-label="Botão Voltar"
+              icon={<IoIosArrowBack size={20} />}
+              borderRadius={'10px'}
+              background={'transparent'}
+              color={'white'}
+              _hover={{
+                background: 'white',
+                transition: 'all 0.4s',
+                color: 'origem.500',
+              }}
+              onClick={() => {
+                window.history.back();
+              }}
+              height={'40px'}
+              width={'40px'}
+            />
+            <Flex flex={1} mr={20} align={'center'} justify={'center'}>
+              <Text fontWeight={700} fontSize={20} letterSpacing={0.3} color={'#FEFEFE'}>
+                {title || ''}
+              </Text>
+            </Flex>
+          </Flex>
         </Flex>
       </GridItem>
       <GridItem bg="#EDF2F7" area={'nav'} as="nav" p={5}>
