@@ -1,5 +1,5 @@
 const URL_ENDPOINT = `${process.env.REACT_APP_URL_ENDPOINT}`;
-const API_KEY = `${process.env.REACT_APP_MONGO_API_KEY}`;
+const API_KEY = `${process.env.REACT_APP_API_KEY}`;
 const Cluster = `${process.env.REACT_APP_DATA_SOURCE_ID}`;
 const Database = `${process.env.REACT_APP_DATABASE}`;
 
