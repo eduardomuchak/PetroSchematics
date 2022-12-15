@@ -1,5 +1,5 @@
 import { IconType } from 'react-icons';
-import { BsPalette } from 'react-icons/bs';
+import { BsPalette, BsFileCheck } from 'react-icons/bs';
 import { FaProjectDiagram } from 'react-icons/fa';
 import { FiHome, FiSettings } from 'react-icons/fi';
 interface LinkItemProps {
@@ -15,7 +15,10 @@ interface Children {
   link: string;
 }
 
-const childrenCarteiradeProjetos = [{ name: 'Esquemático Well', icon: FaProjectDiagram, link: '/esquematico-well' }];
+const childrenCarteiradeProjetos = [
+  { name: 'Esquemático Well', icon: FaProjectDiagram, link: '/esquematico-well' },
+  { name: 'Lista de Aprovações', icon: BsFileCheck, link: '/aprovacao' },
+];
 const childrenConfiguracoes = [{ name: 'Style Guide', icon: BsPalette, link: '/style-guide' }];
 export const LinkItems: Array<LinkItemProps> = [
   {
