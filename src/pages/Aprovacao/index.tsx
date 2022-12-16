@@ -138,6 +138,7 @@ export function Aprovacaopage() {
   const [eyePopOverInfo, setEyePopOverInfo] = useState<any>({ form_data: {} });
   const [loading, setloading] = useState(true);
   const [open, setOpen] = useState(false);
+  const [refilter, setRefilter] = useState<boolean>(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -146,7 +147,7 @@ export function Aprovacaopage() {
 
   useInterval(() => {
     getFormsAgain();
-  }, 5000);
+  }, 10000);
 
   const options: Operacao[] = [
     { value: 1, label: 'Acompanhamento XV', form: 'form-xv' },
@@ -204,9 +205,6 @@ export function Aprovacaopage() {
         filterCampo.value == 0 ? true : val.id_poco == filterCampo.value,
       );
       setListaFiltroPoco(filtered);
-      if (filterCampo.value != 0) {
-        setFilterPoco({ value: 0, label: '' });
-      }
       const filtrarCampo = listBase.filter((val: any) =>
         filterCampo.label == '' ? val : containsObject(val.form_data?.poco, filtered),
       );
@@ -228,7 +226,7 @@ export function Aprovacaopage() {
       setRenderList(filtrarStatus);
       setPaginationBottom(0);
     }
-  }, [filterCampo, filterForm, filterPoco, dateIni, dateEnd, filterStatus]);
+  }, [filterCampo, filterForm, filterPoco, dateIni, dateEnd, filterStatus, refilter]);
 
   const clearFilters = () => {
     setFilterCampo({ value: 0, label: '' });
@@ -290,42 +288,7 @@ export function Aprovacaopage() {
       }
     }
     setFormsList(newList);
-    setRenderList(newList);
-    refilter(newList);
-  };
-
-  const refilter = async (all: any[]) => {
-    if (all.length > 0) {
-      const listBase = all;
-      const allPocos = listaPocoOriginais;
-      const filtered = allPocos.filter((val: any) =>
-        filterCampo.value == 0 ? true : val.id_poco == filterCampo.value,
-      );
-      setListaFiltroPoco(filtered);
-      if (filterCampo.value != 0) {
-        setFilterPoco({ value: 0, label: '' });
-      }
-      const filtrarCampo = listBase.filter((val: any) =>
-        filterCampo.label == '' ? val : containsObject(val.form_data?.poco, filtered),
-      );
-      const filtrarPoco = filtrarCampo.filter((val: any) =>
-        filterPoco.label == '' ? val : val.form_data.poco?.nome_poco?.includes(filterPoco.label),
-      );
-      const filtrarForm = filtrarPoco.filter((val: any) =>
-        filterForm.label == '' ? val : val.form_type?.includes(filterForm.form),
-      );
-      const filtrarDateIni = filtrarForm.filter((val: any) =>
-        dateIni == '' ? val : new Date(val.dat_usu_aprov) > dateIni,
-      );
-      const filtrarDateEnd = filtrarDateIni.filter((val: any) =>
-        dateEnd == '' ? val : new Date(val.dat_usu_aprov) <= dateEnd,
-      );
-      const filtrarStatus = filtrarDateEnd.filter((val: any) =>
-        filterStatus.value == 0 ? val : val.ind_situacao == filterStatus.value,
-      );
-      setRenderList(filtrarStatus);
-    }
-    setloading(false);
+    setRefilter(!refilter);
   };
 
   return (
@@ -361,7 +324,7 @@ export function Aprovacaopage() {
                 }}
                 placeholder={'Selecione'}
                 options={campos}
-                onChange={(e) => setFilterCampo(e)}
+                onChange={(e) => [setFilterCampo(e), setFilterPoco({ value: 0, label: '' })]}
                 defaultValue={'Selecione'}
                 value={filterCampo.value === 0 ? 'Selecione' : filterCampo}
                 isSearchable
