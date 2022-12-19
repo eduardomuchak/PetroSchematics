@@ -17,6 +17,7 @@ import ModalReprove from './Modais/Reprove';
 
 export function Formulariopage() {
   const { state }: any = useLocation();
+  const [formsList, setFormsList] = useState<any[]>([]);
   const [renderList, setRenderList] = useState<any[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number>(state.index);
   const [isOpen, setIsOpen] = useState(true);
@@ -55,13 +56,14 @@ export function Formulariopage() {
       }
     }
     setRenderList(renderArray);
+    setFormsList(state.list);
   }, []);
 
   const handlePrev = (value: boolean) => {
     setIsOpen(false);
     setTimeout(() => {
       const newIndex = value ? currentIndex - 1 : currentIndex + 1;
-      const first = state.list[newIndex];
+      const first = formsList[newIndex];
       const renderArray = [];
       for (const property in first.form_data) {
         if (property == 'poco') {
@@ -100,13 +102,55 @@ export function Formulariopage() {
   };
 
   const handleModal = async (aproved: boolean) => {
-    const first = state.list[state.index];
+    const first = formsList[currentIndex];
     if (aproved) {
       await aproveForm(first.form_type, first.id_document, 2);
     } else {
       await aproveForm(first.form_type, first.id_document, 3);
     }
-    handlePrev(false);
+    const newList = formsList;
+    newList.splice(currentIndex, 1);
+    setFormsList(newList);
+    setIsOpen(false);
+    setTimeout(() => {
+      const second = currentIndex == newList.length ? newList[currentIndex - 1] : newList[currentIndex];
+      const renderArray = [];
+      for (const property in second.form_data) {
+        if (property == 'poco') {
+          const newItem = {
+            name: 'Poco',
+            value: second.form_data[property].nome_poco,
+            type: 'poco',
+          };
+          if (typeof newItem.value === 'string' || typeof newItem.value === 'number') {
+            renderArray.splice(0, 0, newItem);
+          }
+        } else if (property == 'tanque') {
+          const newItem = {
+            name: 'Tanque',
+            value: second.form_data[property].nom_tanque,
+            type: 'poco',
+          };
+          if (typeof newItem.value === 'string' || typeof newItem.value === 'number') {
+            renderArray.splice(0, 0, newItem);
+          }
+        } else {
+          const newItem = {
+            name: keyName.filter((val: any) => val.key === property)[0].title,
+            value: second.form_data[property],
+            type: keyName.filter((val: any) => val.key === property)[0].type,
+          };
+          if (typeof newItem.value === 'string' || typeof newItem.value === 'number') {
+            renderArray.push(newItem);
+          }
+        }
+      }
+      if (currentIndex == newList.length) {
+        setCurrentIndex(currentIndex - 1);
+      }
+      setRenderList(renderArray);
+      setIsOpen(true);
+    }, 1000);
   };
 
   return (
@@ -151,7 +195,7 @@ export function Formulariopage() {
             </Flex>
           </Flex>
         </Fade>
-        <Flex mr={50}>{currentIndex == state.list.length - 1 ? undefined : <ModalNext handle={handlePrev} />}</Flex>
+        <Flex mr={50}>{currentIndex == formsList.length - 1 ? undefined : <ModalNext handle={handlePrev} />}</Flex>
       </Flex>
     </GridLayout>
   );
