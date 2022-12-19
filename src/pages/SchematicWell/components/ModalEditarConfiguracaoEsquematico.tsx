@@ -6,7 +6,6 @@ import {
   Button,
   Flex,
   FormControl,
-  IconButton,
   Input,
   Modal,
   ModalBody,
@@ -86,22 +85,9 @@ function ModalEditarConfiguracaoEsquematico({ well }: Props) {
 
   return (
     <>
-      <IconButton
-        onClick={onOpen}
-        aria-label="Botão de Editar"
-        icon={<AiOutlineSetting size={22} />}
-        variant="origemEditGhost"
-        borderRadius={'50%'}
-        mt={1}
-        _hover={{
-          boxShadow: '0px 6px 6px rgba(2, 57, 195, 0.30)',
-          bg: 'origem.500',
-          color: 'white',
-          transition: 'all 0.4s',
-          borderRadius: '50%',
-          borderColor: 'origem.500',
-        }}
-      />
+      <Button variant={'origemBlueOutline'} onClick={onOpen} w={'100%'} rightIcon={<AiOutlineSetting size={22} />}>
+        Editar Profundidade Máxima
+      </Button>
       <Modal isOpen={isOpen} onClose={onClose} size="lg">
         <ModalOverlay />
         <ModalContent>

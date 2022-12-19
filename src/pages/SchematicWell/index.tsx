@@ -41,7 +41,6 @@ import { usePayload } from 'hooks/usePayload';
 
 import ButtonPontoDeClique from './components/ButtonPontoDeClique';
 import ModalDecisao from './components/ModalDecisao';
-import ModalEditarConfiguracaoEsquematico from './components/ModalEditarConfiguracaoEsquematico';
 import TabelaEquipamentoSubsuperficie from './components/TabelaEquipamentoSubSuperficie';
 import TabelaEquipamentoSuperficie from './components/TabelaEquipamentoSuperficie';
 
@@ -194,7 +193,6 @@ function SchematicWell() {
                       ))
                     : null}
                 </Flex>
-                <ModalEditarConfiguracaoEsquematico well={well} />
               </EscalaProfundidadeEsquematico>
             </Flex>
           )}

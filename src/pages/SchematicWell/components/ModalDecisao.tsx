@@ -1,8 +1,12 @@
+import { useLocation } from 'react-router-dom';
+
 import { Flex, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay } from '@chakra-ui/react';
+import { Well } from 'features/wells/interfaces';
 
 import ModalCadastroComentarios from './ModalCadastroComentarios';
 import ModalCadastroEquipSubSuperficie from './ModalCadastroEquipSubSuperficie';
 import ModalCadastroEquipSuperficie from './ModalCadastroEquipSuperficie';
+import ModalEditarConfiguracaoEsquematico from './ModalEditarConfiguracaoEsquematico';
 
 interface ModalProps {
   isOpen: boolean;
@@ -15,6 +19,7 @@ interface Props {
 
 function ModalDecisao({ modalProps }: Props) {
   const { isOpen, onClose } = modalProps;
+  const { well } = useLocation().state as { well: Well };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="md">
@@ -27,6 +32,7 @@ function ModalDecisao({ modalProps }: Props) {
             <ModalCadastroComentarios />
             <ModalCadastroEquipSubSuperficie />
             <ModalCadastroEquipSuperficie />
+            <ModalEditarConfiguracaoEsquematico well={well} />
           </Flex>
         </ModalBody>
       </ModalContent>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { AiOutlinePlusCircle } from 'react-icons/ai';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
@@ -106,7 +107,7 @@ function ModalCadastroEquipSubSuperficie() {
 
   return (
     <>
-      <Button variant={'origemBlueOutline'} onClick={onOpen} w={'100%'}>
+      <Button variant={'origemBlueOutline'} onClick={onOpen} w={'100%'} rightIcon={<AiOutlinePlusCircle size={22} />}>
         Cadastrar Equipamento de Subsuperfície
       </Button>
       <Modal isOpen={isOpen} onClose={onClose} size="lg">

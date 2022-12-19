@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { BiComment } from 'react-icons/bi';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
@@ -91,7 +92,7 @@ function ModalCadastroComentarios() {
 
   return (
     <>
-      <Button variant={'origemBlueOutline'} onClick={onOpen} w={'100%'}>
+      <Button variant={'origemBlueOutline'} onClick={onOpen} w={'100%'} rightIcon={<BiComment size={22} />}>
         Adicionar Comentário
       </Button>
       <Modal isOpen={isOpen} onClose={onClose} size="lg">

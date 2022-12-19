@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { FiTool } from 'react-icons/fi';
 import { useLocation } from 'react-router-dom';
 
 import {
@@ -72,7 +73,7 @@ function ModalCadastroEquipSuperficie() {
 
   return (
     <>
-      <Button variant={'origemBlueOutline'} onClick={onOpen} w={'100%'}>
+      <Button variant={'origemBlueOutline'} onClick={onOpen} w={'100%'} rightIcon={<FiTool size={22} />}>
         Cadastrar Equipamento de Superfície
       </Button>
       <Modal isOpen={isOpen} onClose={onClose} size="lg">
