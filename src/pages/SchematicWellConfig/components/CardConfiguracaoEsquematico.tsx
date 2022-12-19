@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { AiFillPlusCircle } from 'react-icons/ai';
 import { FiTrash } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import {
   Button,
@@ -19,6 +19,7 @@ import {
 } from '@chakra-ui/react';
 import { schematicWellState, setMaxDepth } from 'features/schematicWell/schematicWellSlice';
 import { useAddManySurfaceEquipmentsMutation } from 'features/schematicWell/service/schematicWellApi';
+import { Well } from 'features/wells/interfaces';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
 
@@ -46,6 +47,7 @@ function CardConfiguracaoEsquematico() {
   const dispatch = useDispatch();
   const [addManySurfaceEquipments] = useAddManySurfaceEquipmentsMutation();
   const navigate = useNavigate();
+  const { well } = useLocation().state as { well: Well };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const { name, value } = event.target;
@@ -84,14 +86,22 @@ function CardConfiguracaoEsquematico() {
     event.preventDefault();
     const DATA_SOURCE = `${process.env.REACT_APP_DATA_SOURCE_ID}`;
     const DATABASE = `${process.env.REACT_APP_DATABASE}`;
+    const onlyValidSurfaceEquipments = formValues.surfaceEquipments.filter(
+      (surfaceEquipment: SurfaceEquipment) =>
+        surfaceEquipment.surfaceEquipment !== '' && surfaceEquipment.description !== '',
+    );
     if (formValues.surfaceEquipments.length >= 1) {
       const payload = {
         dataSource: DATA_SOURCE,
         database: DATABASE,
         collection: 'schematic-well-surface-equipments',
-        documents: formValues.surfaceEquipments.map((surfaceEquipment: SurfaceEquipment) => ({
+        documents: onlyValidSurfaceEquipments.map((surfaceEquipment: SurfaceEquipment) => ({
           ...surfaceEquipment,
           hash: md5(surfaceEquipment.surfaceEquipment + Math.random()),
+          well: {
+            id: well._id,
+            name: well.nome_poco,
+          },
         })),
       };
       addManySurfaceEquipments(payload);
@@ -101,7 +111,7 @@ function CardConfiguracaoEsquematico() {
       depth: 0,
     });
     dispatch(setMaxDepth(formValues.depth));
-    navigate('/esquematico-well');
+    navigate(`/esquematico-well/${well._id}`, { state: { well } });
   };
 
   const isButtonDisabled = formValues.depth === 0;
@@ -117,6 +127,7 @@ function CardConfiguracaoEsquematico() {
     <Flex
       minH={'465px'}
       minW={'536px'}
+      h={'fit-content'}
       borderRadius={'8px'}
       boxShadow={'0px 0px 6px rgba(0, 0, 0, 0.25)'}
       p={6}
@@ -177,7 +188,6 @@ function CardConfiguracaoEsquematico() {
           <Flex key={index} gap={4} align={'center'} justify={'center'}>
             <FormControl>
               <Flex gap={1}>
-                <RequiredField />
                 <Text fontWeight={'700'} fontSize={'12px'} color={'#949494'}>
                   EQUIPAMENTO
                 </Text>
@@ -196,7 +206,6 @@ function CardConfiguracaoEsquematico() {
             </FormControl>
             <FormControl>
               <Flex gap={1}>
-                <RequiredField />
                 <Text fontWeight={'700'} fontSize={'12px'} color={'#949494'}>
                   DESCRIÇÃO
                 </Text>

@@ -1,6 +1,6 @@
 const md5 = require('md5');
 
-export function usePayload(collection: string, method: string, document?: any) {
+export function usePayload(collection: string, method: string, document?: any, filter?: any) {
   if (method === 'ADD') {
     const DATA_SOURCE = `${process.env.REACT_APP_DATA_SOURCE_ID}`;
     const DATABASE = `${process.env.REACT_APP_DATABASE}`;
@@ -43,6 +43,19 @@ export function usePayload(collection: string, method: string, document?: any) {
       database: DATABASE,
       collection,
       filter: {},
+    };
+    return payload;
+  }
+  if (method === 'GETBYFILTER') {
+    const DATA_SOURCE = `${process.env.REACT_APP_DATA_SOURCE_ID}`;
+    const DATABASE = `${process.env.REACT_APP_DATABASE}`;
+    const payload = {
+      dataSource: DATA_SOURCE,
+      database: DATABASE,
+      collection,
+      filter: {
+        ...filter,
+      },
     };
     return payload;
   }

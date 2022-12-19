@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import {
   Button,
@@ -16,6 +17,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { useAddSurfaceEquipmentMutation } from 'features/schematicWell/service/schematicWellApi';
+import { Well } from 'features/wells/interfaces';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
 
@@ -30,6 +32,7 @@ interface FormValues {
 
 function ModalCadastroEquipSuperficie() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { well: wellLocationState } = useLocation().state as { well: Well };
 
   const [addSurfaceEquipment] = useAddSurfaceEquipmentMutation();
 
@@ -42,7 +45,10 @@ function ModalCadastroEquipSuperficie() {
     onClose();
   };
 
-  const payload = usePayload('schematic-well-surface-equipments', 'ADD', formValues);
+  const payload = usePayload('schematic-well-surface-equipments', 'ADD', {
+    ...formValues,
+    well: { id: wellLocationState._id, name: wellLocationState.nome_poco },
+  });
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
