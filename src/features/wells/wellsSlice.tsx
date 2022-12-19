@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { Well, WellState } from './interfaces';
+import { SelectedWell, Well, WellState } from './interfaces';
 
 const initialState = {
   wellsList: [
@@ -41,6 +41,11 @@ const initialState = {
       polo: '',
     },
   ] as Well[],
+  selectedWell: {
+    value: '',
+    label: '',
+  } as SelectedWell,
+  filteredWellsList: [] as Well[],
 } as WellState;
 
 export const wellsSlice = createSlice({
@@ -50,9 +55,18 @@ export const wellsSlice = createSlice({
     setWellsList: (state, action) => {
       state.wellsList = action.payload;
     },
+    setSelectedWell: (state, action) => {
+      state.selectedWell = action.payload;
+    },
+    setInicialFilteredWellsList: (state) => {
+      state.filteredWellsList = state.wellsList;
+    },
+    filterByWellName: (state, action) => {
+      state.filteredWellsList = state.wellsList.filter((well: Well) => well.nome_poco === action.payload.label);
+    },
   },
 });
 
-export const { setWellsList } = wellsSlice.actions;
+export const { setWellsList, setSelectedWell, filterByWellName, setInicialFilteredWellsList } = wellsSlice.actions;
 
 export const wellsState = (state: any) => state.wells;

@@ -116,14 +116,13 @@ function CardConfiguracaoEsquematico() {
   return (
     <Flex
       minH={'465px'}
-      h={'100%'}
       minW={'536px'}
       borderRadius={'8px'}
       boxShadow={'0px 0px 6px rgba(0, 0, 0, 0.25)'}
       p={6}
       direction={'column'}
       gap={4}
-      justify={'space-between'}
+      alignItems={'flex-start'}
     >
       <Text fontSize={'20px'} fontWeight={700} color={'#262626'}>
         Configuração do Esquemático

@@ -1,3 +1,4 @@
+import { useDispatch } from 'react-redux';
 import Select from 'react-select';
 
 import { Flex, FormControl, Text } from '@chakra-ui/react';
@@ -16,16 +17,23 @@ interface Props {
   value: Value;
   required?: boolean;
   isDisabled?: boolean;
+  dispatchAction: any;
 }
 
-function SelectFiltragem({ selectLabel, propName, options, value, required, isDisabled }: Props) {
-  const defaultValue = {
+function SelectFiltragem({ selectLabel, propName, options, value, required, isDisabled, dispatchAction }: Props) {
+  const dispatch = useDispatch();
+  const defaultStringsValue = {
+    value: '',
+    label: '',
+  };
+
+  const defaultNumberValue = {
     value: 0,
     label: '',
   };
 
-  const handleChange = (event: any, name: any) => {
-    // console.log(event);
+  const handleChange = (event: any) => {
+    dispatch(dispatchAction(event));
   };
 
   const customStyles = {
@@ -82,10 +90,15 @@ function SelectFiltragem({ selectLabel, propName, options, value, required, isDi
           id={propName}
           name={propName}
           placeholder={'Selecione'}
-          onChange={(event, name) => handleChange(event, name)}
+          onChange={(event) => handleChange(event)}
           options={options}
           defaultValue={'Selecione'}
-          value={JSON.stringify(value) === JSON.stringify(defaultValue) ? 'Selecione' : value}
+          value={
+            JSON.stringify(value) === JSON.stringify(defaultStringsValue) ||
+            JSON.stringify(value) === JSON.stringify(defaultNumberValue)
+              ? 'Selecione'
+              : value
+          }
           isDisabled={isDisabled}
         />
       </FormControl>

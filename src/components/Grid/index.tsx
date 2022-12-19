@@ -60,7 +60,7 @@ function GridLayout({ children, title }: { children: React.ReactNode; title?: st
           ))}
         </Flex>
       </GridItem>
-      <GridItem area={'main'} as="main" p={5} flex={1}>
+      <GridItem area={'main'} as="main" p={5} display={'flex'} justifyContent={'center'}>
         {children}
       </GridItem>
     </Grid>

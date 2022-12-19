@@ -26,7 +26,7 @@ import {
 import { getAllPocos, getAllDocs, aproveForm } from 'features/aprovacao';
 
 import GridLayout from 'components/Grid';
-import { RingLoading } from 'components/RingLoading';
+import { Loading } from 'components/Loading';
 
 import CheckButton from './CheckButton';
 import DatePicker from './DatePicker';
@@ -382,7 +382,7 @@ export function Aprovacaopage() {
             </Flex>
           </Flex>
           {loading ? (
-            <RingLoading />
+            <Loading />
           ) : (
             <>
               <TableContainer borderRadius={'8px'}>
