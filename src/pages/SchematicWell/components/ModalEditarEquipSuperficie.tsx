@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { MdModeEdit } from 'react-icons/md';
+import { useLocation } from 'react-router-dom';
 
 import {
   Button,
@@ -19,6 +20,7 @@ import {
 } from '@chakra-ui/react';
 import { SurfaceEquipment } from 'features/schematicWell/interfaces';
 import { useUpdateSurfaceEquipmentMutation } from 'features/schematicWell/service/schematicWellApi';
+import { Well } from 'features/wells/interfaces';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
 
@@ -40,6 +42,7 @@ interface Props {
 function ModalEditarEquipSuperficie({ equipment }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [updateSurfaceEquipment] = useUpdateSurfaceEquipmentMutation();
+  const { well: wellLocationState } = useLocation().state as { well: Well };
 
   const [formValues, setFormValues] = useState<FormValues>({
     surfaceEquipment: '',
@@ -52,7 +55,10 @@ function ModalEditarEquipSuperficie({ equipment }: Props) {
     onClose();
   };
 
-  const payload = usePayload('schematic-well-surface-equipments', 'UPDATE', formValues);
+  const payload = usePayload('schematic-well-surface-equipments', 'UPDATE', {
+    ...formValues,
+    well: { id: wellLocationState._id, name: wellLocationState.nome_poco },
+  });
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
