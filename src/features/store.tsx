@@ -4,6 +4,8 @@ import { schematicWellSlice } from 'features/schematicWell/schematicWellSlice';
 
 import { apiSlice } from './api/apiSlice';
 import { schematicWellApiSlice } from './schematicWell/service/schematicWellApi';
+import { wellsApiSlice } from './wells/service/wellsApi';
+import { wellsSlice } from './wells/wellsSlice';
 
 export const store = configureStore({
   reducer: {
@@ -11,13 +13,16 @@ export const store = configureStore({
     [apiSlice.reducerPath]: apiSlice.reducer,
     [schematicWellApiSlice.reducerPath]: schematicWellApiSlice.reducer,
     [schematicWellSlice.name]: schematicWellSlice.reducer,
+    [wellsApiSlice.reducerPath]: wellsApiSlice.reducer,
+    [wellsSlice.name]: wellsSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
     })
       .concat(apiSlice.middleware)
-      .concat(schematicWellApiSlice.middleware),
+      .concat(schematicWellApiSlice.middleware)
+      .concat(wellsApiSlice.middleware),
 
   devTools: true,
 });

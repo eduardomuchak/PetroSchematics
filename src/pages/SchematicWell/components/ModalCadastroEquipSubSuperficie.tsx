@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
+import { AiOutlinePlusCircle } from 'react-icons/ai';
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 
 import {
   Button,
@@ -23,6 +25,7 @@ import {
 } from '@chakra-ui/react';
 import { schematicWellState } from 'features/schematicWell/schematicWellSlice';
 import { useAddSubsurfaceEquipmentMutation } from 'features/schematicWell/service/schematicWellApi';
+import { Well } from 'features/wells/interfaces';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
 
@@ -41,6 +44,7 @@ interface FormValues {
 
 function ModalCadastroEquipSubSuperficie() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { well: wellLocationState } = useLocation().state as { well: Well };
 
   const { mousePosition, maxDepth } = useSelector(schematicWellState);
   const [addSubsurfaceEquipment] = useAddSubsurfaceEquipmentMutation();
@@ -58,7 +62,10 @@ function ModalCadastroEquipSubSuperficie() {
     onClose();
   };
 
-  const payload = usePayload('schematic-well-subsurface-equipments', 'ADD', formValues);
+  const payload = usePayload('schematic-well-subsurface-equipments', 'ADD', {
+    ...formValues,
+    well: { id: wellLocationState._id, name: wellLocationState.nome_poco },
+  });
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
@@ -100,7 +107,7 @@ function ModalCadastroEquipSubSuperficie() {
 
   return (
     <>
-      <Button variant={'origemBlueOutline'} onClick={onOpen} w={'100%'}>
+      <Button variant={'origemBlueOutline'} onClick={onOpen} w={'100%'} rightIcon={<AiOutlinePlusCircle size={22} />}>
         Cadastrar Equipamento de Subsuperfície
       </Button>
       <Modal isOpen={isOpen} onClose={onClose} size="lg">

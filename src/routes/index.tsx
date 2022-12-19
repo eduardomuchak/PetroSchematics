@@ -11,6 +11,7 @@ import SchematicWell from 'pages/SchematicWell';
 import SchematicWellConfig from 'pages/SchematicWellConfig';
 import { StyleGuide } from 'pages/StyleGuide';
 import { UnderDevelopment } from 'pages/UnderDevelopment';
+import WellsList from 'pages/WellsList';
 
 import Layout from 'components/Layout';
 
@@ -20,8 +21,9 @@ export function MainRoutes() {
       <Route path="/" element={<Layout />}>
         {/* public routes */}
         <Route index element={<Login />} />
-        <Route path="esquematico-well" element={<SchematicWell />} />
-        <Route path="esquematico-well-config" element={<SchematicWellConfig />} />
+        <Route path="esquematico-well/:id" element={<SchematicWell />} />
+        <Route path="esquematico-well/config/:id" element={<SchematicWellConfig />} />
+        <Route path="lista-pocos" element={<WellsList />} />
         <Route path="style-guide" element={<StyleGuide />} />
         <Route path="cadastre-se" element={<UnderDevelopment />} />
         <Route path="esqueci-a-senha" element={<UnderDevelopment />} />

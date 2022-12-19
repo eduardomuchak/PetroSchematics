@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import { BiComment } from 'react-icons/bi';
+import { AiOutlineSetting } from 'react-icons/ai';
 import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
 
 import {
   Button,
   Flex,
   FormControl,
+  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -20,55 +20,51 @@ import {
   NumberInputField,
   NumberInputStepper,
   Text,
-  Textarea,
   useDisclosure,
 } from '@chakra-ui/react';
 import { schematicWellState } from 'features/schematicWell/schematicWellSlice';
-import { useAddCommentsMutation } from 'features/schematicWell/service/schematicWellApi';
+import { useUpdateSchematicConfigMutation } from 'features/schematicWell/service/schematicWellApi';
 import { Well } from 'features/wells/interfaces';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
 
-import { regexRemoverCaracteresEspeciais } from 'utils/RegexCaracteresEspeciais';
-
-import { usePayload } from 'hooks/usePayload';
-
 interface FormValues {
   depth: number;
-  xAxis: number;
-  comments: string;
 }
 
-function ModalCadastroComentarios() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const { well: wellLocationState } = useLocation().state as { well: Well };
+interface Props {
+  well: Well;
+}
 
-  const { mousePosition, maxDepth } = useSelector(schematicWellState);
-  const [addComments] = useAddCommentsMutation();
+function ModalEditarConfiguracaoEsquematico({ well }: Props) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [updateSchematicConfig] = useUpdateSchematicConfigMutation();
+  const { maxDepth } = useSelector(schematicWellState);
 
   const [formValues, setFormValues] = useState<FormValues>({
-    comments: '',
     depth: 0,
-    xAxis: 0,
-  });
+  } as FormValues);
 
   const handleCancel = () => {
     onClose();
   };
 
-  const payload = usePayload('schematic-well-comments', 'ADD', {
-    ...formValues,
-    well: { id: wellLocationState._id, name: wellLocationState.nome_poco },
-  });
+  const payload = {
+    dataSource: process.env.REACT_APP_DATA_SOURCE_ID,
+    database: process.env.REACT_APP_DATABASE,
+    collection: 'schematic-well-config',
+    filter: { 'well.id': well._id },
+    update: { $set: { maxDepth: formValues.depth } },
+  };
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    addComments(payload);
+    updateSchematicConfig(payload);
     onClose();
   };
 
   const isButtonDisabled = () => {
-    if (formValues.comments === '' || formValues.depth === 0) {
+    if (formValues.depth === 0) {
       return true;
     }
     return false;
@@ -77,41 +73,55 @@ function ModalCadastroComentarios() {
   useEffect(() => {
     setFormValues({
       ...formValues,
-      depth: mousePosition.yAxis,
-      xAxis: mousePosition.xAxis,
+      depth: maxDepth,
     });
   }, [isOpen]);
 
   useEffect(() => {
     setFormValues({
-      comments: '',
       depth: 0,
-      xAxis: 0,
     });
   }, [onClose]);
 
   return (
     <>
-      <Button variant={'origemBlueOutline'} onClick={onOpen} w={'100%'} rightIcon={<BiComment size={22} />}>
-        Adicionar Comentário
+      <Button variant={'origemBlueOutline'} onClick={onOpen} w={'100%'} rightIcon={<AiOutlineSetting size={22} />}>
+        Editar Profundidade Máxima
       </Button>
       <Modal isOpen={isOpen} onClose={onClose} size="lg">
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>ADICIONAR COMENTÁRIOS</ModalHeader>
+          <ModalHeader>EDITAR CONFIGURAÇÃO ESQUEMÁTICO</ModalHeader>
           <ModalCloseButton color={'white'} onClick={handleCancel} />
           <ModalBody>
             <Flex direction={'column'} gap={4}>
               <FormControl>
                 <Flex gap={1}>
+                  <Text fontWeight={'700'} fontSize={'12px'} color={'#949494'}>
+                    POÇO
+                  </Text>
+                </Flex>
+                <Input
+                  variant={'origem'}
+                  isRequired
+                  placeholder="Poço"
+                  id="Poço"
+                  type="text"
+                  name="Poço"
+                  value={well.nome_poco}
+                  isDisabled
+                />
+              </FormControl>
+              <FormControl>
+                <Flex gap={1}>
                   <RequiredField />
                   <Text fontWeight={'700'} fontSize={'12px'} color={'#949494'}>
-                    PROFUNDIDADE (METROS)
+                    ÁREA MAIS PROFUNDA (METROS)
                   </Text>
                 </Flex>
                 <NumberInput
                   min={0}
-                  max={maxDepth}
+                  max={9999999999}
                   value={formValues.depth}
                   onChange={(valueString) => {
                     setFormValues({
@@ -127,24 +137,6 @@ function ModalCadastroComentarios() {
                   </NumberInputStepper>
                 </NumberInput>
               </FormControl>
-              <FormControl>
-                <Flex gap={1}>
-                  <RequiredField />
-                  <Text fontWeight={'700'} fontSize={'12px'} color={'#949494'}>
-                    COMENTÁRIOS
-                  </Text>
-                </Flex>
-                <Textarea
-                  placeholder={'Digite aqui os comentários'}
-                  id={'comments'}
-                  name={'comments'}
-                  value={regexRemoverCaracteresEspeciais(formValues.comments)}
-                  maxLength={5000}
-                  onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
-                    setFormValues({ ...formValues, comments: event.target.value })
-                  }
-                />
-              </FormControl>
             </Flex>
           </ModalBody>
           <ModalFooter>
@@ -158,7 +150,7 @@ function ModalCadastroComentarios() {
                 onClick={(event: React.MouseEvent<HTMLElement>) => handleSubmit(event)}
                 isDisabled={isButtonDisabled()}
               >
-                Adicionar
+                Concluir
               </Button>
             </Flex>
           </ModalFooter>
@@ -168,4 +160,4 @@ function ModalCadastroComentarios() {
   );
 }
 
-export default ModalCadastroComentarios;
+export default ModalEditarConfiguracaoEsquematico;

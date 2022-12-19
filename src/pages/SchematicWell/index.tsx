@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import {
   Accordion,
@@ -20,19 +20,22 @@ import {
   relativeCoordinates,
   schematicWellState,
   setComments,
+  setMaxDepth,
   setSubsurfaceEquipment,
   setSurfaceEquipment,
 } from 'features/schematicWell/schematicWellSlice';
 import {
   useGetCommentsQuery,
+  useGetSchematicConfigQuery,
   useGetSubsurfaceEquipmentsQuery,
   useGetSurfaceEquipmentsQuery,
 } from 'features/schematicWell/service/schematicWellApi';
+import { Well } from 'features/wells/interfaces';
 
 import EscalaProfundidadeEsquematico from 'components/EscalaProfundidadeEsquematico';
 import GridLayout from 'components/Grid';
+import { Loading } from 'components/Loading';
 import RequestError from 'components/RequestError';
-import { RingLoading } from 'components/RingLoading';
 
 import { usePayload } from 'hooks/usePayload';
 
@@ -45,16 +48,24 @@ function SchematicWell() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch = useDispatch();
   const { subsurfaceEquipmentTable, comments, maxDepth } = useSelector(schematicWellState);
+  const { well } = useLocation().state as { well: Well };
 
   // Dados para requisição dos equipamentos de subsuperfície
 
-  const payloadSubsurface = usePayload('schematic-well-subsurface-equipments', 'GET');
-  const payloadSurface = usePayload('schematic-well-surface-equipments', 'GET');
-  const payloadComments = usePayload('schematic-well-comments', 'GET');
+  const payloadSubsurface = usePayload(
+    'schematic-well-subsurface-equipments',
+    'GETBYFILTER',
+    {},
+    { 'well.id': well._id },
+  );
+  const payloadSurface = usePayload('schematic-well-surface-equipments', 'GETBYFILTER', {}, { 'well.id': well._id });
+  const payloadComments = usePayload('schematic-well-comments', 'GETBYFILTER', {}, { 'well.id': well._id });
+  const payloadConfig = usePayload('schematic-well-config', 'GETBYFILTER', {}, { 'well.id': well._id });
 
   const subSurfaceEquipmentsRequest = useGetSubsurfaceEquipmentsQuery(payloadSubsurface);
   const surfaceEquipmentsRequest = useGetSurfaceEquipmentsQuery(payloadSurface);
   const commentsRequest = useGetCommentsQuery(payloadComments);
+  const configRequest = useGetSchematicConfigQuery(payloadConfig);
 
   //
 
@@ -76,7 +87,10 @@ function SchematicWell() {
     if (commentsRequest.data?.documents) {
       dispatch(setComments(commentsRequest.data?.documents));
     }
-  }, [subSurfaceEquipmentsRequest.data, surfaceEquipmentsRequest.data, commentsRequest.data]);
+    if (configRequest.data?.document) {
+      dispatch(setMaxDepth(configRequest.data?.document.maxDepth));
+    }
+  }, [subSurfaceEquipmentsRequest.data, surfaceEquipmentsRequest.data, commentsRequest.data, configRequest.data]);
 
   const isLoading =
     subSurfaceEquipmentsRequest.isLoading ||
@@ -84,17 +98,20 @@ function SchematicWell() {
     commentsRequest.isLoading ||
     subSurfaceEquipmentsRequest.isFetching ||
     surfaceEquipmentsRequest.isFetching ||
-    commentsRequest.isFetching;
+    commentsRequest.isFetching ||
+    configRequest.isLoading ||
+    configRequest.isFetching;
 
   if (isLoading) {
     return (
       <GridLayout>
-        <RingLoading />
+        <Loading />
       </GridLayout>
     );
   }
 
-  const error = subSurfaceEquipmentsRequest.error || surfaceEquipmentsRequest.error || commentsRequest.error;
+  const error =
+    subSurfaceEquipmentsRequest.error || surfaceEquipmentsRequest.error || commentsRequest.error || configRequest.error;
   if (error) {
     return (
       <GridLayout>
@@ -105,11 +122,12 @@ function SchematicWell() {
 
   return (
     <>
-      <GridLayout>
+      <GridLayout title={well.nome_poco} goToPage={'/lista-pocos'}>
         <ModalDecisao modalProps={modalProps} />
         <Flex
           justify={'space-between'}
           direction={{ base: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'row' }}
+          flex={1}
         >
           {maxDepth === 0 ? (
             <Flex flex={1}>

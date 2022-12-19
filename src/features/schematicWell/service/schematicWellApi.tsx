@@ -17,8 +17,9 @@ export const schematicWellApiSlice = createApi({
       return headers;
     },
   }),
-  tagTypes: ['SurfaceEquipment', 'SubsurfaceEquipment', 'SchematicComments'],
+  tagTypes: ['SurfaceEquipment', 'SubsurfaceEquipment', 'SchematicComments', 'SquematicConfig'],
   endpoints: (builder) => ({
+    // Equipamentos de Superfície
     getSurfaceEquipments: builder.query({
       query: (payload) => ({
         url: '/action/find',
@@ -59,6 +60,7 @@ export const schematicWellApiSlice = createApi({
       }),
       invalidatesTags: ['SurfaceEquipment'],
     }),
+    // Equipamentos de Subsuperfície
     getSubsurfaceEquipments: builder.query({
       query: (payload) => ({
         url: '/action/find',
@@ -92,6 +94,7 @@ export const schematicWellApiSlice = createApi({
       }),
       invalidatesTags: ['SubsurfaceEquipment'],
     }),
+    // Comentários
     getComments: builder.query({
       query: (payload) => ({
         url: '/action/find',
@@ -124,6 +127,31 @@ export const schematicWellApiSlice = createApi({
       }),
       invalidatesTags: ['SchematicComments'],
     }),
+    // Configuração do esquematico
+    addSchematicConfig: builder.mutation({
+      query: (payload) => ({
+        url: '/action/insertOne',
+        method: 'POST',
+        body: payload,
+      }),
+      invalidatesTags: ['SquematicConfig'],
+    }),
+    getSchematicConfig: builder.query({
+      query: (payload) => ({
+        url: '/action/findOne',
+        method: 'POST',
+        body: payload,
+      }),
+      providesTags: ['SquematicConfig'],
+    }),
+    updateSchematicConfig: builder.mutation({
+      query: (payload) => ({
+        url: `/action/updateOne`,
+        method: 'POST',
+        body: payload,
+      }),
+      invalidatesTags: ['SquematicConfig'],
+    }),
   }),
 });
 
@@ -141,4 +169,7 @@ export const {
   useAddCommentsMutation,
   useUpdateCommentsMutation,
   useDeleteCommentsMutation,
+  useAddSchematicConfigMutation,
+  useGetSchematicConfigQuery,
+  useUpdateSchematicConfigMutation,
 } = schematicWellApiSlice;
