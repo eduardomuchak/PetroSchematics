@@ -144,6 +144,14 @@ export const schematicWellApiSlice = createApi({
       }),
       providesTags: ['SquematicConfig'],
     }),
+    updateSchematicConfig: builder.mutation({
+      query: (payload) => ({
+        url: `/action/updateOne`,
+        method: 'POST',
+        body: payload,
+      }),
+      invalidatesTags: ['SquematicConfig'],
+    }),
   }),
 });
 
@@ -163,4 +171,5 @@ export const {
   useDeleteCommentsMutation,
   useAddSchematicConfigMutation,
   useGetSchematicConfigQuery,
+  useUpdateSchematicConfigMutation,
 } = schematicWellApiSlice;

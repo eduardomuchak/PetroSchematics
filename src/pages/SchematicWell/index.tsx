@@ -41,6 +41,7 @@ import { usePayload } from 'hooks/usePayload';
 
 import ButtonPontoDeClique from './components/ButtonPontoDeClique';
 import ModalDecisao from './components/ModalDecisao';
+import ModalEditarConfiguracaoEsquematico from './components/ModalEditarConfiguracaoEsquematico';
 import TabelaEquipamentoSubsuperficie from './components/TabelaEquipamentoSubSuperficie';
 import TabelaEquipamentoSuperficie from './components/TabelaEquipamentoSuperficie';
 
@@ -99,7 +100,8 @@ function SchematicWell() {
     subSurfaceEquipmentsRequest.isFetching ||
     surfaceEquipmentsRequest.isFetching ||
     commentsRequest.isFetching ||
-    configRequest.isLoading;
+    configRequest.isLoading ||
+    configRequest.isFetching;
 
   if (isLoading) {
     return (
@@ -121,7 +123,7 @@ function SchematicWell() {
 
   return (
     <>
-      <GridLayout title={well.nome_poco}>
+      <GridLayout title={well.nome_poco} goToPage={'/lista-pocos'}>
         <ModalDecisao modalProps={modalProps} />
         <Flex
           justify={'space-between'}
@@ -197,6 +199,8 @@ function SchematicWell() {
           )}
 
           <Flex direction={'column'} flex={2} overflowX={'scroll'} gap={4} pt={{ base: 5, sm: 5, md: 5, lg: 5, xl: 0 }}>
+            <ModalEditarConfiguracaoEsquematico well={well} />
+
             <Accordion defaultIndex={[0, 1]} allowMultiple flex={2}>
               <AccordionItem border={'none'}>
                 <h2>

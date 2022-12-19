@@ -36,11 +36,12 @@ function SchematicWellConfig() {
     );
   }
 
+  // Verifica se o esquemático já foi configurado
+  // Se sim, redireciona para a página de visualização do esquemático
   if (data?.document?.maxDepth) {
     navigate(`/esquematico-well/${well._id}`, { state: { well } });
   }
 
-  // console.log('state', well);
   return (
     <GridLayout title={well.nome_poco}>
       <Flex gap={24} justify={'center'} p={12}>

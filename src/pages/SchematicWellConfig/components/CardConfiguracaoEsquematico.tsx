@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { AiFillPlusCircle } from 'react-icons/ai';
 import { FiTrash } from 'react-icons/fi';
-import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import {
@@ -17,7 +16,6 @@ import {
   NumberInputStepper,
   Text,
 } from '@chakra-ui/react';
-import { schematicWellState } from 'features/schematicWell/schematicWellSlice';
 import {
   useAddManySurfaceEquipmentsMutation,
   useAddSchematicConfigMutation,
@@ -46,7 +44,6 @@ function CardConfiguracaoEsquematico() {
     depth: 0,
   });
 
-  const { maxDepth } = useSelector(schematicWellState);
   const [addManySurfaceEquipments] = useAddManySurfaceEquipmentsMutation();
   const [addSchematicConfig] = useAddSchematicConfigMutation();
   const navigate = useNavigate();
@@ -131,12 +128,9 @@ function CardConfiguracaoEsquematico() {
 
   const isButtonDisabled = formValues.depth === 0;
 
-  useEffect(() => {
-    setFormValues({
-      ...formValues,
-      depth: maxDepth,
-    });
-  }, []);
+  // if (maxDepth !== 0) {
+  //   navigate(`/esquematico-well/${well._id}`, { state: { well } });
+  // }
 
   return (
     <Flex
