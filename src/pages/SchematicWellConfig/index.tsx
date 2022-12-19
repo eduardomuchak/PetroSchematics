@@ -1,15 +1,44 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Flex, Image } from '@chakra-ui/react';
 import SchematicSVG from 'assets/esquematico.svg';
+import { useGetSchematicConfigQuery } from 'features/schematicWell/service/schematicWellApi';
 import { Well } from 'features/wells/interfaces';
 
 import GridLayout from 'components/Grid';
+import { Loading } from 'components/Loading';
+import RequestError from 'components/RequestError';
+
+import { usePayload } from 'hooks/usePayload';
 
 import CardConfiguracaoEsquematico from './components/CardConfiguracaoEsquematico';
 
 function SchematicWellConfig() {
   const { well } = useLocation().state as { well: Well };
+  const navigate = useNavigate();
+
+  const payloadConfig = usePayload('schematic-well-config', 'GETBYFILTER', {}, { 'well.id': well._id });
+  const { isLoading, data, error } = useGetSchematicConfigQuery(payloadConfig);
+
+  if (isLoading) {
+    return (
+      <GridLayout>
+        <Loading />
+      </GridLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <GridLayout>
+        <RequestError />
+      </GridLayout>
+    );
+  }
+
+  if (data?.document?.maxDepth) {
+    navigate(`/esquematico-well/${well._id}`, { state: { well } });
+  }
 
   // console.log('state', well);
   return (

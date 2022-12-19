@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { AiFillPlusCircle } from 'react-icons/ai';
 import { FiTrash } from 'react-icons/fi';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import {
@@ -17,8 +17,11 @@ import {
   NumberInputStepper,
   Text,
 } from '@chakra-ui/react';
-import { schematicWellState, setMaxDepth } from 'features/schematicWell/schematicWellSlice';
-import { useAddManySurfaceEquipmentsMutation } from 'features/schematicWell/service/schematicWellApi';
+import { schematicWellState } from 'features/schematicWell/schematicWellSlice';
+import {
+  useAddManySurfaceEquipmentsMutation,
+  useAddSchematicConfigMutation,
+} from 'features/schematicWell/service/schematicWellApi';
 import { Well } from 'features/wells/interfaces';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
@@ -44,8 +47,8 @@ function CardConfiguracaoEsquematico() {
   });
 
   const { maxDepth } = useSelector(schematicWellState);
-  const dispatch = useDispatch();
   const [addManySurfaceEquipments] = useAddManySurfaceEquipmentsMutation();
+  const [addSchematicConfig] = useAddSchematicConfigMutation();
   const navigate = useNavigate();
   const { well } = useLocation().state as { well: Well };
 
@@ -91,7 +94,7 @@ function CardConfiguracaoEsquematico() {
         surfaceEquipment.surfaceEquipment !== '' && surfaceEquipment.description !== '',
     );
     if (formValues.surfaceEquipments.length >= 1) {
-      const payload = {
+      const surfaceEquipmentsPayload = {
         dataSource: DATA_SOURCE,
         database: DATABASE,
         collection: 'schematic-well-surface-equipments',
@@ -104,13 +107,25 @@ function CardConfiguracaoEsquematico() {
           },
         })),
       };
-      addManySurfaceEquipments(payload);
+      addManySurfaceEquipments(surfaceEquipmentsPayload);
     }
+    const schamaticConfigPayload = {
+      dataSource: DATA_SOURCE,
+      database: DATABASE,
+      collection: 'schematic-well-config',
+      document: {
+        well: {
+          id: well._id,
+          name: well.nome_poco,
+        },
+        maxDepth: formValues.depth,
+      },
+    };
+    addSchematicConfig(schamaticConfigPayload);
     setFormValues({
       surfaceEquipments: [] as SurfaceEquipment[],
       depth: 0,
     });
-    dispatch(setMaxDepth(formValues.depth));
     navigate(`/esquematico-well/${well._id}`, { state: { well } });
   };
 

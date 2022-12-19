@@ -20,11 +20,13 @@ import {
   relativeCoordinates,
   schematicWellState,
   setComments,
+  setMaxDepth,
   setSubsurfaceEquipment,
   setSurfaceEquipment,
 } from 'features/schematicWell/schematicWellSlice';
 import {
   useGetCommentsQuery,
+  useGetSchematicConfigQuery,
   useGetSubsurfaceEquipmentsQuery,
   useGetSurfaceEquipmentsQuery,
 } from 'features/schematicWell/service/schematicWellApi';
@@ -58,10 +60,12 @@ function SchematicWell() {
   );
   const payloadSurface = usePayload('schematic-well-surface-equipments', 'GETBYFILTER', {}, { 'well.id': well._id });
   const payloadComments = usePayload('schematic-well-comments', 'GETBYFILTER', {}, { 'well.id': well._id });
+  const payloadConfig = usePayload('schematic-well-config', 'GETBYFILTER', {}, { 'well.id': well._id });
 
   const subSurfaceEquipmentsRequest = useGetSubsurfaceEquipmentsQuery(payloadSubsurface);
   const surfaceEquipmentsRequest = useGetSurfaceEquipmentsQuery(payloadSurface);
   const commentsRequest = useGetCommentsQuery(payloadComments);
+  const configRequest = useGetSchematicConfigQuery(payloadConfig);
 
   //
 
@@ -83,7 +87,10 @@ function SchematicWell() {
     if (commentsRequest.data?.documents) {
       dispatch(setComments(commentsRequest.data?.documents));
     }
-  }, [subSurfaceEquipmentsRequest.data, surfaceEquipmentsRequest.data, commentsRequest.data]);
+    if (configRequest.data?.document) {
+      dispatch(setMaxDepth(configRequest.data?.document.maxDepth));
+    }
+  }, [subSurfaceEquipmentsRequest.data, surfaceEquipmentsRequest.data, commentsRequest.data, configRequest.data]);
 
   const isLoading =
     subSurfaceEquipmentsRequest.isLoading ||
@@ -91,7 +98,8 @@ function SchematicWell() {
     commentsRequest.isLoading ||
     subSurfaceEquipmentsRequest.isFetching ||
     surfaceEquipmentsRequest.isFetching ||
-    commentsRequest.isFetching;
+    commentsRequest.isFetching ||
+    configRequest.isLoading;
 
   if (isLoading) {
     return (
@@ -101,7 +109,8 @@ function SchematicWell() {
     );
   }
 
-  const error = subSurfaceEquipmentsRequest.error || surfaceEquipmentsRequest.error || commentsRequest.error;
+  const error =
+    subSurfaceEquipmentsRequest.error || surfaceEquipmentsRequest.error || commentsRequest.error || configRequest.error;
   if (error) {
     return (
       <GridLayout>
