@@ -194,13 +194,12 @@ function SchematicWell() {
                       ))
                     : null}
                 </Flex>
+                <ModalEditarConfiguracaoEsquematico well={well} />
               </EscalaProfundidadeEsquematico>
             </Flex>
           )}
 
           <Flex direction={'column'} flex={2} overflowX={'scroll'} gap={4} pt={{ base: 5, sm: 5, md: 5, lg: 5, xl: 0 }}>
-            <ModalEditarConfiguracaoEsquematico well={well} />
-
             <Accordion defaultIndex={[0, 1]} allowMultiple flex={2}>
               <AccordionItem border={'none'}>
                 <h2>
