@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { MdModeEdit } from 'react-icons/md';
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 
 import {
   Button,
@@ -26,6 +27,7 @@ import {
 import { SubsurfaceEquipment } from 'features/schematicWell/interfaces';
 import { schematicWellState } from 'features/schematicWell/schematicWellSlice';
 import { useUpdateSubsurfaceEquipmentMutation } from 'features/schematicWell/service/schematicWellApi';
+import { PageWell, Well } from 'features/wells/interfaces';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
 
@@ -41,6 +43,8 @@ interface FormValues {
   depth: number;
   _id: string;
   hash: string;
+  well: PageWell;
+  xAxis: number;
 }
 
 interface Props {
@@ -51,6 +55,7 @@ function ModalEditarEquipSubsuperficie({ equipment }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { maxDepth } = useSelector(schematicWellState);
   const [updateSubsurfaceEquipment] = useUpdateSubsurfaceEquipmentMutation();
+  const { well: wellLocationState } = useLocation().state as { well: Well };
 
   const [formValues, setFormValues] = useState<FormValues>({
     subsurfaceEquipment: '',
@@ -60,6 +65,11 @@ function ModalEditarEquipSubsuperficie({ equipment }: Props) {
     depth: 0,
     _id: '',
     hash: '',
+    well: {
+      id: '',
+      name: '',
+    },
+    xAxis: 0,
   });
   const handleCancel = () => {
     onClose();
@@ -90,6 +100,8 @@ function ModalEditarEquipSubsuperficie({ equipment }: Props) {
       depth: Number(equipment.depth),
       _id: equipment._id,
       hash: equipment.hash,
+      well: { id: wellLocationState._id, name: wellLocationState.nome_poco },
+      xAxis: Number(equipment.xAxis),
     });
   }, [isOpen]);
 
@@ -102,6 +114,11 @@ function ModalEditarEquipSubsuperficie({ equipment }: Props) {
       depth: 0,
       _id: '',
       hash: '',
+      well: {
+        id: '',
+        name: '',
+      },
+      xAxis: 0,
     });
   }, [onClose]);
 

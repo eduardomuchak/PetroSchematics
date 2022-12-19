@@ -45,3 +45,8 @@ export interface WellState {
   selectedWell: SelectedWell;
   filteredWellsList: Well[];
 }
+
+export interface PageWell {
+  id: string;
+  name: string;
+}
