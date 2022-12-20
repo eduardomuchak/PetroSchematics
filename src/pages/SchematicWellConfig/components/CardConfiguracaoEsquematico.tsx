@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { AiFillPlusCircle } from 'react-icons/ai';
 import { FiTrash } from 'react-icons/fi';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import {
   Button,
@@ -17,8 +16,11 @@ import {
   NumberInputStepper,
   Text,
 } from '@chakra-ui/react';
-import { schematicWellState, setMaxDepth } from 'features/schematicWell/schematicWellSlice';
-import { useAddManySurfaceEquipmentsMutation } from 'features/schematicWell/service/schematicWellApi';
+import {
+  useAddManySurfaceEquipmentsMutation,
+  useAddSchematicConfigMutation,
+} from 'features/schematicWell/service/schematicWellApi';
+import { Well } from 'features/wells/interfaces';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
 
@@ -42,10 +44,10 @@ function CardConfiguracaoEsquematico() {
     depth: 0,
   });
 
-  const { maxDepth } = useSelector(schematicWellState);
-  const dispatch = useDispatch();
   const [addManySurfaceEquipments] = useAddManySurfaceEquipmentsMutation();
+  const [addSchematicConfig] = useAddSchematicConfigMutation();
   const navigate = useNavigate();
+  const { well } = useLocation().state as { well: Well };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const { name, value } = event.target;
@@ -84,46 +86,63 @@ function CardConfiguracaoEsquematico() {
     event.preventDefault();
     const DATA_SOURCE = `${process.env.REACT_APP_DATA_SOURCE_ID}`;
     const DATABASE = `${process.env.REACT_APP_DATABASE}`;
+    const onlyValidSurfaceEquipments = formValues.surfaceEquipments.filter(
+      (surfaceEquipment: SurfaceEquipment) =>
+        surfaceEquipment.surfaceEquipment !== '' && surfaceEquipment.description !== '',
+    );
     if (formValues.surfaceEquipments.length >= 1) {
-      const payload = {
+      const surfaceEquipmentsPayload = {
         dataSource: DATA_SOURCE,
         database: DATABASE,
         collection: 'schematic-well-surface-equipments',
-        documents: formValues.surfaceEquipments.map((surfaceEquipment: SurfaceEquipment) => ({
+        documents: onlyValidSurfaceEquipments.map((surfaceEquipment: SurfaceEquipment) => ({
           ...surfaceEquipment,
           hash: md5(surfaceEquipment.surfaceEquipment + Math.random()),
+          well: {
+            id: well._id,
+            name: well.nome_poco,
+          },
         })),
       };
-      addManySurfaceEquipments(payload);
+      addManySurfaceEquipments(surfaceEquipmentsPayload);
     }
+    const schamaticConfigPayload = {
+      dataSource: DATA_SOURCE,
+      database: DATABASE,
+      collection: 'schematic-well-config',
+      document: {
+        well: {
+          id: well._id,
+          name: well.nome_poco,
+        },
+        maxDepth: formValues.depth,
+      },
+    };
+    addSchematicConfig(schamaticConfigPayload);
     setFormValues({
       surfaceEquipments: [] as SurfaceEquipment[],
       depth: 0,
     });
-    dispatch(setMaxDepth(formValues.depth));
-    navigate('/esquematico-well');
+    navigate(`/esquematico-well/${well._id}`, { state: { well } });
   };
 
   const isButtonDisabled = formValues.depth === 0;
 
-  useEffect(() => {
-    setFormValues({
-      ...formValues,
-      depth: maxDepth,
-    });
-  }, []);
+  // if (maxDepth !== 0) {
+  //   navigate(`/esquematico-well/${well._id}`, { state: { well } });
+  // }
 
   return (
     <Flex
       minH={'465px'}
-      h={'100%'}
       minW={'536px'}
+      h={'fit-content'}
       borderRadius={'8px'}
       boxShadow={'0px 0px 6px rgba(0, 0, 0, 0.25)'}
       p={6}
       direction={'column'}
       gap={4}
-      justify={'space-between'}
+      alignItems={'flex-start'}
     >
       <Text fontSize={'20px'} fontWeight={700} color={'#262626'}>
         Configuração do Esquemático
@@ -178,7 +197,6 @@ function CardConfiguracaoEsquematico() {
           <Flex key={index} gap={4} align={'center'} justify={'center'}>
             <FormControl>
               <Flex gap={1}>
-                <RequiredField />
                 <Text fontWeight={'700'} fontSize={'12px'} color={'#949494'}>
                   EQUIPAMENTO
                 </Text>
@@ -197,7 +215,6 @@ function CardConfiguracaoEsquematico() {
             </FormControl>
             <FormControl>
               <Flex gap={1}>
-                <RequiredField />
                 <Text fontWeight={'700'} fontSize={'12px'} color={'#949494'}>
                   DESCRIÇÃO
                 </Text>

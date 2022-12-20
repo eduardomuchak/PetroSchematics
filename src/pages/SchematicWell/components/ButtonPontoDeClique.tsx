@@ -43,7 +43,7 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment }:
     <Box
       zIndex={3}
       position={'absolute'}
-      width={'536px'}
+      w={'720px'}
       top={-36}
       left={8}
       backgroundColor={'#FEFEFE'}
@@ -69,7 +69,14 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment }:
           Equipamento de Subsuperfície:
         </Text>
 
-        <Text fontWeight={500} fontSize={'16px'}>
+        <Text
+          fontWeight={500}
+          fontSize={'16px'}
+          wordBreak={'break-all'}
+          maxH={'200px'}
+          overflowY={'scroll'}
+          overflowX={'hidden'}
+        >
           {subsurfaceEquipment?.subsurfaceEquipment}
         </Text>
       </Flex>
@@ -96,7 +103,14 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment }:
           Fabricante:
         </Text>
 
-        <Text fontWeight={500} fontSize={'16px'}>
+        <Text
+          fontWeight={500}
+          fontSize={'16px'}
+          wordBreak={'break-all'}
+          maxH={'200px'}
+          overflowY={'scroll'}
+          overflowX={'hidden'}
+        >
           {subsurfaceEquipment?.manufacturer}
         </Text>
       </Flex>
@@ -146,7 +160,14 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment }:
           Comentário:
         </Text>
 
-        <Text fontWeight={500} fontSize={'16px'}>
+        <Text
+          fontWeight={500}
+          fontSize={'16px'}
+          wordBreak={'break-all'}
+          maxH={'200px'}
+          overflowY={'scroll'}
+          overflowX={'hidden'}
+        >
           {comment?.comments}
         </Text>
       </Flex>

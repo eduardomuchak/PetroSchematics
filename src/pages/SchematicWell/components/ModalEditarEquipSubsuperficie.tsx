@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { MdModeEdit } from 'react-icons/md';
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 
 import {
   Button,
@@ -26,6 +27,7 @@ import {
 import { SubsurfaceEquipment } from 'features/schematicWell/interfaces';
 import { schematicWellState } from 'features/schematicWell/schematicWellSlice';
 import { useUpdateSubsurfaceEquipmentMutation } from 'features/schematicWell/service/schematicWellApi';
+import { Well } from 'features/wells/interfaces';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
 
@@ -41,6 +43,7 @@ interface FormValues {
   depth: number;
   _id: string;
   hash: string;
+  xAxis: number;
 }
 
 interface Props {
@@ -51,6 +54,7 @@ function ModalEditarEquipSubsuperficie({ equipment }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { maxDepth } = useSelector(schematicWellState);
   const [updateSubsurfaceEquipment] = useUpdateSubsurfaceEquipmentMutation();
+  const { well: wellLocationState } = useLocation().state as { well: Well };
 
   const [formValues, setFormValues] = useState<FormValues>({
     subsurfaceEquipment: '',
@@ -60,12 +64,16 @@ function ModalEditarEquipSubsuperficie({ equipment }: Props) {
     depth: 0,
     _id: '',
     hash: '',
+    xAxis: 0,
   });
   const handleCancel = () => {
     onClose();
   };
 
-  const payload = usePayload('schematic-well-subsurface-equipments', 'UPDATE', formValues);
+  const payload = usePayload('schematic-well-subsurface-equipments', 'UPDATE', {
+    ...formValues,
+    well: { id: wellLocationState._id, name: wellLocationState.nome_poco },
+  });
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
@@ -90,6 +98,7 @@ function ModalEditarEquipSubsuperficie({ equipment }: Props) {
       depth: Number(equipment.depth),
       _id: equipment._id,
       hash: equipment.hash,
+      xAxis: Number(equipment.xAxis),
     });
   }, [isOpen]);
 
@@ -102,6 +111,7 @@ function ModalEditarEquipSubsuperficie({ equipment }: Props) {
       depth: 0,
       _id: '',
       hash: '',
+      xAxis: 0,
     });
   }, [onClose]);
 

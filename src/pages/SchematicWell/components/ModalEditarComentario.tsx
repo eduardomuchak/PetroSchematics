@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { MdModeEdit } from 'react-icons/md';
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 
 import {
   Button,
@@ -26,6 +27,7 @@ import {
 import { Comment } from 'features/schematicWell/interfaces';
 import { schematicWellState } from 'features/schematicWell/schematicWellSlice';
 import { useUpdateCommentsMutation } from 'features/schematicWell/service/schematicWellApi';
+import { Well } from 'features/wells/interfaces';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
 
@@ -49,6 +51,7 @@ function ModalEditarComentario({ comment }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [updateComments] = useUpdateCommentsMutation();
   const { maxDepth } = useSelector(schematicWellState);
+  const { well: wellLocationState } = useLocation().state as { well: Well };
 
   const [formValues, setFormValues] = useState<FormValues>({
     depth: 0,
@@ -62,7 +65,10 @@ function ModalEditarComentario({ comment }: Props) {
     onClose();
   };
 
-  const payload = usePayload('schematic-well-comments', 'UPDATE', formValues);
+  const payload = usePayload('schematic-well-comments', 'UPDATE', {
+    ...formValues,
+    well: { id: wellLocationState._id, name: wellLocationState.nome_poco },
+  });
 
   const handleSubmit = (event: any) => {
     event.preventDefault();

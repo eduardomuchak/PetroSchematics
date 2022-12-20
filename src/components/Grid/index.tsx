@@ -6,13 +6,14 @@ import logoImage from 'assets/logo_origem_branco.svg';
 
 import { sidebarIcons } from './items';
 
-function GridLayout({ children, title }: { children: React.ReactNode; title?: string }) {
+function GridLayout({ children, title, goToPage }: { children: React.ReactNode; title?: string; goToPage?: string }) {
   return (
     <Grid
       templateAreas={`"header header"
                       "nav main"`}
       gridTemplateRows={'152px 1fr'}
       gridTemplateColumns={'88px 1fr'}
+      minH={'100vh'}
     >
       <GridItem bg="origem.500" area={'header'} px={20} py={5} as="header">
         <Flex direction={'column'} justify={'space-between'} flex={1} height={'100%'}>
@@ -20,23 +21,42 @@ function GridLayout({ children, title }: { children: React.ReactNode; title?: st
             <Image src={logoImage} alt="Logo Origem Energias" />
           </Link>
           <Flex direction={'row'} align={'center'} w={'100%'}>
-            <IconButton
-              aria-label="Botão Voltar"
-              icon={<IoIosArrowBack size={20} />}
-              borderRadius={'10px'}
-              background={'transparent'}
-              color={'white'}
-              _hover={{
-                background: 'white',
-                transition: 'all 0.4s',
-                color: 'origem.500',
-              }}
-              onClick={() => {
-                window.history.back();
-              }}
-              height={'40px'}
-              width={'40px'}
-            />
+            {goToPage ? (
+              <Link to={goToPage}>
+                <IconButton
+                  aria-label="Botão Voltar"
+                  icon={<IoIosArrowBack size={20} />}
+                  borderRadius={'10px'}
+                  background={'transparent'}
+                  color={'white'}
+                  _hover={{
+                    background: 'white',
+                    transition: 'all 0.4s',
+                    color: 'origem.500',
+                  }}
+                  height={'40px'}
+                  width={'40px'}
+                />
+              </Link>
+            ) : (
+              <IconButton
+                aria-label="Botão Voltar"
+                icon={<IoIosArrowBack size={20} />}
+                borderRadius={'10px'}
+                background={'transparent'}
+                color={'white'}
+                _hover={{
+                  background: 'white',
+                  transition: 'all 0.4s',
+                  color: 'origem.500',
+                }}
+                onClick={() => {
+                  window.history.back();
+                }}
+                height={'40px'}
+                width={'40px'}
+              />
+            )}
             <Flex flex={1} align={'center'} justify={'center'}>
               <Text fontWeight={700} fontSize={20} letterSpacing={0.3} color={'#FEFEFE'}>
                 {title || ''}
@@ -59,7 +79,7 @@ function GridLayout({ children, title }: { children: React.ReactNode; title?: st
           ))}
         </Flex>
       </GridItem>
-      <GridItem area={'main'} as="main" p={5}>
+      <GridItem area={'main'} as="main" p={5} display={'flex'} justifyContent={'center'}>
         {children}
       </GridItem>
     </Grid>
