@@ -39,6 +39,11 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment }:
     setIsHovering(false);
   };
 
+  const ToDelete = (comment: Comment) => {
+    const payload = usePayload('schematic-well-comments', 'DELETE', comment);
+    deleteComments(payload);
+  };
+
   const SubSurfaceEquipamentCard = () => (
     <Box
       zIndex={3}
@@ -117,11 +122,6 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment }:
     </Box>
   );
 
-  const ToDelete = (comment: Comment) => {
-    const payload = usePayload('schematic-well-comments', 'DELETE', comment);
-    deleteComments(payload);
-  };
-
   const CommentCard = () => (
     <Box
       zIndex={3}
@@ -174,79 +174,6 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment }:
     </Box>
   );
 
-  const CommentAndSubSurfaceEquipamentCard = () => (
-    <Box
-      zIndex={3}
-      position={'absolute'}
-      width={'536px'}
-      top={-36}
-      left={8}
-      backgroundColor={'#FEFEFE'}
-      boxShadow={'0 0 4px rgba(0, 0, 0, 0.25)'}
-      borderRadius={'4px'}
-      p={5}
-    >
-      <Flex gap={1} mb={3}>
-        <Text fontWeight={700} fontSize={'16px'}>
-          Profundidade
-        </Text>
-        <Flex>
-          <Text fontWeight={700} fontSize={'16px'}>
-            {subsurfaceEquipment?.depth}
-          </Text>
-          <Text fontWeight={700} fontSize={'16px'}>
-            m
-          </Text>
-        </Flex>
-      </Flex>
-      <Flex gap={1}>
-        <Text fontWeight={700} fontSize={'16px'}>
-          Equipamento de Subsuperfície:
-        </Text>
-
-        <Text fontWeight={500} fontSize={'16px'}>
-          {subsurfaceEquipment?.subsurfaceEquipment}
-        </Text>
-      </Flex>
-      <Flex gap={1}>
-        <Text fontWeight={700} fontSize={'16px'}>
-          OD (polegadas):
-        </Text>
-
-        <Text fontWeight={500} fontSize={'16px'}>
-          {subsurfaceEquipment?.odInch}
-        </Text>
-      </Flex>
-      <Flex gap={1}>
-        <Text fontWeight={700} fontSize={'16px'}>
-          ID (polegadas):
-        </Text>
-
-        <Text fontWeight={500} fontSize={'16px'}>
-          {subsurfaceEquipment?.idInch}
-        </Text>
-      </Flex>
-      <Flex gap={1}>
-        <Text fontWeight={700} fontSize={'16px'}>
-          Fabricante:
-        </Text>
-
-        <Text fontWeight={500} fontSize={'16px'}>
-          {subsurfaceEquipment?.manufacturer}
-        </Text>
-      </Flex>
-      <Flex gap={1}>
-        <Text fontWeight={700} fontSize={'16px'}>
-          Comentário:
-        </Text>
-
-        <Text fontWeight={500} fontSize={'16px'}>
-          {comment?.comments}
-        </Text>
-      </Flex>
-    </Box>
-  );
-
   return (
     <Flex
       position={'absolute'}
@@ -254,7 +181,7 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment }:
       top={scaleYAxis - 12}
       zIndex={2}
       height={'24px'}
-      width={'30px'}
+      width={'35px'}
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}
     >
@@ -280,7 +207,6 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment }:
           onOpen();
         }}
       />
-      {isHovering && subsurfaceEquipment && comment && <CommentAndSubSurfaceEquipamentCard />}
       {isHovering && subsurfaceEquipment && <SubSurfaceEquipamentCard />}
       {isHovering && comment && <CommentCard />}
     </Flex>
