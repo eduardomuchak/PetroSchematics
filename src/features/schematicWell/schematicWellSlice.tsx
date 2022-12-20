@@ -10,6 +10,7 @@ import {
 } from './interfaces';
 
 const initialState = {
+  minDepth: 0,
   maxDepth: 0,
   mousePosition: {
     yAxis: 0,
@@ -26,6 +27,24 @@ export const schematicWellSlice = createSlice({
   reducers: {
     setMaxDepth: (state, action) => {
       state.maxDepth = action.payload;
+    },
+    setMinDepth: (state) => {
+      // Regra:
+      // Se existir algum equipamento de subsuperfície ou comentário com profundidade definida
+      // a profundidade mínima deve ser a profundidade do equipamento ou comentário com maior profundidade
+      // Se não existir nenhum equipamento de subsuperfície ou comentário com profundidade definida
+      // a profundidade mínima deve ser 0
+      const { subsurfaceEquipmentTable, comments } = state;
+      const subsurfaceEquipmentMinDepth = Math.max(
+        ...subsurfaceEquipmentTable.map((subsurfaceEquipment) => Number(subsurfaceEquipment.depth)),
+      );
+      const commentsMinDepth = Math.max(...comments.map((comment) => comment.depth));
+      const minDepth = Math.max(subsurfaceEquipmentMinDepth, commentsMinDepth);
+      if (minDepth === Infinity || minDepth === null || minDepth === undefined) {
+        state.minDepth = 0;
+      } else {
+        state.minDepth = minDepth;
+      }
     },
     setSurfaceEquipment: (state, action) => {
       state.surfaceEquipmentTable = action.payload;
@@ -65,6 +84,7 @@ export const {
   setSubsurfaceEquipment,
   openPointOfClick,
   setComments,
+  setMinDepth,
 } = schematicWellSlice.actions;
 
 export const schematicWellState = (state: SchematicState) => state.schematicWell;

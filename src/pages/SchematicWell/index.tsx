@@ -21,6 +21,7 @@ import {
   schematicWellState,
   setComments,
   setMaxDepth,
+  setMinDepth,
   setSubsurfaceEquipment,
   setSurfaceEquipment,
 } from 'features/schematicWell/schematicWellSlice';
@@ -90,6 +91,7 @@ function SchematicWell() {
     if (configRequest.data?.document) {
       dispatch(setMaxDepth(configRequest.data?.document.maxDepth));
     }
+    dispatch(setMinDepth());
   }, [subSurfaceEquipmentsRequest.data, surfaceEquipmentsRequest.data, commentsRequest.data, configRequest.data]);
 
   const isLoading =
