@@ -64,7 +64,7 @@ function ModalEditarConfiguracaoEsquematico({ well }: Props) {
   };
 
   const isButtonDisabled = () => {
-    if (formValues.depth === 0) {
+    if (formValues.depth <= 0) {
       return true;
     }
     return false;

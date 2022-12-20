@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Flex, Image } from '@chakra-ui/react';
@@ -20,6 +21,13 @@ function SchematicWellConfig() {
   const payloadConfig = usePayload('schematic-well-config', 'GETBYFILTER', {}, { 'well.id': well._id });
   const { isLoading, data, error } = useGetSchematicConfigQuery(payloadConfig);
 
+  useEffect(() => {
+    // Verifica se o esquemático já foi previamente configurado. Se sim, redireciona para a página de visualização do mesmo
+    if (data?.document?.maxDepth) {
+      navigate(`/esquematico-well/${well._id}`, { state: { well } });
+    }
+  }, []);
+
   if (isLoading) {
     return (
       <GridLayout>
@@ -34,12 +42,6 @@ function SchematicWellConfig() {
         <RequestError />
       </GridLayout>
     );
-  }
-
-  // Verifica se o esquemático já foi configurado
-  // Se sim, redireciona para a página de visualização do esquemático
-  if (data?.document?.maxDepth) {
-    navigate(`/esquematico-well/${well._id}`, { state: { well } });
   }
 
   return (
