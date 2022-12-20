@@ -39,7 +39,7 @@ interface Props {
 function ModalEditarConfiguracaoEsquematico({ well }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [updateSchematicConfig] = useUpdateSchematicConfigMutation();
-  const { maxDepth } = useSelector(schematicWellState);
+  const { maxDepth, minDepth } = useSelector(schematicWellState);
 
   const [formValues, setFormValues] = useState<FormValues>({
     depth: 0,
@@ -120,7 +120,7 @@ function ModalEditarConfiguracaoEsquematico({ well }: Props) {
                   </Text>
                 </Flex>
                 <NumberInput
-                  min={0}
+                  min={minDepth}
                   max={9999999999}
                   value={formValues.depth}
                   onChange={(valueString) => {
