@@ -224,7 +224,9 @@ export function Aprovacaopage() {
         filterStatus.value == 0 ? val : val.ind_situacao == filterStatus.value,
       );
       setRenderList(filtrarStatus);
-      setPaginationBottom(0);
+      if (Number(filtrarStatus.length) < paginationBottom) {
+        setPaginationBottom(0);
+      }
     }
   }, [filterCampo, filterForm, filterPoco, dateIni, dateEnd, filterStatus, refilter]);
 
@@ -292,7 +294,7 @@ export function Aprovacaopage() {
   };
 
   return (
-    <GridLayout title={'TABELA DE APROVACÕES'}>
+    <GridLayout title={'MÓDULO DE APROVACÕES'}>
       <Popover isOpen={open} onClose={() => setOpen(false)} placement="left-start">
         <Flex direction={'column'} flex={1}>
           <Flex gap={2} mb={8} flexWrap="wrap">
