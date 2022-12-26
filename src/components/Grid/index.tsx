@@ -57,7 +57,7 @@ function GridLayout({ children, title, goToPage }: { children: React.ReactNode; 
                 width={'40px'}
               />
             )}
-            <Flex flex={1} align={'center'} justify={'center'}>
+            <Flex align={'center'} justify={'center'}>
               <Text fontWeight={700} fontSize={20} letterSpacing={0.3} color={'#FEFEFE'}>
                 {title || ''}
               </Text>

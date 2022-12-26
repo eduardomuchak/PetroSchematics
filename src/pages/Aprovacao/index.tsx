@@ -438,6 +438,17 @@ export function Aprovacaopage() {
                         color={'#fff'}
                         fontWeight={'800'}
                       >
+                        <Flex justify={'center'}>Data</Flex>
+                      </Th>
+                      <Th
+                        height={'40px'}
+                        width={'16%'}
+                        borderBottomWidth={'1px'}
+                        borderTopWidth={'1px'}
+                        borderColor={'#9FA2B4'}
+                        color={'#fff'}
+                        fontWeight={'800'}
+                      >
                         <Flex justify={'center'}>Hora</Flex>
                       </Th>
                       <Th
@@ -450,17 +461,6 @@ export function Aprovacaopage() {
                         fontWeight={'800'}
                       >
                         <Flex justify={'center'}>Operador</Flex>
-                      </Th>
-                      <Th
-                        height={'40px'}
-                        width={'16%'}
-                        borderBottomWidth={'1px'}
-                        borderTopWidth={'1px'}
-                        borderColor={'#9FA2B4'}
-                        color={'#fff'}
-                        fontWeight={'800'}
-                      >
-                        <Flex justify={'center'}>Data</Flex>
                       </Th>
                       <Th
                         height={'40px'}
@@ -521,6 +521,21 @@ export function Aprovacaopage() {
                               borderColor={'#9FA2B4'}
                             >
                               <Flex justify={'center'}>
+                                {`${new Date(item.dat_log).getDate() < 10 ? '0' : ''}${new Date(
+                                  item.dat_log,
+                                ).getDate()}/${new Date(item.dat_log).getMonth() + 1 < 10 ? '0' : ''}${
+                                  new Date(item.dat_log).getMonth() + 1
+                                }/${new Date(item.dat_log).getFullYear()}`}
+                              </Flex>
+                            </Td>
+                            <Td
+                              height={'56px'}
+                              width={'16%'}
+                              borderBottomWidth={'1px'}
+                              borderTopWidth={'1px'}
+                              borderColor={'#9FA2B4'}
+                            >
+                              <Flex justify={'center'}>
                                 {`${new Date(item.dat_log).getHours() < 10 ? '0' : ''}${new Date(
                                   item.dat_log,
                                 ).getHours()}:${new Date(item.dat_log).getMinutes() < 10 ? '0' : ''}${new Date(
@@ -536,21 +551,6 @@ export function Aprovacaopage() {
                               borderColor={'#9FA2B4'}
                             >
                               <Flex justify={'center'}>{item.usu_log}</Flex>
-                            </Td>
-                            <Td
-                              height={'56px'}
-                              width={'16%'}
-                              borderBottomWidth={'1px'}
-                              borderTopWidth={'1px'}
-                              borderColor={'#9FA2B4'}
-                            >
-                              <Flex justify={'center'}>
-                                {`${new Date(item.dat_log).getDate() < 10 ? '0' : ''}${new Date(
-                                  item.dat_log,
-                                ).getDate()}/${new Date(item.dat_log).getMonth() + 1 < 10 ? '0' : ''}${
-                                  new Date(item.dat_log).getMonth() + 1
-                                }/${new Date(item.dat_log).getFullYear()}`}
-                              </Flex>
                             </Td>
                             <Td
                               height={'56px'}
