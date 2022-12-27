@@ -5,7 +5,7 @@ import Welcome from 'features/auth/Welcome';
 
 import { Aprovacaopage } from 'pages/Aprovacao';
 import { Formulariopage } from 'pages/Formulario';
-import Login from 'pages/Login';
+import LoginMicrosoft from 'pages/MicrosoftLogin';
 import { NotFound } from 'pages/NotFound';
 import SchematicWell from 'pages/SchematicWell';
 import SchematicWellConfig from 'pages/SchematicWellConfig';
@@ -20,7 +20,7 @@ export function MainRoutes() {
     <Routes>
       <Route path="/" element={<Layout />}>
         {/* public routes */}
-        <Route index element={<Login />} />
+        <Route index element={<LoginMicrosoft />} />
         <Route path="esquematico-well/:id" element={<SchematicWell />} />
         <Route path="esquematico-well/config/:id" element={<SchematicWellConfig />} />
         <Route path="esquematico-well/lista-pocos" element={<WellsList />} />
