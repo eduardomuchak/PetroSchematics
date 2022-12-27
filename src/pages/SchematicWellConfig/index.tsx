@@ -26,7 +26,7 @@ function SchematicWellConfig() {
     if (data?.document?.maxDepth) {
       navigate(`/esquematico-well/${well._id}`, { state: { well } });
     }
-  }, []);
+  }, [data]);
 
   if (isLoading) {
     return (
