@@ -9,7 +9,7 @@ import {
   wellsState,
   setSelectedWell,
   setInicialFilteredWellsList,
-  filterByWellName,
+  filterWellsByField,
 } from 'features/wells/wellsSlice';
 
 import GridLayout from 'components/Grid';
@@ -27,7 +27,7 @@ interface WellsListOptions {
 }
 
 function WellsList() {
-  const [wellsListOptions, setWellsListOptions] = useState<WellsListOptions[]>([] as WellsListOptions[]);
+  const [fieldListOptions, setFieldListOptions] = useState<WellsListOptions[]>([] as WellsListOptions[]);
   // Handle Global State
   const dispatch = useDispatch();
   const { wellsList, selectedWell, filteredWellsList } = useSelector(wellsState);
@@ -54,10 +54,20 @@ function WellsList() {
   // Efeito para setar o estado local com o formato necessário para popular o select com os dados da requisição após a mesma ser concluída
   useEffect(() => {
     if (wellsList.length > 0) {
-      setWellsListOptions(
+      setFieldListOptions(
         wellsList
-          .map((well: Well) => ({ value: well._id, label: well.nome_poco }))
-          .sort((a: WellsListOptions, b: WellsListOptions) => a.label.localeCompare(b.label)),
+          .map((well: Well) => ({ value: well._id, label: well.nom_campo }))
+          .sort((a: WellsListOptions, b: WellsListOptions) => a.label.localeCompare(b.label))
+          .reduce((acc: WellsListOptions[], curr: WellsListOptions) => {
+            if (acc.length === 0) {
+              acc.push(curr);
+            } else {
+              if (acc[acc.length - 1].label !== curr.label) {
+                acc.push(curr);
+              }
+            }
+            return acc;
+          }, []),
       );
     }
   }, [wellsList]);
@@ -88,15 +98,16 @@ function WellsList() {
   return (
     <GridLayout title={'LISTA DE POÇOS'}>
       <Flex direction={'column'} gap={5} justify={'start'} minW={'676px'}>
-        <Flex align={'end'} gap={4}>
+        <Flex align={'end'} gap={4} justify={'space-between'}>
           <SelectFiltragem
-            options={wellsListOptions}
+            options={fieldListOptions}
             propName={'filtro'}
-            selectLabel={'FILTRAR POR POÇO:'}
+            selectLabel={'FILTRAR POÇOS POR CAMPO:'}
             value={selectedWell}
             dispatchAction={setSelectedWell}
+            width={'230px'}
           />
-          <Button variant={'origemBlueOutline'} onClick={() => dispatch(filterByWellName(selectedWell))}>
+          <Button variant={'origemBlueOutline'} onClick={() => dispatch(filterWellsByField(selectedWell))}>
             Filtrar
           </Button>
           <Button
