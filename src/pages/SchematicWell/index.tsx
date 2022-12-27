@@ -124,7 +124,7 @@ function SchematicWell() {
 
   return (
     <>
-      <GridLayout title={well.nome_poco} goToPage={'/lista-pocos'}>
+      <GridLayout title={well.nome_poco} goToPage={'/esquematico-well/lista-pocos'}>
         <ModalDecisao modalProps={modalProps} />
         <Flex
           justify={'space-between'}
