@@ -1,27 +1,32 @@
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { Text } from '@chakra-ui/react';
+import { setTokenMicrosoft } from 'features/auth/authSlice';
+import { useGetMicrosoftTokenQuery } from 'features/microsoft/service/microsoftApi';
 
 import GridLayout from 'components/Grid';
 import { Loading } from 'components/Loading';
 
-import { getApiTurnos } from './api/get';
-
 function AzureCallback() {
-  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
   const [teste, setTeste] = useState([]);
+  const getMicrosoftToken = useGetMicrosoftTokenQuery({ refetchOnMountOrArgChange: true });
 
-  const handleGetAll = async () => {
-    const req = await getApiTurnos();
-    setTeste(req.data);
-    setLoading(false);
-  };
+  const url = window.location.href;
+  const code = url.substring(url.indexOf('=') + 1, url.indexOf('&'));
 
   useEffect(() => {
-    handleGetAll();
+    dispatch(setTokenMicrosoft(code));
   }, []);
 
-  if (loading) {
+  useEffect(() => {
+    if (getMicrosoftToken?.data) {
+      setTeste(getMicrosoftToken.data);
+    }
+  }, [getMicrosoftToken.data]);
+
+  if (getMicrosoftToken.isLoading || teste.length === 0) {
     return (
       <GridLayout>
         <Loading />

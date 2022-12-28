@@ -1,12 +1,12 @@
 import { api } from './api';
 
-export async function getApiTurnos(): Promise<{
+export async function getApiTurnos(token: string | null): Promise<{
   data: any;
   status: number;
 }> {
-  const { data, status } = await api.get(`/api/turnos`, {
+  const { data, status } = await api.get(`/api/describe/coletaAmostrar`, {
     headers: {
-      Authorization: `Bearer ${sessionStorage.getItem('@Origem:token')}`,
+      Authorization: `Bearer ${token}`,
     },
   });
 
