@@ -4,6 +4,7 @@ import RequireAuth from 'features/auth/RequireAuth';
 import Welcome from 'features/auth/Welcome';
 
 import { Aprovacaopage } from 'pages/Aprovacao';
+import AzureCallback from 'pages/AzureCallback';
 import { Formulariopage } from 'pages/Formulario';
 import LoginMicrosoft from 'pages/MicrosoftLogin';
 import { NotFound } from 'pages/NotFound';
@@ -21,6 +22,7 @@ export function MainRoutes() {
       <Route path="/" element={<Layout />}>
         {/* public routes */}
         <Route index element={<LoginMicrosoft />} />
+        <Route path="login/azurecallback" element={<AzureCallback />} />
         <Route path="esquematico-well/:id" element={<SchematicWell />} />
         <Route path="esquematico-well/config/:id" element={<SchematicWellConfig />} />
         <Route path="esquematico-well/lista-pocos" element={<WellsList />} />
