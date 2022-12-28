@@ -46,7 +46,7 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment }:
 
   const SubSurfaceEquipamentCard = () => (
     <Box
-      zIndex={3}
+      zIndex={999}
       position={'absolute'}
       w={'720px'}
       top={-36}
@@ -124,7 +124,7 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment }:
 
   const CommentCard = () => (
     <Box
-      zIndex={3}
+      zIndex={999}
       position={'absolute'}
       width={'536px'}
       top={-20}
@@ -179,7 +179,7 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment }:
       position={'absolute'}
       left={xAxis - 12}
       top={scaleYAxis - 12}
-      zIndex={2}
+      // zIndex={2}
       height={'24px'}
       width={'35px'}
       onMouseOver={handleMouseOver}
