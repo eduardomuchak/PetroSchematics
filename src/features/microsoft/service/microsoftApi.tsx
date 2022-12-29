@@ -7,23 +7,30 @@ export const microsoftApiSlice = createApi({
   reducerPath: 'microsoftApiSlice',
   baseQuery: fetchBaseQuery({
     baseUrl: URL_ENDPOINT,
-    prepareHeaders: (headers, { getState }: any) => {
+    prepareHeaders: (
+      headers,
+      // { getState }: any
+    ) => {
       headers.set('api-key', API_KEY);
       headers.set('Access-Control-Request-Headers', '*');
-      const token = getState().auth.microsoftToken;
-      if (token) {
-        headers.set('Authorization', `Bearer ${token}`);
+      // const token = getState().auth.microsoftToken;
+      // if (token) {
+      //   headers.set('Authorization', `Bearer ${token}`);
+      // }
+      const microsoftToken = sessionStorage.getItem('@Origem:microsoftToken');
+      if (microsoftToken) {
+        headers.set('Authorization', `Bearer ${microsoftToken}`);
       }
       return headers;
     },
   }),
   tagTypes: ['MicrosoftToken'],
   endpoints: (builder) => ({
-    getMicrosoftToken: builder.query({
+    getTeste: builder.query({
       query: () => '/api/describe/coletaAmostrar',
       providesTags: ['MicrosoftToken'],
     }),
   }),
 });
 
-export const { useGetMicrosoftTokenQuery } = microsoftApiSlice;
+export const { useGetTesteQuery } = microsoftApiSlice;

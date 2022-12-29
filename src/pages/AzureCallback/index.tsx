@@ -1,42 +1,34 @@
-import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
-import { Text } from '@chakra-ui/react';
-import { setTokenMicrosoft } from 'features/auth/authSlice';
-import { useGetMicrosoftTokenQuery } from 'features/microsoft/service/microsoftApi';
+import { authState, setTokenMicrosoft } from 'features/auth/authSlice';
 
 import GridLayout from 'components/Grid';
 import { Loading } from 'components/Loading';
 
 function AzureCallback() {
+  const { tokenMicrosoft } = useSelector(authState);
   const dispatch = useDispatch();
-  const [teste, setTeste] = useState([]);
-  const getMicrosoftToken = useGetMicrosoftTokenQuery({ refetchOnMountOrArgChange: true });
+  const navigate = useNavigate();
 
   const url = window.location.href;
   const code = url.substring(url.indexOf('=') + 1, url.indexOf('&'));
 
   useEffect(() => {
     dispatch(setTokenMicrosoft(code));
+    sessionStorage.setItem('@Origem:microsoftToken', code || '');
   }, []);
 
   useEffect(() => {
-    if (getMicrosoftToken?.data) {
-      setTeste(getMicrosoftToken.data);
+    if (tokenMicrosoft) {
+      navigate('/login/autenticacao');
     }
-  }, [getMicrosoftToken.data]);
-
-  if (getMicrosoftToken.isLoading || teste.length === 0) {
-    return (
-      <GridLayout>
-        <Loading />
-      </GridLayout>
-    );
-  }
+  }, [tokenMicrosoft]);
 
   return (
     <GridLayout>
-      <Text>{JSON.stringify(teste)}</Text>;
+      <Loading />
     </GridLayout>
   );
 }
