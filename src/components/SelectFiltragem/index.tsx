@@ -11,16 +11,26 @@ interface Value {
 }
 
 interface Props {
-  selectLabel?: string;
-  propName: string;
-  options: any;
-  value: Value;
-  required?: boolean;
-  isDisabled?: boolean;
-  dispatchAction: any;
+  selectLabel?: string; // Label do select
+  propName: string; // Nome da propriedade que será passada para o reducer
+  options: any; // Array de opções do select (ex: [{ value: '1', label: 'Opção 1' }])
+  value: Value; // Valor selecionado no select
+  required?: boolean; // Se o campo é obrigatório
+  isDisabled?: boolean; // Se o campo está desabilitado
+  dispatchAction: Function; // Action que será disparada ao selecionar uma opção
+  width?: string; // Largura do select
 }
 
-function SelectFiltragem({ selectLabel, propName, options, value, required, isDisabled, dispatchAction }: Props) {
+function SelectFiltragem({
+  selectLabel,
+  propName,
+  options,
+  value,
+  required,
+  isDisabled,
+  dispatchAction,
+  width,
+}: Props) {
   const dispatch = useDispatch();
   const defaultStringsValue = {
     value: '',
@@ -71,7 +81,7 @@ function SelectFiltragem({ selectLabel, propName, options, value, required, isDi
   };
 
   return (
-    <>
+    <Flex w={width || '100%'}>
       <FormControl>
         {selectLabel && (
           <Flex gap={1}>
@@ -102,7 +112,7 @@ function SelectFiltragem({ selectLabel, propName, options, value, required, isDi
           isDisabled={isDisabled}
         />
       </FormControl>
-    </>
+    </Flex>
   );
 }
 

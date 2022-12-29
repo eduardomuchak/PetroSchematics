@@ -1,12 +1,15 @@
+import { useState } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 
-import { Flex, Grid, GridItem, IconButton, Image, Text } from '@chakra-ui/react';
+import { Button, Flex, Grid, GridItem, IconButton, Image, Text } from '@chakra-ui/react';
 import logoImage from 'assets/logo_origem_branco.svg';
 
 import { sidebarIcons } from './items';
 
 function GridLayout({ children, title, goToPage }: { children: React.ReactNode; title?: string; goToPage?: string }) {
+  const [isHovering, setIsHovering] = useState(false);
+
   return (
     <Grid
       templateAreas={`"header header"
@@ -65,16 +68,43 @@ function GridLayout({ children, title, goToPage }: { children: React.ReactNode; 
           </Flex>
         </Flex>
       </GridItem>
-      <GridItem bg="#EDF2F7" area={'nav'} as="nav" p={5}>
-        <Flex direction={'column'} gap={2} align={'center'}>
+      <GridItem
+        bg="#EDF2F7"
+        area={'nav'}
+        as="nav"
+        p={5}
+        onMouseEnter={() => setIsHovering(true)}
+        onMouseLeave={() => setIsHovering(false)}
+        width={isHovering ? '280px' : '88px'}
+        transition={'all 0.4s'}
+        zIndex={999}
+      >
+        <Flex direction={'column'} gap={2} align={'flex-start'}>
           {sidebarIcons.map((item: any, index: number) => (
             <Link to={item.link} key={index}>
-              <IconButton
+              <Button
                 key={item.name}
                 aria-label={item.name}
-                icon={<item.icon size={24} />}
                 variant={'origemSidebarIcon'}
-              />
+                width={isHovering ? '240px' : '48px'}
+                transition={'all 0.4s'}
+              >
+                <Flex align={'center'} w={isHovering ? '100%' : 'auto'} flex={1}>
+                  <Text fontSize={24}>
+                    <item.icon />
+                  </Text>
+                  {isHovering && (
+                    <Text
+                      fontSize={14}
+                      ml={2}
+                      // transform={isHovering ? 'translateX(0px)' : 'translateX(-200px)'}
+                      wordBreak={'break-word'}
+                    >
+                      {item.name}
+                    </Text>
+                  )}
+                </Flex>
+              </Button>
             </Link>
           ))}
         </Flex>

@@ -64,9 +64,13 @@ export const wellsSlice = createSlice({
     filterByWellName: (state, action) => {
       state.filteredWellsList = state.wellsList.filter((well: Well) => well.nome_poco === action.payload.label);
     },
+    filterWellsByField: (state, action) => {
+      state.filteredWellsList = state.wellsList.filter((well: Well) => well.nom_campo === action.payload.label);
+    },
   },
 });
 
-export const { setWellsList, setSelectedWell, filterByWellName, setInicialFilteredWellsList } = wellsSlice.actions;
+export const { setWellsList, setSelectedWell, filterByWellName, setInicialFilteredWellsList, filterWellsByField } =
+  wellsSlice.actions;
 
 export const wellsState = (state: any) => state.wells;
