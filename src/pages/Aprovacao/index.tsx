@@ -624,6 +624,7 @@ export function Aprovacaopage() {
                       <Th></Th>
                       <Th></Th>
                       <Th></Th>
+                      <Th></Th>
                     </Tr>
                   </Tfoot>
                 </Table>
