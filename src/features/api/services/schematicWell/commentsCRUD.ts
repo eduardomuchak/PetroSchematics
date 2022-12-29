@@ -1,4 +1,4 @@
-import { apiMongoDB } from 'features/service/apiMongoDB';
+import { apiMongoDB } from 'features/api/apiMongoDB';
 export const commentsCRUD = apiMongoDB.injectEndpoints({
   endpoints: (builder) => ({
     getComments: builder.query({

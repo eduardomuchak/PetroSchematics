@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Button, Flex, Grid, GridItem, Text } from '@chakra-ui/react';
-import { useGetWellsListQuery } from 'features/service/cruds/schematicWell/wellsCRUD';
+import { useGetWellsListQuery } from 'features/api/services/schematicWell/wellsCRUD';
 import { Well } from 'features/wells/interfaces';
 import {
   setWellsList,

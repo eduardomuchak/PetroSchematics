@@ -17,7 +17,7 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
-import { useAddSurfaceEquipmentMutation } from 'features/service/cruds/schematicWell/surfaceEquipmentsCRUD';
+import { useAddSurfaceEquipmentMutation } from 'features/api/services/schematicWell/surfaceEquipmentsCRUD';
 import { Well } from 'features/wells/interfaces';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';

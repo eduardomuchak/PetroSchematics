@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { Box, Flex, Text } from '@chakra-ui/react';
+import { useDeleteCommentsMutation } from 'features/api/services/schematicWell/commentsCRUD';
 import { Comment, SubsurfaceEquipment } from 'features/schematicWell/interfaces';
 import { openPointOfClick } from 'features/schematicWell/schematicWellSlice';
-import { useDeleteCommentsMutation } from 'features/service/cruds/schematicWell/commentsCRUD';
 
 import { usePayload } from 'hooks/usePayload';
 

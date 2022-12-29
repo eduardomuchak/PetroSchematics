@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { Text } from '@chakra-ui/react';
-import { useGetTesteQuery } from 'features/service/cruds/teste/microsoftTeste';
+import { useGetTesteQuery } from 'features/api/services/teste/microsoftTeste';
 
 import GridLayout from 'components/Grid';
 import { Loading } from 'components/Loading';

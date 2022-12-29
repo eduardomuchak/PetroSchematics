@@ -23,8 +23,8 @@ import {
   Textarea,
   useDisclosure,
 } from '@chakra-ui/react';
+import { useAddCommentsMutation } from 'features/api/services/schematicWell/commentsCRUD';
 import { schematicWellState } from 'features/schematicWell/schematicWellSlice';
-import { useAddCommentsMutation } from 'features/service/cruds/schematicWell/commentsCRUD';
 import { Well } from 'features/wells/interfaces';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
