@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { FiLogOut } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,8 +15,20 @@ function LogoutButton({ isHovering }: Props) {
     navigate('/');
   }
 
+  // PEGAR O VALOR DA ALTURA DA TELA PARA COLOCAR O BOTÃO NO FINAL DA TELA
+  const [height, setHeight] = useState(window.innerHeight);
+  useEffect(() => {
+    setHeight(window.innerHeight);
+  }, []);
+
+  useEffect(() => {}, [
+    window.addEventListener('resize', () => {
+      setHeight(window.innerHeight);
+    }),
+  ]);
+
   return (
-    <Flex position={'fixed'} top={850}>
+    <Flex position={'fixed'} top={height - 70}>
       <Button
         variant={'origemBlueGhost'}
         width={isHovering ? '240px' : '48px'}
