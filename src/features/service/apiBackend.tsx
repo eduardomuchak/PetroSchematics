@@ -20,12 +20,5 @@ export const apiBackend = createApi({
     },
   }),
   tagTypes: ['MicrosoftToken'],
-  endpoints: (builder) => ({
-    getTeste: builder.query({
-      query: () => '/api/describe/coletaAmostrar',
-      providesTags: ['MicrosoftToken'],
-    }),
-  }),
+  endpoints: () => ({}),
 });
-
-export const { useGetTesteQuery } = apiBackend;

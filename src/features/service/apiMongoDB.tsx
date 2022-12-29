@@ -8,12 +8,14 @@ export const apiMongoDB = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: URL_ENDPOINT,
     prepareHeaders: (headers, { getState }: any) => {
+      const token = getState().auth.token;
+
       headers.set('api-key', API_KEY);
       headers.set('Access-Control-Request-Headers', '*');
-      const token = getState().auth.token;
       if (token) {
         headers.set('Authorization', `Bearer ${token}`);
       }
+
       return headers;
     },
   }),
