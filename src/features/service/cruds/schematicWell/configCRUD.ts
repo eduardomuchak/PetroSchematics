@@ -1,6 +1,6 @@
-import { schematicWellApiSlice } from './schematicWellApi';
+import { apiMongoDB } from 'features/service/apiMongoDB';
 
-export const configCRUD = schematicWellApiSlice.injectEndpoints({
+export const configCRUD = apiMongoDB.injectEndpoints({
   endpoints: (builder) => ({
     addSchematicConfig: builder.mutation({
       query: (payload) => ({

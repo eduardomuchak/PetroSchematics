@@ -1,6 +1,5 @@
-import { schematicWellApiSlice } from './schematicWellApi';
-
-export const commentsCRUD = schematicWellApiSlice.injectEndpoints({
+import { apiMongoDB } from 'features/service/apiMongoDB';
+export const commentsCRUD = apiMongoDB.injectEndpoints({
   endpoints: (builder) => ({
     getComments: builder.query({
       query: (payload) => ({

@@ -1,6 +1,5 @@
-import { schematicWellApiSlice } from './schematicWellApi';
-
-export const subsurfaceEquipmentsCRUD = schematicWellApiSlice.injectEndpoints({
+import { apiMongoDB } from 'features/service/apiMongoDB';
+export const subsurfaceEquipmentsCRUD = apiMongoDB.injectEndpoints({
   endpoints: (builder) => ({
     getSubsurfaceEquipments: builder.query({
       query: (payload) => ({

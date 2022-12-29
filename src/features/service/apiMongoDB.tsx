@@ -3,8 +3,8 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 const URL_ENDPOINT = `${process.env.REACT_APP_URL_ENDPOINT}`;
 const API_KEY = `${process.env.REACT_APP_API_KEY}`;
 
-export const schematicWellApiSlice = createApi({
-  reducerPath: 'schematicWellApiSlice',
+export const apiMongoDB = createApi({
+  reducerPath: 'apiMongoDB',
   baseQuery: fetchBaseQuery({
     baseUrl: URL_ENDPOINT,
     prepareHeaders: (headers, { getState }: any) => {

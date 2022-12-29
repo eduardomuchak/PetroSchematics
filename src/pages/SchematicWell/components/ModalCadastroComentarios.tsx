@@ -24,7 +24,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { schematicWellState } from 'features/schematicWell/schematicWellSlice';
-import { useAddCommentsMutation } from 'features/schematicWell/service/commentsCRUD';
+import { useAddCommentsMutation } from 'features/service/cruds/schematicWell/commentsCRUD';
 import { Well } from 'features/wells/interfaces';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';

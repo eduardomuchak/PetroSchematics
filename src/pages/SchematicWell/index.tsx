@@ -25,10 +25,10 @@ import {
   setSubsurfaceEquipment,
   setSurfaceEquipment,
 } from 'features/schematicWell/schematicWellSlice';
-import { useGetCommentsQuery } from 'features/schematicWell/service/commentsCRUD';
-import { useGetSchematicConfigQuery } from 'features/schematicWell/service/configCRUD';
-import { useGetSubsurfaceEquipmentsQuery } from 'features/schematicWell/service/subsurfaceEquipmentsCRUD';
-import { useGetSurfaceEquipmentsQuery } from 'features/schematicWell/service/surfaceEquipmentsCRUD';
+import { useGetCommentsQuery } from 'features/service/cruds/schematicWell/commentsCRUD';
+import { useGetSchematicConfigQuery } from 'features/service/cruds/schematicWell/configCRUD';
+import { useGetSubsurfaceEquipmentsQuery } from 'features/service/cruds/schematicWell/subsurfaceEquipmentsCRUD';
+import { useGetSurfaceEquipmentsQuery } from 'features/service/cruds/schematicWell/surfaceEquipmentsCRUD';
 import { Well } from 'features/wells/interfaces';
 
 import EscalaProfundidadeEsquematico from 'components/EscalaProfundidadeEsquematico';
