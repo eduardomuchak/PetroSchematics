@@ -24,7 +24,13 @@ export function Formulariopage() {
 
   useEffect(() => {
     const first = state.list[state.index];
-    const renderArray = [];
+    const renderArray: any = [];
+    const newItem = {
+      name: 'Operador',
+      value: first.usu_log || 'Visitante',
+      type: 'text',
+    };
+    renderArray.splice(0, 0, newItem);
     for (const property in first.form_data) {
       if (property == 'poco') {
         const newItem = {
@@ -45,10 +51,11 @@ export function Formulariopage() {
           renderArray.splice(0, 0, newItem);
         }
       } else {
+        const key = keyName.filter((val: any) => val.key === property)[0];
         const newItem = {
-          name: keyName.filter((val: any) => val.key === property)[0].title,
+          name: key ? key.title : property,
           value: first.form_data[property],
-          type: keyName.filter((val: any) => val.key === property)[0].type,
+          type: key ? key.type : 'text',
         };
         if (typeof newItem.value === 'string' || typeof newItem.value === 'number') {
           renderArray.push(newItem);
