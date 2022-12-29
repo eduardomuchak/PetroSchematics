@@ -291,10 +291,11 @@ export function Aprovacaopage() {
     }
     setFormsList(newList);
     setRefilter(!refilter);
+    setloading(false);
   };
 
   return (
-    <GridLayout title={'MÓDULO DE APROVACÕES'}>
+    <GridLayout title={'MÓDULO DE APROVAÇÕES'}>
       <Popover isOpen={open} onClose={() => setOpen(false)} placement="left-start">
         <Flex direction={'column'} flex={1}>
           <Flex gap={2} mb={8} flexWrap="wrap">
@@ -460,6 +461,17 @@ export function Aprovacaopage() {
                         color={'#fff'}
                         fontWeight={'800'}
                       >
+                        <Flex justify={'center'}>Formulário</Flex>
+                      </Th>
+                      <Th
+                        height={'40px'}
+                        width={'16%'}
+                        borderBottomWidth={'1px'}
+                        borderTopWidth={'1px'}
+                        borderColor={'#9FA2B4'}
+                        color={'#fff'}
+                        fontWeight={'800'}
+                      >
                         <Flex justify={'center'}>Operador</Flex>
                       </Th>
                       <Th
@@ -541,6 +553,17 @@ export function Aprovacaopage() {
                                 ).getHours()}:${new Date(item.dat_log).getMinutes() < 10 ? '0' : ''}${new Date(
                                   item.dat_log,
                                 ).getMinutes()}`}
+                              </Flex>
+                            </Td>
+                            <Td
+                              height={'56px'}
+                              width={'16%'}
+                              borderBottomWidth={'1px'}
+                              borderTopWidth={'1px'}
+                              borderColor={'#9FA2B4'}
+                            >
+                              <Flex justify={'center'}>
+                                {options.filter((val: any) => val.form == item.form_type)[0]?.label || item.form_type}
                               </Flex>
                             </Td>
                             <Td

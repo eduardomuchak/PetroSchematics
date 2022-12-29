@@ -142,4 +142,31 @@ export const keyName = [
   { id: 110, id_pai: 140, type: 'text', title: 'P ANULAR A (Kgf/cm²)', key: 'p_anular_a' },
   { id: 111, id_pai: 140, type: 'text', title: 'P ANULAR B (Kgf/cm²)', key: 'p_anular_b' },
   { id: 112, id_pai: 140, type: 'text', title: 'P ANULAR C (Kgf/cm²)', key: 'p_anular_c' },
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  { id: 113, id_pai: 140, type: 'text', title: 'HORA FIM', key: 'hor_fim' },
+  { id: 113, id_pai: 140, type: 'text', title: 'HORA INÍCIO', key: 'hor_inicio' },
+  { id: 113, id_pai: 140, type: 'text', title: 'CONTROLE BOLETIM', key: 'id_controle_boletim' },
+  {
+    id: 113,
+    id_pai: 140,
+    type: 'text',
+    title: 'CONTROLE FECHAMENTO E ABERTURA POÇO',
+    key: 'id_controle_fechamento_abertura_poco',
+  },
+  { id: 113, id_pai: 140, type: 'text', title: 'POÇO', key: 'id_poco' },
+  { id: 113, id_pai: 140, type: 'text', title: 'MOTIVO', key: 'txt_motivo' },
+  { id: 113, id_pai: 140, type: 'text', title: 'AÇÂO', key: 'varchar' },
+  { id: 113, id_pai: 140, type: 'text', title: 'NOME ORIGEM', key: 'varchar' },
 ];
