@@ -18,33 +18,5 @@ export const schematicWellApiSlice = createApi({
     },
   }),
   tagTypes: ['SurfaceEquipment', 'SubsurfaceEquipment', 'SchematicComments', 'SquematicConfig'],
-  endpoints: (builder) => ({
-    addSchematicConfig: builder.mutation({
-      query: (payload) => ({
-        url: '/action/insertOne',
-        method: 'POST',
-        body: payload,
-      }),
-      invalidatesTags: ['SquematicConfig'],
-    }),
-    getSchematicConfig: builder.query({
-      query: (payload) => ({
-        url: '/action/findOne',
-        method: 'POST',
-        body: payload,
-      }),
-      providesTags: ['SquematicConfig'],
-    }),
-    updateSchematicConfig: builder.mutation({
-      query: (payload) => ({
-        url: `/action/updateOne`,
-        method: 'POST',
-        body: payload,
-      }),
-      invalidatesTags: ['SquematicConfig'],
-    }),
-  }),
+  endpoints: () => ({}),
 });
-
-export const { useAddSchematicConfigMutation, useGetSchematicConfigQuery, useUpdateSchematicConfigMutation } =
-  schematicWellApiSlice;

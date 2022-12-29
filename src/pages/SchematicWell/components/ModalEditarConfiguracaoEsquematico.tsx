@@ -23,7 +23,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { schematicWellState } from 'features/schematicWell/schematicWellSlice';
-import { useUpdateSchematicConfigMutation } from 'features/schematicWell/service/schematicWellApi';
+import { useUpdateSchematicConfigMutation } from 'features/schematicWell/service/configCRUD';
 import { Well } from 'features/wells/interfaces';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';

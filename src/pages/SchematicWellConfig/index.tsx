@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Flex, Image } from '@chakra-ui/react';
 import SchematicSVG from 'assets/esquematico.svg';
-import { useGetSchematicConfigQuery } from 'features/schematicWell/service/schematicWellApi';
+import { useGetSchematicConfigQuery } from 'features/schematicWell/service/configCRUD';
 import { Well } from 'features/wells/interfaces';
 
 import GridLayout from 'components/Grid';
