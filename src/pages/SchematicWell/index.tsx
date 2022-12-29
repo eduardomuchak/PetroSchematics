@@ -29,8 +29,8 @@ import {
   useGetCommentsQuery,
   useGetSchematicConfigQuery,
   useGetSubsurfaceEquipmentsQuery,
-  useGetSurfaceEquipmentsQuery,
 } from 'features/schematicWell/service/schematicWellApi';
+import { useGetSurfaceEquipmentsQuery } from 'features/schematicWell/service/surfaceEquipmentsCRUD';
 import { Well } from 'features/wells/interfaces';
 
 import EscalaProfundidadeEsquematico from 'components/EscalaProfundidadeEsquematico';
