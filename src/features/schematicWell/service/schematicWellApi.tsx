@@ -19,41 +19,6 @@ export const schematicWellApiSlice = createApi({
   }),
   tagTypes: ['SurfaceEquipment', 'SubsurfaceEquipment', 'SchematicComments', 'SquematicConfig'],
   endpoints: (builder) => ({
-    // Equipamentos de Subsuperfície
-    // Comentários
-    getComments: builder.query({
-      query: (payload) => ({
-        url: '/action/find',
-        method: 'POST',
-        body: payload,
-      }),
-      providesTags: ['SchematicComments'],
-    }),
-    addComments: builder.mutation({
-      query: (payload) => ({
-        url: '/action/insertOne',
-        method: 'POST',
-        body: payload,
-      }),
-      invalidatesTags: ['SchematicComments'],
-    }),
-    updateComments: builder.mutation({
-      query: (payload) => ({
-        url: `/action/updateOne`,
-        method: 'POST',
-        body: payload,
-      }),
-      invalidatesTags: ['SchematicComments'],
-    }),
-    deleteComments: builder.mutation({
-      query: (payload) => ({
-        url: `/action/deleteOne`,
-        method: 'POST',
-        body: payload,
-      }),
-      invalidatesTags: ['SchematicComments'],
-    }),
-    // Configuração do esquematico
     addSchematicConfig: builder.mutation({
       query: (payload) => ({
         url: '/action/insertOne',
@@ -81,12 +46,5 @@ export const schematicWellApiSlice = createApi({
   }),
 });
 
-export const {
-  useGetCommentsQuery,
-  useAddCommentsMutation,
-  useUpdateCommentsMutation,
-  useDeleteCommentsMutation,
-  useAddSchematicConfigMutation,
-  useGetSchematicConfigQuery,
-  useUpdateSchematicConfigMutation,
-} = schematicWellApiSlice;
+export const { useAddSchematicConfigMutation, useGetSchematicConfigQuery, useUpdateSchematicConfigMutation } =
+  schematicWellApiSlice;
