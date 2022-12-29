@@ -26,8 +26,9 @@ function EyePopover({ infos }: any) {
           renderArray.splice(0, 0, newItem);
         }
       } else {
+        const key = keyName.filter((val: any) => val.key === property)[0];
         const newItem = {
-          name: keyName.filter((val: any) => val.key === property)[0].title,
+          name: key ? key.title : property,
           value: infos.form_data[property],
         };
         if (typeof newItem.value === 'string' || typeof newItem.value === 'number') {

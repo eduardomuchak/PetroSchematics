@@ -224,7 +224,9 @@ export function Aprovacaopage() {
         filterStatus.value == 0 ? val : val.ind_situacao == filterStatus.value,
       );
       setRenderList(filtrarStatus);
-      setPaginationBottom(0);
+      if (Number(filtrarStatus.length) < paginationBottom) {
+        setPaginationBottom(0);
+      }
     }
   }, [filterCampo, filterForm, filterPoco, dateIni, dateEnd, filterStatus, refilter]);
 
@@ -289,10 +291,11 @@ export function Aprovacaopage() {
     }
     setFormsList(newList);
     setRefilter(!refilter);
+    setloading(false);
   };
 
   return (
-    <GridLayout title={'TABELA DE APROVACÕES'}>
+    <GridLayout title={'MÓDULO DE APROVAÇÕES'}>
       <Popover isOpen={open} onClose={() => setOpen(false)} placement="left-start">
         <Flex direction={'column'} flex={1}>
           <Flex gap={2} mb={8} flexWrap="wrap">
@@ -436,6 +439,17 @@ export function Aprovacaopage() {
                         color={'#fff'}
                         fontWeight={'800'}
                       >
+                        <Flex justify={'center'}>Data</Flex>
+                      </Th>
+                      <Th
+                        height={'40px'}
+                        width={'16%'}
+                        borderBottomWidth={'1px'}
+                        borderTopWidth={'1px'}
+                        borderColor={'#9FA2B4'}
+                        color={'#fff'}
+                        fontWeight={'800'}
+                      >
                         <Flex justify={'center'}>Hora</Flex>
                       </Th>
                       <Th
@@ -447,7 +461,7 @@ export function Aprovacaopage() {
                         color={'#fff'}
                         fontWeight={'800'}
                       >
-                        <Flex justify={'center'}>Operador</Flex>
+                        <Flex justify={'center'}>Formulário</Flex>
                       </Th>
                       <Th
                         height={'40px'}
@@ -458,7 +472,7 @@ export function Aprovacaopage() {
                         color={'#fff'}
                         fontWeight={'800'}
                       >
-                        <Flex justify={'center'}>Data</Flex>
+                        <Flex justify={'center'}>Operador</Flex>
                       </Th>
                       <Th
                         height={'40px'}
@@ -519,6 +533,21 @@ export function Aprovacaopage() {
                               borderColor={'#9FA2B4'}
                             >
                               <Flex justify={'center'}>
+                                {`${new Date(item.dat_log).getDate() < 10 ? '0' : ''}${new Date(
+                                  item.dat_log,
+                                ).getDate()}/${new Date(item.dat_log).getMonth() + 1 < 10 ? '0' : ''}${
+                                  new Date(item.dat_log).getMonth() + 1
+                                }/${new Date(item.dat_log).getFullYear()}`}
+                              </Flex>
+                            </Td>
+                            <Td
+                              height={'56px'}
+                              width={'16%'}
+                              borderBottomWidth={'1px'}
+                              borderTopWidth={'1px'}
+                              borderColor={'#9FA2B4'}
+                            >
+                              <Flex justify={'center'}>
                                 {`${new Date(item.dat_log).getHours() < 10 ? '0' : ''}${new Date(
                                   item.dat_log,
                                 ).getHours()}:${new Date(item.dat_log).getMinutes() < 10 ? '0' : ''}${new Date(
@@ -533,7 +562,9 @@ export function Aprovacaopage() {
                               borderTopWidth={'1px'}
                               borderColor={'#9FA2B4'}
                             >
-                              <Flex justify={'center'}>{item.usu_log}</Flex>
+                              <Flex justify={'center'}>
+                                {options.filter((val: any) => val.form == item.form_type)[0]?.label || item.form_type}
+                              </Flex>
                             </Td>
                             <Td
                               height={'56px'}
@@ -542,13 +573,7 @@ export function Aprovacaopage() {
                               borderTopWidth={'1px'}
                               borderColor={'#9FA2B4'}
                             >
-                              <Flex justify={'center'}>
-                                {`${new Date(item.dat_log).getDate() < 10 ? '0' : ''}${new Date(
-                                  item.dat_log,
-                                ).getDate()}/${new Date(item.dat_log).getMonth() + 1 < 10 ? '0' : ''}${
-                                  new Date(item.dat_log).getMonth() + 1
-                                }/${new Date(item.dat_log).getFullYear()}`}
-                              </Flex>
+                              <Flex justify={'center'}>{item.usu_log}</Flex>
                             </Td>
                             <Td
                               height={'56px'}
