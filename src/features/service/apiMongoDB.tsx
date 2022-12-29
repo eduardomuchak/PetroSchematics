@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-const URL_ENDPOINT = `${process.env.REACT_APP_URL_ENDPOINT}`;
+const URL_ENDPOINT = `${process.env.REACT_APP_URL_API_MONGODB}`;
 const API_KEY = `${process.env.REACT_APP_API_KEY}`;
 
 export const apiMongoDB = createApi({
@@ -17,6 +17,6 @@ export const apiMongoDB = createApi({
       return headers;
     },
   }),
-  tagTypes: ['SurfaceEquipment', 'SubsurfaceEquipment', 'SchematicComments', 'SquematicConfig'],
+  tagTypes: ['SurfaceEquipment', 'SubsurfaceEquipment', 'SchematicComments', 'SquematicConfig', 'Wells'],
   endpoints: () => ({}),
 });
