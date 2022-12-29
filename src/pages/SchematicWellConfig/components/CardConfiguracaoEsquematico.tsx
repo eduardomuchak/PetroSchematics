@@ -16,7 +16,7 @@ import {
   NumberInputStepper,
   Text,
 } from '@chakra-ui/react';
-import { useAddSchematicConfigMutation } from 'features/service/cruds/schematicWell/configCRUD';
+import { useAddSchematicConfigMutation } from 'features/service/cruds/schematicWell/schematicConfigCRUD';
 import { useAddManySurfaceEquipmentsMutation } from 'features/service/cruds/schematicWell/surfaceEquipmentsCRUD';
 import { Well } from 'features/wells/interfaces';
 

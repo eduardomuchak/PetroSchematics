@@ -26,7 +26,7 @@ import {
   setSurfaceEquipment,
 } from 'features/schematicWell/schematicWellSlice';
 import { useGetCommentsQuery } from 'features/service/cruds/schematicWell/commentsCRUD';
-import { useGetSchematicConfigQuery } from 'features/service/cruds/schematicWell/configCRUD';
+import { useGetSchematicConfigQuery } from 'features/service/cruds/schematicWell/schematicConfigCRUD';
 import { useGetSubsurfaceEquipmentsQuery } from 'features/service/cruds/schematicWell/subsurfaceEquipmentsCRUD';
 import { useGetSurfaceEquipmentsQuery } from 'features/service/cruds/schematicWell/surfaceEquipmentsCRUD';
 import { Well } from 'features/wells/interfaces';
