@@ -15,7 +15,7 @@ function LogoutButton({ isHovering }: Props) {
   }
 
   return (
-    <Flex align={'center'} w={isHovering ? '100%' : 'auto'}>
+    <Flex position={'fixed'} top={850}>
       <Button
         variant={'origemBlueGhost'}
         width={isHovering ? '240px' : '48px'}
