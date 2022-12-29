@@ -25,11 +25,8 @@ import {
   setSubsurfaceEquipment,
   setSurfaceEquipment,
 } from 'features/schematicWell/schematicWellSlice';
-import {
-  useGetCommentsQuery,
-  useGetSchematicConfigQuery,
-  useGetSubsurfaceEquipmentsQuery,
-} from 'features/schematicWell/service/schematicWellApi';
+import { useGetCommentsQuery, useGetSchematicConfigQuery } from 'features/schematicWell/service/schematicWellApi';
+import { useGetSubsurfaceEquipmentsQuery } from 'features/schematicWell/service/subsurfaceEquipmentsCRUD';
 import { useGetSurfaceEquipmentsQuery } from 'features/schematicWell/service/surfaceEquipmentsCRUD';
 import { Well } from 'features/wells/interfaces';
 
