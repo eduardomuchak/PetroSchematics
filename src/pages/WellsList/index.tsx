@@ -7,7 +7,7 @@ import { Well } from 'features/wells/interfaces';
 import {
   setWellsList,
   wellsState,
-  setSelectedWell,
+  setSelectedField,
   setInicialFilteredWellsList,
   filterWellsByField,
 } from 'features/wells/wellsSlice';
@@ -30,7 +30,7 @@ function WellsList() {
   const [fieldListOptions, setFieldListOptions] = useState<WellsListOptions[]>([] as WellsListOptions[]);
   // Handle Global State
   const dispatch = useDispatch();
-  const { wellsList, selectedWell, filteredWellsList } = useSelector(wellsState);
+  const { wellsList, selectedField, filteredWellsList } = useSelector(wellsState);
   //
 
   // Handle MongoDB Request
@@ -103,11 +103,11 @@ function WellsList() {
             options={fieldListOptions}
             propName={'filtro'}
             selectLabel={'FILTRAR POÇOS POR CAMPO:'}
-            value={selectedWell}
-            dispatchAction={setSelectedWell}
+            value={selectedField}
+            dispatchAction={setSelectedField}
             width={'230px'}
           />
-          <Button variant={'origemBlueOutline'} onClick={() => dispatch(filterWellsByField(selectedWell))}>
+          <Button variant={'origemBlueOutline'} onClick={() => dispatch(filterWellsByField(selectedField))}>
             Filtrar
           </Button>
           <Button
@@ -115,7 +115,7 @@ function WellsList() {
             onClick={() => {
               dispatch(setInicialFilteredWellsList());
               dispatch(
-                setSelectedWell({
+                setSelectedField({
                   value: '',
                   label: '',
                 }),
