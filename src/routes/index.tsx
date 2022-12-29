@@ -23,24 +23,24 @@ export function MainRoutes() {
       <Route path="/" element={<Layout />}>
         {/* public routes */}
         <Route index element={<LoginMicrosoft />} />
+        <Route path="*" element={<NotFound />} />
         <Route path="login/azurecallback" element={<AzureCallback />} />
-        <Route path="login/autenticacao" element={<AutenticacaoMicrosoft />} />
-        <Route path="esquematico-well/:id" element={<SchematicWell />} />
-        <Route path="esquematico-well/config/:id" element={<SchematicWellConfig />} />
-        <Route path="esquematico-well/lista-pocos" element={<WellsList />} />
-        <Route path="style-guide" element={<StyleGuide />} />
         <Route path="cadastre-se" element={<UnderDevelopment />} />
         <Route path="esqueci-a-senha" element={<UnderDevelopment />} />
-        <Route path="*" element={<NotFound />} />
-        <Route path="aprovacao" element={<Aprovacaopage />} />
-        <Route path="formulario" element={<Formulariopage />} />
 
         {/* protected routes */}
         <Route element={<RequireAuth />}>
+          <Route path="*" element={<NotFound />} />
           <Route path="boas-vindas" element={<Welcome />} />
           <Route path="configuracoes" element={<UnderDevelopment />} />
           <Route path="perfil" element={<UnderDevelopment />} />
-          <Route path="*" element={<NotFound />} />
+          <Route path="esquematico-well/:id" element={<SchematicWell />} />
+          <Route path="esquematico-well/config/:id" element={<SchematicWellConfig />} />
+          <Route path="esquematico-well/lista-pocos" element={<WellsList />} />
+          <Route path="style-guide" element={<StyleGuide />} />
+          <Route path="login/autenticacao" element={<AutenticacaoMicrosoft />} />
+          <Route path="aprovacao" element={<Aprovacaopage />} />
+          <Route path="formulario" element={<Formulariopage />} />
         </Route>
       </Route>
     </Routes>
