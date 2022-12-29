@@ -1,7 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 
 import RequireAuth from 'features/auth/RequireAuth';
-import Welcome from 'features/auth/Welcome';
 
 import { Aprovacaopage } from 'pages/Aprovacao';
 import AutenticacaoMicrosoft from 'pages/AutenticacaoMicrosoft';
@@ -25,15 +24,11 @@ export function MainRoutes() {
         <Route index element={<LoginMicrosoft />} />
         <Route path="*" element={<NotFound />} />
         <Route path="login/azurecallback" element={<AzureCallback />} />
-        <Route path="cadastre-se" element={<UnderDevelopment />} />
-        <Route path="esqueci-a-senha" element={<UnderDevelopment />} />
 
         {/* protected routes */}
         <Route element={<RequireAuth />}>
           <Route path="*" element={<NotFound />} />
-          <Route path="boas-vindas" element={<Welcome />} />
           <Route path="configuracoes" element={<UnderDevelopment />} />
-          <Route path="perfil" element={<UnderDevelopment />} />
           <Route path="esquematico-well/:id" element={<SchematicWell />} />
           <Route path="esquematico-well/config/:id" element={<SchematicWellConfig />} />
           <Route path="esquematico-well/lista-pocos" element={<WellsList />} />
