@@ -154,6 +154,11 @@ export function Aprovacaopage() {
     { value: 2, label: 'Controle de Lançamento de Bastões', form: 'form-control-bastoes' },
     { value: 3, label: 'Teste de Poços', form: 'form-teste-pocos' },
     { value: 4, label: 'Registro de Pressão da Coluna e Anulares', form: 'form-reg-coluna' },
+    { value: 5, label: 'Lançamento Raspadores', form: 'form-lanc-rasp' },
+    { value: 6, label: 'Coleta de Amostras', form: 'form-coleta-amostras' },
+    { value: 7, label: 'Teste DHSV', form: 'form-teste-dhsv' },
+    { value: 8, label: 'Controle Fechamento e Abertura de Poços', form: 'form-control-abert' },
+    { value: 9, label: 'Purgas Poços', form: 'form-purgas-pocos' },
   ];
 
   const campos: any[] = [
@@ -164,6 +169,7 @@ export function Aprovacaopage() {
   const status: any[] = [
     { value: 0, label: 'Todos' },
     { value: 1, label: 'Pendentes' },
+    { value: 2, label: 'Aprovados' },
     { value: 3, label: 'Reprovados' },
   ];
 
@@ -184,9 +190,8 @@ export function Aprovacaopage() {
       const prev = all;
       all = prev.concat(local.documents);
     }
-    const filtered = all.filter((val: any) => val.ind_situacao != 2);
-    setFormsList(filtered.sort(compare));
-    setRenderList(filtered.sort(compare));
+    setFormsList(all.sort(compare));
+    setRenderList(all.sort(compare));
     setloading(false);
   };
 
@@ -270,8 +275,7 @@ export function Aprovacaopage() {
       const prev = all;
       all = prev.concat(local.documents);
     }
-    const filtered = all.filter((val: any) => val.ind_situacao != 2);
-    const sorted = filtered.sort(compare);
+    const sorted = all.sort(compare);
     const oldChecked = renderList.filter((val: any) => val.checked === true);
     const newList = [];
     for (const item of sorted) {
