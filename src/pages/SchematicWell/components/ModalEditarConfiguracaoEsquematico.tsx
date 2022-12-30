@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 
 import {
   Alert,
+  AlertDescription,
   AlertIcon,
   AlertTitle,
   Button,
@@ -150,13 +151,15 @@ function ModalEditarConfiguracaoEsquematico({ well }: Props) {
                 </NumberInput>
               </FormControl>
               {isError ? (
-                <Alert colorScheme={'red'} variant={'solid'}>
-                  <AlertIcon />
-                  <AlertTitle>ATENÇÃO:</AlertTitle>
-                  <Text>
+                <Alert colorScheme={'red'} variant={'solid'} flexDirection={'column'} gap={2} alignItems={'start'}>
+                  <Flex>
+                    <AlertIcon />
+                    <AlertTitle>ATENÇÃO:</AlertTitle>
+                  </Flex>
+                  <AlertDescription>
                     O valor mínimo da profundidade não pode ser inferior à profundidade do equipamento de subsuperfície
                     ou comentário mais profundo cadastrado no esquemático!
-                  </Text>
+                  </AlertDescription>
                 </Alert>
               ) : null}
             </Flex>
