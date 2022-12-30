@@ -219,11 +219,9 @@ export function Aprovacaopage() {
       const filtrarForm = filtrarPoco.filter((val: any) =>
         filterForm.label == '' ? val : val.form_type?.includes(filterForm.form),
       );
-      const filtrarDateIni = filtrarForm.filter((val: any) =>
-        dateIni == '' ? val : new Date(val.dat_usu_aprov) > dateIni,
-      );
+      const filtrarDateIni = filtrarForm.filter((val: any) => (dateIni == '' ? val : new Date(val.dat_log) > dateIni));
       const filtrarDateEnd = filtrarDateIni.filter((val: any) =>
-        dateEnd == '' ? val : new Date(val.dat_usu_aprov) <= dateEnd,
+        dateEnd == '' ? val : new Date(val.dat_log) <= dateEnd,
       );
       const filtrarStatus = filtrarDateEnd.filter((val: any) =>
         filterStatus.value == 0 ? val : val.ind_situacao == filterStatus.value,

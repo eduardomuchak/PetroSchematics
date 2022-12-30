@@ -220,4 +220,5 @@ export const keyName = [
   { id: 163, key: 'num_pressao_cab_apos', title: 'Pressão Cab Após (Kgf/cm²)' },
   { id: 164, key: 'num_volume_recuperado', title: 'Volume Recuperado' },
   { id: 165, key: 'id_localizacao', title: 'Localização' },
+  { id: 166, key: 'id_operador', title: 'Id Operador' },
 ];
