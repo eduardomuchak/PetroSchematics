@@ -3,6 +3,9 @@ import { AiOutlineSetting } from 'react-icons/ai';
 import { useSelector } from 'react-redux';
 
 import {
+  Alert,
+  AlertIcon,
+  AlertTitle,
   Button,
   Flex,
   FormControl,
@@ -38,6 +41,7 @@ interface Props {
 
 function ModalEditarConfiguracaoEsquematico({ well }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isError, setIsError] = useState(false);
   const [updateSchematicConfig] = useUpdateSchematicConfigMutation();
   const { maxDepth, minDepth } = useSelector(schematicWellState);
 
@@ -64,7 +68,7 @@ function ModalEditarConfiguracaoEsquematico({ well }: Props) {
   };
 
   const isButtonDisabled = () => {
-    if (formValues.depth <= 0) {
+    if (formValues.depth <= 0 || isError) {
       return true;
     }
     return false;
@@ -82,6 +86,14 @@ function ModalEditarConfiguracaoEsquematico({ well }: Props) {
       depth: 0,
     });
   }, [onClose]);
+
+  useEffect(() => {
+    if (formValues.depth < minDepth && isOpen) {
+      setIsError(true);
+    } else {
+      setIsError(false);
+    }
+  }, [formValues.depth]);
 
   return (
     <>
@@ -137,6 +149,16 @@ function ModalEditarConfiguracaoEsquematico({ well }: Props) {
                   </NumberInputStepper>
                 </NumberInput>
               </FormControl>
+              {isError ? (
+                <Alert colorScheme={'red'} variant={'solid'}>
+                  <AlertIcon />
+                  <AlertTitle>ATENÇÃO:</AlertTitle>
+                  <Text>
+                    O valor mínimo da profundidade não pode ser inferior à profundidade do equipamento de subsuperfície
+                    ou comentário mais profundo cadastrado no esquemático!
+                  </Text>
+                </Alert>
+              ) : null}
             </Flex>
           </ModalBody>
           <ModalFooter>
