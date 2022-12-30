@@ -6,7 +6,9 @@ import logo from 'assets/logo.png';
 import { ReactComponent as MicrosoftLogo } from '../../assets/logo-microsoft.svg';
 import styles from './style.module.scss';
 
-export default function LoginMicrosoft(props: any) {
+export default function LoginMicrosoft() {
+  const API_URL = `${process.env.REACT_APP_URL_API_BACKEND}`;
+
   return (
     <>
       <Flex
@@ -47,9 +49,7 @@ export default function LoginMicrosoft(props: any) {
                 backgroundColor={'#FEFEFE'}
                 border={'1px solid #D6D4D4'}
                 onClick={() => {
-                  // Abrir em nova aba:
-                  // window.open('http://localhost:8000/login/azure', '_blank');
-                  window.location.href = 'http://localhost:8000/login/azure';
+                  window.location.href = `${API_URL}/login/azure`;
                 }}
               >
                 <Text fontWeight={400} fontSize={'18px'} lineHeight={'23px'} letterSpacing={'0.3px'} color={'#3C3B3B'}>
