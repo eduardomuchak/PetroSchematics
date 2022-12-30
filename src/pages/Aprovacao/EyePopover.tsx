@@ -11,7 +11,7 @@ function EyePopover({ infos }: any) {
     for (const property in infos.form_data) {
       if (property == 'poco') {
         const newItem = {
-          name: 'Poco',
+          name: 'Poço',
           value: infos.form_data[property].nome_poco,
         };
         if (typeof newItem.value === 'string' || typeof newItem.value === 'number') {
