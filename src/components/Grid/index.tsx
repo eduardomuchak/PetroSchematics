@@ -6,6 +6,7 @@ import { Button, Flex, Grid, GridItem, IconButton, Image, Text } from '@chakra-u
 import logoImage from 'assets/logo_origem_branco.svg';
 
 import LogoutButton from 'components/LogoutButton';
+import MotionPageTransition from 'components/Motion/PageTransition';
 
 import { sidebarIcons } from './items';
 
@@ -115,7 +116,7 @@ function GridLayout({ children, title, goToPage }: { children: React.ReactNode; 
         </Flex>
       </GridItem>
       <GridItem area={'main'} as="main" p={5} display={'flex'} justifyContent={'center'}>
-        {children}
+        <MotionPageTransition>{children}</MotionPageTransition>
       </GridItem>
     </Grid>
   );
