@@ -23,8 +23,8 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
+import { useAddSubsurfaceEquipmentMutation } from 'features/api/services/schematicWell/subsurfaceEquipmentsCRUD';
 import { schematicWellState } from 'features/schematicWell/schematicWellSlice';
-import { useAddSubsurfaceEquipmentMutation } from 'features/schematicWell/service/schematicWellApi';
 import { Well } from 'features/wells/interfaces';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
