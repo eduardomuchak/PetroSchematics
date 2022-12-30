@@ -11,7 +11,7 @@ function EyePopover({ infos }: any) {
     for (const property in infos.form_data) {
       if (property == 'poco') {
         const newItem = {
-          name: 'Poco',
+          name: 'Poço',
           value: infos.form_data[property].nome_poco,
         };
         if (typeof newItem.value === 'string' || typeof newItem.value === 'number') {
@@ -26,8 +26,9 @@ function EyePopover({ infos }: any) {
           renderArray.splice(0, 0, newItem);
         }
       } else {
+        const key = keyName.filter((val: any) => val.key === property)[0];
         const newItem = {
-          name: keyName.filter((val: any) => val.key === property)[0].title,
+          name: key ? key.title : property,
           value: infos.form_data[property],
         };
         if (typeof newItem.value === 'string' || typeof newItem.value === 'number') {

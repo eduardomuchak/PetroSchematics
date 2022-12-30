@@ -2,27 +2,26 @@ import { configureStore } from '@reduxjs/toolkit';
 import { authSlice } from 'features/auth/authSlice';
 import { schematicWellSlice } from 'features/schematicWell/schematicWellSlice';
 
-import { apiSlice } from './api/apiSlice';
-import { schematicWellApiSlice } from './schematicWell/service/schematicWellApi';
-import { wellsApiSlice } from './wells/service/wellsApi';
+import { apiBackend } from './api/apiBackend';
+import { apiMongoDB } from './api/apiMongoDB';
 import { wellsSlice } from './wells/wellsSlice';
 
 export const store = configureStore({
   reducer: {
+    // API's
+    [apiBackend.reducerPath]: apiBackend.reducer,
+    [apiMongoDB.reducerPath]: apiMongoDB.reducer,
+
+    // Reducers/Slices
     [authSlice.name]: authSlice.reducer,
-    [apiSlice.reducerPath]: apiSlice.reducer,
-    [schematicWellApiSlice.reducerPath]: schematicWellApiSlice.reducer,
     [schematicWellSlice.name]: schematicWellSlice.reducer,
-    [wellsApiSlice.reducerPath]: wellsApiSlice.reducer,
     [wellsSlice.name]: wellsSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
     })
-      .concat(apiSlice.middleware)
-      .concat(schematicWellApiSlice.middleware)
-      .concat(wellsApiSlice.middleware),
-
+      .concat(apiMongoDB.middleware)
+      .concat(apiBackend.middleware),
   devTools: true,
 });

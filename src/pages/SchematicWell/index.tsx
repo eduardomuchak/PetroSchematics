@@ -15,6 +15,10 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import SchematicSVG from 'assets/esquematico.svg';
+import { useGetCommentsQuery } from 'features/api/services/schematicWell/commentsCRUD';
+import { useGetSchematicConfigQuery } from 'features/api/services/schematicWell/schematicConfigCRUD';
+import { useGetSubsurfaceEquipmentsQuery } from 'features/api/services/schematicWell/subsurfaceEquipmentsCRUD';
+import { useGetSurfaceEquipmentsQuery } from 'features/api/services/schematicWell/surfaceEquipmentsCRUD';
 import { Comment, SubsurfaceEquipment } from 'features/schematicWell/interfaces';
 import {
   relativeCoordinates,
@@ -25,12 +29,6 @@ import {
   setSubsurfaceEquipment,
   setSurfaceEquipment,
 } from 'features/schematicWell/schematicWellSlice';
-import {
-  useGetCommentsQuery,
-  useGetSchematicConfigQuery,
-  useGetSubsurfaceEquipmentsQuery,
-  useGetSurfaceEquipmentsQuery,
-} from 'features/schematicWell/service/schematicWellApi';
 import { Well } from 'features/wells/interfaces';
 
 import EscalaProfundidadeEsquematico from 'components/EscalaProfundidadeEsquematico';

@@ -35,14 +35,14 @@ export interface Well {
   polo: string;
 }
 
-export interface SelectedWell {
+export interface SelectedField {
   value: string;
   label: string;
 }
 
 export interface WellState {
   wellsList: Well[];
-  selectedWell: SelectedWell;
+  selectedField: SelectedField;
   filteredWellsList: Well[];
 }
 

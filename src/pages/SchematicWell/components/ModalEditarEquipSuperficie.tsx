@@ -18,8 +18,8 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
+import { useUpdateSurfaceEquipmentMutation } from 'features/api/services/schematicWell/surfaceEquipmentsCRUD';
 import { SurfaceEquipment } from 'features/schematicWell/interfaces';
-import { useUpdateSurfaceEquipmentMutation } from 'features/schematicWell/service/schematicWellApi';
 import { Well } from 'features/wells/interfaces';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';

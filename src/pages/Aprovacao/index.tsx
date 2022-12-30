@@ -154,6 +154,11 @@ export function Aprovacaopage() {
     { value: 2, label: 'Controle de Lançamento de Bastões', form: 'form-control-bastoes' },
     { value: 3, label: 'Teste de Poços', form: 'form-teste-pocos' },
     { value: 4, label: 'Registro de Pressão da Coluna e Anulares', form: 'form-reg-coluna' },
+    { value: 5, label: 'Lançamento Raspadores', form: 'form-lanc-rasp' },
+    { value: 6, label: 'Coleta de Amostras', form: 'form-coleta-amostras' },
+    { value: 7, label: 'Teste DHSV', form: 'form-teste-dhsv' },
+    { value: 8, label: 'Controle Fechamento e Abertura de Poços', form: 'form-control-abert' },
+    { value: 9, label: 'Purgas Poços', form: 'form-purgas-pocos' },
   ];
 
   const campos: any[] = [
@@ -164,6 +169,7 @@ export function Aprovacaopage() {
   const status: any[] = [
     { value: 0, label: 'Todos' },
     { value: 1, label: 'Pendentes' },
+    { value: 2, label: 'Aprovados' },
     { value: 3, label: 'Reprovados' },
   ];
 
@@ -184,9 +190,8 @@ export function Aprovacaopage() {
       const prev = all;
       all = prev.concat(local.documents);
     }
-    const filtered = all.filter((val: any) => val.ind_situacao != 2);
-    setFormsList(filtered.sort(compare));
-    setRenderList(filtered.sort(compare));
+    setFormsList(all.sort(compare));
+    setRenderList(all.sort(compare));
     setloading(false);
   };
 
@@ -214,17 +219,17 @@ export function Aprovacaopage() {
       const filtrarForm = filtrarPoco.filter((val: any) =>
         filterForm.label == '' ? val : val.form_type?.includes(filterForm.form),
       );
-      const filtrarDateIni = filtrarForm.filter((val: any) =>
-        dateIni == '' ? val : new Date(val.dat_usu_aprov) > dateIni,
-      );
+      const filtrarDateIni = filtrarForm.filter((val: any) => (dateIni == '' ? val : new Date(val.dat_log) > dateIni));
       const filtrarDateEnd = filtrarDateIni.filter((val: any) =>
-        dateEnd == '' ? val : new Date(val.dat_usu_aprov) <= dateEnd,
+        dateEnd == '' ? val : new Date(val.dat_log) <= dateEnd,
       );
       const filtrarStatus = filtrarDateEnd.filter((val: any) =>
         filterStatus.value == 0 ? val : val.ind_situacao == filterStatus.value,
       );
       setRenderList(filtrarStatus);
-      setPaginationBottom(0);
+      if (Number(filtrarStatus.length) < paginationBottom) {
+        setPaginationBottom(0);
+      }
     }
   }, [filterCampo, filterForm, filterPoco, dateIni, dateEnd, filterStatus, refilter]);
 
@@ -268,8 +273,7 @@ export function Aprovacaopage() {
       const prev = all;
       all = prev.concat(local.documents);
     }
-    const filtered = all.filter((val: any) => val.ind_situacao != 2);
-    const sorted = filtered.sort(compare);
+    const sorted = all.sort(compare);
     const oldChecked = renderList.filter((val: any) => val.checked === true);
     const newList = [];
     for (const item of sorted) {
@@ -289,10 +293,11 @@ export function Aprovacaopage() {
     }
     setFormsList(newList);
     setRefilter(!refilter);
+    setloading(false);
   };
 
   return (
-    <GridLayout title={'TABELA DE APROVACÕES'}>
+    <GridLayout title={'MÓDULO DE APROVAÇÕES'}>
       <Popover isOpen={open} onClose={() => setOpen(false)} placement="left-start">
         <Flex direction={'column'} flex={1}>
           <Flex gap={2} mb={8} flexWrap="wrap">
@@ -436,6 +441,17 @@ export function Aprovacaopage() {
                         color={'#fff'}
                         fontWeight={'800'}
                       >
+                        <Flex justify={'center'}>Data</Flex>
+                      </Th>
+                      <Th
+                        height={'40px'}
+                        width={'16%'}
+                        borderBottomWidth={'1px'}
+                        borderTopWidth={'1px'}
+                        borderColor={'#9FA2B4'}
+                        color={'#fff'}
+                        fontWeight={'800'}
+                      >
                         <Flex justify={'center'}>Hora</Flex>
                       </Th>
                       <Th
@@ -447,7 +463,7 @@ export function Aprovacaopage() {
                         color={'#fff'}
                         fontWeight={'800'}
                       >
-                        <Flex justify={'center'}>Operador</Flex>
+                        <Flex justify={'center'}>Formulário</Flex>
                       </Th>
                       <Th
                         height={'40px'}
@@ -458,7 +474,7 @@ export function Aprovacaopage() {
                         color={'#fff'}
                         fontWeight={'800'}
                       >
-                        <Flex justify={'center'}>Data</Flex>
+                        <Flex justify={'center'}>Operador</Flex>
                       </Th>
                       <Th
                         height={'40px'}
@@ -519,6 +535,21 @@ export function Aprovacaopage() {
                               borderColor={'#9FA2B4'}
                             >
                               <Flex justify={'center'}>
+                                {`${new Date(item.dat_log).getDate() < 10 ? '0' : ''}${new Date(
+                                  item.dat_log,
+                                ).getDate()}/${new Date(item.dat_log).getMonth() + 1 < 10 ? '0' : ''}${
+                                  new Date(item.dat_log).getMonth() + 1
+                                }/${new Date(item.dat_log).getFullYear()}`}
+                              </Flex>
+                            </Td>
+                            <Td
+                              height={'56px'}
+                              width={'16%'}
+                              borderBottomWidth={'1px'}
+                              borderTopWidth={'1px'}
+                              borderColor={'#9FA2B4'}
+                            >
+                              <Flex justify={'center'}>
                                 {`${new Date(item.dat_log).getHours() < 10 ? '0' : ''}${new Date(
                                   item.dat_log,
                                 ).getHours()}:${new Date(item.dat_log).getMinutes() < 10 ? '0' : ''}${new Date(
@@ -533,7 +564,9 @@ export function Aprovacaopage() {
                               borderTopWidth={'1px'}
                               borderColor={'#9FA2B4'}
                             >
-                              <Flex justify={'center'}>{item.usu_log}</Flex>
+                              <Flex justify={'center'}>
+                                {options.filter((val: any) => val.form == item.form_type)[0]?.label || item.form_type}
+                              </Flex>
                             </Td>
                             <Td
                               height={'56px'}
@@ -542,13 +575,7 @@ export function Aprovacaopage() {
                               borderTopWidth={'1px'}
                               borderColor={'#9FA2B4'}
                             >
-                              <Flex justify={'center'}>
-                                {`${new Date(item.dat_log).getDate() < 10 ? '0' : ''}${new Date(
-                                  item.dat_log,
-                                ).getDate()}/${new Date(item.dat_log).getMonth() + 1 < 10 ? '0' : ''}${
-                                  new Date(item.dat_log).getMonth() + 1
-                                }/${new Date(item.dat_log).getFullYear()}`}
-                              </Flex>
+                              <Flex justify={'center'}>{item.usu_log}</Flex>
                             </Td>
                             <Td
                               height={'56px'}
@@ -589,6 +616,7 @@ export function Aprovacaopage() {
                   </Tbody>
                   <Tfoot>
                     <Tr height={'17px'} background={'#0048BB'}>
+                      <Th></Th>
                       <Th></Th>
                       <Th></Th>
                       <Th></Th>
