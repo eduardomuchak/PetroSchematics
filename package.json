@@ -17,6 +17,7 @@
     "avvvatars-react": "^0.4.2",
     "axios": "^1.2.0",
     "cors": "^2.8.5",
+    "date-fns": "^2.29.3",
     "formik": "^2.2.9",
     "framer-motion": "^8.0.2",
     "md5": "^2.3.0",
