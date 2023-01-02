@@ -72,7 +72,7 @@ function GridLayout({ children, title, goToPage }: { children: React.ReactNode; 
         </Flex>
       </GridItem>
       <GridItem
-        bg="#EDF2F7"
+        bg="rgba(237, 242, 247, 0.4)"
         area={'nav'}
         as="nav"
         p={5}
@@ -81,6 +81,7 @@ function GridLayout({ children, title, goToPage }: { children: React.ReactNode; 
         width={isHovering ? '280px' : '88px'}
         transition={'all 0.4s'}
         zIndex={999}
+        backdropFilter={'blur(6px)'}
       >
         <Flex direction={'column'} align={'center'} justify={'space-between'} h={'100%'}>
           <Flex direction={'column'} gap={2} align={'flex-start'}>
@@ -98,12 +99,7 @@ function GridLayout({ children, title, goToPage }: { children: React.ReactNode; 
                       <item.icon />
                     </Text>
                     {isHovering && (
-                      <Text
-                        fontSize={14}
-                        ml={2}
-                        // transform={isHovering ? 'translateX(0px)' : 'translateX(-200px)'}
-                        wordBreak={'break-word'}
-                      >
+                      <Text fontSize={14} ml={2} wordBreak={'break-word'}>
                         {item.name}
                       </Text>
                     )}
@@ -112,10 +108,10 @@ function GridLayout({ children, title, goToPage }: { children: React.ReactNode; 
               </Link>
             ))}
           </Flex>
-          <LogoutButton isHovering={isHovering} />
         </Flex>
       </GridItem>
       <GridItem area={'main'} as="main" p={5} display={'flex'} justifyContent={'center'}>
+        <LogoutButton isHovering={isHovering} onMouseEnter={() => setIsHovering(true)} />
         <MotionPageTransition>{children}</MotionPageTransition>
       </GridItem>
     </Grid>
