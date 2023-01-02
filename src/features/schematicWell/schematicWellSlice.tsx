@@ -25,9 +25,10 @@ export const schematicWellSlice = createSlice({
   name: 'schematicWell',
   initialState,
   reducers: {
-    setMaxDepth: (state, action) => {
-      state.maxDepth = action.payload;
-    },
+    setMaxDepth: (state, action) => ({
+      ...state,
+      maxDepth: action.payload,
+    }),
     setMinDepth: (state) => {
       // Regra:
       // Se existir algum equipamento de subsuperfície ou comentário com profundidade definida
@@ -41,20 +42,29 @@ export const schematicWellSlice = createSlice({
       const commentsMinDepth = Math.max(...comments.map((comment) => comment.depth));
       const minDepth = Math.max(subsurfaceEquipmentMinDepth, commentsMinDepth);
       if (minDepth === Infinity || minDepth === null || minDepth === undefined) {
-        state.minDepth = 0;
+        return {
+          ...state,
+          minDepth: 0,
+        };
       } else {
-        state.minDepth = minDepth;
+        return {
+          ...state,
+          minDepth,
+        };
       }
     },
-    setSurfaceEquipment: (state, action) => {
-      state.surfaceEquipmentTable = action.payload;
-    },
-    setSubsurfaceEquipment: (state, action) => {
-      state.subsurfaceEquipmentTable = action.payload;
-    },
-    setComments: (state, action) => {
-      state.comments = action.payload;
-    },
+    setSurfaceEquipment: (state, action) => ({
+      ...state,
+      surfaceEquipmentTable: action.payload,
+    }),
+    setSubsurfaceEquipment: (state, action) => ({
+      ...state,
+      subsurfaceEquipmentTable: action.payload,
+    }),
+    setComments: (state, action) => ({
+      ...state,
+      comments: action.payload,
+    }),
     // A função abaixo deve ser usada para calcular a posição do clique do mouse
     // calculando a profundidade máxima e a posição do clique no eixo Y
     relativeCoordinates: (state, action) => {
@@ -66,14 +76,18 @@ export const schematicWellSlice = createSlice({
       const x = event.clientX - bounds.left;
       const y = event.clientY - bounds.top;
       const clickDepth = (state.maxDepth * y) / 1000; // 1000 = imageSize.height;
-      state.mousePosition = {
-        yAxis: Number(clickDepth.toFixed(0)),
-        xAxis: Number(x.toFixed(0)),
+      return {
+        ...state,
+        mousePosition: {
+          yAxis: Number(clickDepth.toFixed(0)),
+          xAxis: Number(x.toFixed(0)),
+        },
       };
     },
-    openPointOfClick: (state, action) => {
-      state.mousePosition = action.payload;
-    },
+    openPointOfClick: (state, action) => ({
+      ...state,
+      mousePosition: action.payload,
+    }),
   },
 });
 

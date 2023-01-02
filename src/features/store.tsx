@@ -25,3 +25,5 @@ export const store = configureStore({
       .concat(apiBackend.middleware),
   devTools: true,
 });
+
+export type RootState = ReturnType<typeof store.getState>;
