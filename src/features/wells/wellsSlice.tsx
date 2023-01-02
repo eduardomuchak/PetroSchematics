@@ -52,21 +52,26 @@ export const wellsSlice = createSlice({
   name: 'wells',
   initialState,
   reducers: {
-    setWellsList: (state, action) => {
-      state.wellsList = action.payload;
-    },
-    setSelectedField: (state, action) => {
-      state.selectedField = action.payload;
-    },
-    setInicialFilteredWellsList: (state) => {
-      state.filteredWellsList = state.wellsList;
-    },
-    filterByWellName: (state, action) => {
-      state.filteredWellsList = state.wellsList.filter((well: Well) => well.nome_poco === action.payload.label);
-    },
-    filterWellsByField: (state, action) => {
-      state.filteredWellsList = state.wellsList.filter((well: Well) => well.nom_campo === action.payload.label);
-    },
+    setWellsList: (state, action) => ({
+      ...state,
+      wellsList: action.payload,
+    }),
+    setSelectedField: (state, action) => ({
+      ...state,
+      selectedField: action.payload,
+    }),
+    setInicialFilteredWellsList: (state) => ({
+      ...state,
+      filteredWellsList: state.wellsList,
+    }),
+    filterByWellName: (state, action) => ({
+      ...state,
+      filteredWellsList: state.wellsList.filter((well: Well) => well.nome_poco === action.payload.label),
+    }),
+    filterWellsByField: (state, action) => ({
+      ...state,
+      filteredWellsList: state.wellsList.filter((well: Well) => well.nom_campo === action.payload.label),
+    }),
   },
 });
 
