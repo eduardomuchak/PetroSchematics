@@ -98,7 +98,7 @@ function WellsList() {
   return (
     <GridLayout title={'ESQUEMÁTICO - LISTA DE POÇOS'}>
       <Flex direction={'column'} gap={5} justify={'start'} minW={'676px'}>
-        <Flex align={'end'} gap={4} justify={'space-between'}>
+        <Flex align={'end'} gap={4} justify={'start'}>
           <SelectFiltragem
             options={fieldListOptions}
             propName={'filtro'}
