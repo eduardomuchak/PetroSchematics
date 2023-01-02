@@ -86,8 +86,20 @@ export function StyleGuide() {
             value={options[0]}
             dispatchAction={() => {}}
           />
-          <DateTimePicker label={'DATETIME PICKER'} showTimeSelect={true} dateFormat={'Pp'} />
-          <DateTimePicker label={'DATE PICKER'} isRequired={true} dateFormat={'dd/MM/yyyy'} />
+          <DateTimePicker
+            label={'DATETIME PICKER'}
+            showTimeSelect={true}
+            dateFormat={'Pp'}
+            dispatchAction={() => {}}
+            selectedDate={new Date()}
+          />
+          <DateTimePicker
+            label={'DATE PICKER'}
+            isRequired={true}
+            dateFormat={'dd/MM/yyyy'}
+            dispatchAction={() => {}}
+            selectedDate={new Date()}
+          />
         </Flex>
       </Flex>
     </GridLayout>

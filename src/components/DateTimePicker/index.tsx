@@ -1,28 +1,33 @@
-import { forwardRef, useState } from 'react';
+import { forwardRef } from 'react';
 import ReactDatePicker, { registerLocale } from 'react-datepicker';
+import { useDispatch } from 'react-redux';
 
 import { Button, Flex, Text } from '@chakra-ui/react';
-// import { getDay } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
 registerLocale('pt-BR', ptBR);
 
 interface Props {
-  label: string;
-  isRequired?: boolean;
-  showTimeSelect?: boolean;
-  isDisabled?: boolean;
-  dateFormat: 'Pp' | 'dd/MM/yyyy';
+  label: string; // Label do campo
+  isRequired?: boolean; // Campo é obrigatório?
+  showTimeSelect?: boolean; // Mostrar campo de hora?
+  isDisabled?: boolean; // Campo está desabilitado?
+  dateFormat: 'Pp' | 'dd/MM/yyyy'; // Formato da data
+  dispatchAction: Function; // Action que será disparada ao selecionar uma opção
+  selectedDate: Date; // Data selecionada
 }
 
-function DateTimePicker({ label, isRequired, showTimeSelect, isDisabled, dateFormat }: Props) {
-  const [date, setDate] = useState<Date | null>(null);
-
-  // const isWeekday = (date: Date) => {
-  //   const day = getDay(date);
-  //   return day !== 0 && day !== 6;
-  // };
+function DateTimePicker({
+  label,
+  isRequired,
+  showTimeSelect,
+  isDisabled,
+  dateFormat,
+  dispatchAction,
+  selectedDate,
+}: Props) {
+  const dispatch = useDispatch();
 
   const Trigger = forwardRef(({ value, onClick }: any, ref: any) => (
     <Button
@@ -50,10 +55,6 @@ function DateTimePicker({ label, isRequired, showTimeSelect, isDisabled, dateFor
     </Button>
   ));
 
-  // if (date) {
-  //   console.log('date', date.toString());
-  // }
-
   return (
     <Flex direction={'column'}>
       <Flex gap={1}>
@@ -63,14 +64,13 @@ function DateTimePicker({ label, isRequired, showTimeSelect, isDisabled, dateFor
         </Text>
       </Flex>
       <ReactDatePicker
-        // filterDate={isWeekday}
-        disabled={isDisabled}
-        showTimeSelect={showTimeSelect}
-        locale="pt-BR"
-        selected={date}
-        onChange={(date: any) => setDate(date)}
-        dateFormat={dateFormat}
         customInput={<Trigger />}
+        locale="pt-BR"
+        disabled={isDisabled}
+        selected={selectedDate}
+        onChange={(date: any) => dispatch(dispatchAction(date))}
+        showTimeSelect={showTimeSelect}
+        dateFormat={dateFormat}
       />
     </Flex>
   );
