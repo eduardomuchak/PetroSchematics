@@ -156,6 +156,7 @@ function SchematicWell() {
                   {surfaceEquipmentTable.length
                     ? surfaceEquipmentTable.map((equipment: SurfaceEquipment, index: number) => (
                         <ButtonPontoDeClique
+                          isSurface={true}
                           surfaceEquipment={equipment}
                           key={index}
                           position={{
@@ -170,6 +171,7 @@ function SchematicWell() {
                   {surfaceComments.length
                     ? surfaceComments.map((comment: Comment, index: number) => (
                         <ButtonPontoDeClique
+                          isSurface={true}
                           comment={comment}
                           key={index}
                           position={{
@@ -199,6 +201,7 @@ function SchematicWell() {
                   {subsurfaceEquipmentTable.length
                     ? subsurfaceEquipmentTable.map((equipment: SubsurfaceEquipment, index: number) => (
                         <ButtonPontoDeClique
+                          isSurface={false}
                           subsurfaceEquipment={equipment}
                           key={index}
                           position={{
@@ -213,6 +216,7 @@ function SchematicWell() {
                   {subsurfaceComments.length
                     ? subsurfaceComments.map((comment: Comment, index: number) => (
                         <ButtonPontoDeClique
+                          isSurface={false}
                           comment={comment}
                           key={index}
                           position={{

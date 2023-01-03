@@ -23,9 +23,10 @@ interface Props {
   subsurfaceEquipment?: SubsurfaceEquipment;
   surfaceEquipment?: SurfaceEquipment;
   comment?: Comment;
+  isSurface: boolean;
 }
 
-function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment, surfaceEquipment }: Props) {
+function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment, surfaceEquipment, isSurface }: Props) {
   const { yAxis, xAxis, scaleYAxis } = position;
   const dispacth = useDispatch();
   const [deleteComments] = useDeleteCommentsMutation();
@@ -138,7 +139,7 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment, s
       <Flex mb={3} justify={'space-between'} align={'center'}>
         <Flex gap={1}>
           <Text fontWeight={700} fontSize={'16px'}>
-            Profundidade
+            {isSurface ? 'Altura' : 'Profundidade'}
           </Text>
           <Flex>
             <Text fontWeight={700} fontSize={'16px'}>
@@ -219,48 +220,83 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment, s
     </Box>
   );
 
-  const isTopMargin = !!(subsurfaceEquipment || comment?.isSurface);
-  const isBottomMargin = !!(surfaceEquipment || comment?.isSurface);
-
-  return (
-    <Flex
-      position={'absolute'}
-      left={xAxis - 12}
-      top={isTopMargin ? scaleYAxis - 12 : scaleYAxis - 12}
-      bottom={isBottomMargin ? scaleYAxis - 12 : scaleYAxis - 12}
-      // zIndex={2}
-      height={'24px'}
-      width={'35px'}
-      onMouseOver={handleMouseOver}
-      onMouseOut={handleMouseOut}
-    >
-      <Box
-        as="button"
-        height={'18px'}
-        width={'18px'}
-        transition="all 0.4s ease"
-        border="2px"
-        borderRadius={'50%'}
-        bg="#FEFEFE"
-        borderColor="origem.500"
-        boxShadow="0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)"
-        _hover={{ bg: 'origem.500', borderColor: 'origem.600' }}
-        _active={{
-          bg: 'origem.400',
-          transform: 'scale(0.95)',
-          borderColor: 'origem.600',
-          boxShadow: '0 0 2px 4px rgba(88, 144, 255, .75), 0 2px 2px rgba(0, 0, 0, .15)',
-        }}
-        onClick={() => {
-          dispacth(openPointOfClick({ yAxis, xAxis }));
-          onOpen();
-        }}
-      />
-      {isHovering && subsurfaceEquipment && <SubSurfaceEquipamentCard />}
-      {isHovering && comment && <CommentCard />}
-      {isHovering && surfaceEquipment && <SurfaceEquipamentCard />}
-    </Flex>
-  );
+  if (isSurface) {
+    return (
+      <Flex
+        position={'absolute'}
+        left={xAxis - 12}
+        bottom={scaleYAxis - 12}
+        height={'24px'}
+        width={'35px'}
+        onMouseOver={handleMouseOver}
+        onMouseOut={handleMouseOut}
+      >
+        <Box
+          as="button"
+          height={'18px'}
+          width={'18px'}
+          transition="all 0.4s ease"
+          border="2px"
+          borderRadius={'50%'}
+          bg="#FEFEFE"
+          borderColor="origem.500"
+          boxShadow="0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)"
+          _hover={{ bg: 'origem.500', borderColor: 'origem.600' }}
+          _active={{
+            bg: 'origem.400',
+            transform: 'scale(0.95)',
+            borderColor: 'origem.600',
+            boxShadow: '0 0 2px 4px rgba(88, 144, 255, .75), 0 2px 2px rgba(0, 0, 0, .15)',
+          }}
+          onClick={() => {
+            dispacth(openPointOfClick({ yAxis, xAxis }));
+            onOpen();
+          }}
+        />
+        {isHovering && subsurfaceEquipment && <SubSurfaceEquipamentCard />}
+        {isHovering && comment && <CommentCard />}
+        {isHovering && surfaceEquipment && <SurfaceEquipamentCard />}
+      </Flex>
+    );
+  } else {
+    return (
+      <Flex
+        position={'absolute'}
+        left={xAxis - 12}
+        top={scaleYAxis - 12}
+        height={'24px'}
+        width={'35px'}
+        onMouseOver={handleMouseOver}
+        onMouseOut={handleMouseOut}
+      >
+        <Box
+          as="button"
+          height={'18px'}
+          width={'18px'}
+          transition="all 0.4s ease"
+          border="2px"
+          borderRadius={'50%'}
+          bg="#FEFEFE"
+          borderColor="origem.500"
+          boxShadow="0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)"
+          _hover={{ bg: 'origem.500', borderColor: 'origem.600' }}
+          _active={{
+            bg: 'origem.400',
+            transform: 'scale(0.95)',
+            borderColor: 'origem.600',
+            boxShadow: '0 0 2px 4px rgba(88, 144, 255, .75), 0 2px 2px rgba(0, 0, 0, .15)',
+          }}
+          onClick={() => {
+            dispacth(openPointOfClick({ yAxis, xAxis }));
+            onOpen();
+          }}
+        />
+        {isHovering && subsurfaceEquipment && <SubSurfaceEquipamentCard />}
+        {isHovering && comment && <CommentCard />}
+        {isHovering && surfaceEquipment && <SurfaceEquipamentCard />}
+      </Flex>
+    );
+  }
 }
 
 export default ButtonPontoDeClique;
