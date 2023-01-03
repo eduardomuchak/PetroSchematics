@@ -157,7 +157,7 @@ function SchematicWell() {
                           surfaceEquipment={equipment}
                           key={index}
                           position={{
-                            scaleYAxis: (Number(equipment.yAxis) * imagesSize.tree.height) / maxHeight,
+                            scaleYAxis: (Number(equipment.height) * imagesSize.tree.height) / maxHeight,
                             xAxis: equipment.xAxis,
                             yAxis: Number(equipment.yAxis),
                           }}

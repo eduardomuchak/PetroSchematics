@@ -119,8 +119,9 @@ function ModalCadastroComentarios() {
                       depth: Number(valueString),
                     });
                   }}
+                  variant={'origem'}
                 >
-                  <NumberInputField h={'56px'} />
+                  <NumberInputField />
                   <NumberInputStepper>
                     <NumberIncrementStepper />
                     <NumberDecrementStepper />

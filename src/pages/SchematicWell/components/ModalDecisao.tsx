@@ -32,16 +32,16 @@ function ModalDecisao({ modalProps }: Props) {
         <ModalCloseButton color={'white'} onClick={onClose} />
         <ModalBody mb={4}>
           <Flex direction={'column'} gap={4}>
-            {mousePosition.isSubsurface ? (
+            {mousePosition.isSurface ? (
               <>
                 <ModalCadastroComentarios />
-                <ModalCadastroEquipSubSuperficie />
-                <ModalEditarConfiguracaoEsquematico well={well} />
+                <ModalCadastroEquipSuperficie />
               </>
             ) : (
               <>
                 <ModalCadastroComentarios />
-                <ModalCadastroEquipSuperficie />
+                <ModalCadastroEquipSubSuperficie />
+                <ModalEditarConfiguracaoEsquematico well={well} />
               </>
             )}
           </Flex>

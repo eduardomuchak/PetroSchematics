@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { FiTool } from 'react-icons/fi';
+import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
 import {
@@ -14,10 +15,16 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
 import { useAddSurfaceEquipmentMutation } from 'features/api/services/schematicWell/surfaceEquipmentsCRUD';
+import { schematicWellState } from 'features/schematicWell/schematicWellSlice';
 import { Well } from 'features/wells/interfaces';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
@@ -29,17 +36,22 @@ import { usePayload } from 'hooks/usePayload';
 interface FormValues {
   surfaceEquipment: string;
   description: string;
+  height: number;
+  xAxis: number;
 }
 
 function ModalCadastroEquipSuperficie() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { well: wellLocationState } = useLocation().state as { well: Well };
+  const { mousePosition } = useSelector(schematicWellState);
 
   const [addSurfaceEquipment] = useAddSurfaceEquipmentMutation();
 
   const [formValues, setFormValues] = useState<FormValues>({
     surfaceEquipment: '',
     description: '',
+    height: 0,
+    xAxis: 0,
   } as FormValues);
 
   const handleCancel = () => {
@@ -66,8 +78,18 @@ function ModalCadastroEquipSuperficie() {
 
   useEffect(() => {
     setFormValues({
+      ...formValues,
+      height: mousePosition.yAxis,
+      xAxis: mousePosition.xAxis,
+    });
+  }, [isOpen]);
+
+  useEffect(() => {
+    setFormValues({
       surfaceEquipment: '',
       description: '',
+      height: 0,
+      xAxis: 0,
     });
   }, [onClose]);
 
@@ -131,6 +153,32 @@ function ModalCadastroEquipSuperficie() {
                   }
                   maxLength={50}
                 />
+              </FormControl>
+              <FormControl>
+                <Flex gap={1}>
+                  <RequiredField />
+                  <Text fontWeight={'700'} fontSize={'12px'} color={'#949494'}>
+                    ALTURA (METROS)
+                  </Text>
+                </Flex>
+                <NumberInput
+                  min={0}
+                  max={100}
+                  value={formValues.height}
+                  onChange={(valueString) => {
+                    setFormValues({
+                      ...formValues,
+                      height: Number(valueString),
+                    });
+                  }}
+                  variant={'origem'}
+                >
+                  <NumberInputField />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
               </FormControl>
             </Flex>
           </ModalBody>

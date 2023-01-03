@@ -16,7 +16,7 @@ const initialState = {
   mousePosition: {
     yAxis: 0,
     xAxis: 0,
-    isSubsurface: true,
+    isSurface: true,
   } as MousePosition,
   surfaceEquipmentTable: [] as SurfaceEquipment[],
   subsurfaceEquipmentTable: [] as SubsurfaceEquipment[],
@@ -87,7 +87,7 @@ export const schematicWellSlice = createSlice({
         mousePosition: {
           yAxis: Number(clickDepth.toFixed(0)),
           xAxis: Number(x.toFixed(0)),
-          isSubsurface: true,
+          isSurface: false,
         },
       };
     },
@@ -106,7 +106,7 @@ export const schematicWellSlice = createSlice({
         mousePosition: {
           yAxis: Number(Math.abs(clickHeight).toFixed(0)),
           xAxis: Number(x.toFixed(0)),
-          isSubsurface: false,
+          isSurface: true,
         },
       };
     },

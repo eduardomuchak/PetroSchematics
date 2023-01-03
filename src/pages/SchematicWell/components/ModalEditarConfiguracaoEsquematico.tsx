@@ -142,8 +142,9 @@ function ModalEditarConfiguracaoEsquematico({ well }: Props) {
                       depth: Number(valueString),
                     });
                   }}
+                  variant={'origem'}
                 >
-                  <NumberInputField h={'56px'} />
+                  <NumberInputField />
                   <NumberInputStepper>
                     <NumberIncrementStepper />
                     <NumberDecrementStepper />
