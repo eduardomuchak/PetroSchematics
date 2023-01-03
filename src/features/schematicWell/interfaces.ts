@@ -1,6 +1,7 @@
 export interface MousePosition {
   yAxis: number;
   xAxis: number;
+  isSubsurface?: boolean;
 }
 
 export interface SurfaceEquipment extends MousePosition {
