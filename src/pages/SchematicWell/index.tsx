@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import {
   Accordion,
@@ -19,9 +19,10 @@ import { useGetCommentsQuery } from 'features/api/services/schematicWell/comment
 import { useGetSchematicConfigQuery } from 'features/api/services/schematicWell/schematicConfigCRUD';
 import { useGetSubsurfaceEquipmentsQuery } from 'features/api/services/schematicWell/subsurfaceEquipmentsCRUD';
 import { useGetSurfaceEquipmentsQuery } from 'features/api/services/schematicWell/surfaceEquipmentsCRUD';
-import { Comment, SubsurfaceEquipment } from 'features/schematicWell/interfaces';
+import { Comment, SubsurfaceEquipment, SurfaceEquipment } from 'features/schematicWell/interfaces';
 import {
-  relativeCoordinates,
+  surfaceRelativeCoordinates,
+  subsurfaceRelativeCoordinates,
   schematicWellState,
   setComments,
   setMaxDepth,
@@ -31,7 +32,8 @@ import {
 } from 'features/schematicWell/schematicWellSlice';
 import { Well } from 'features/wells/interfaces';
 
-import EscalaProfundidadeEsquematico from 'components/EscalaProfundidadeEsquematico';
+import EscalaAlturaArvoreNatal from 'components/EscalasEsquematico/EscalaAlturaArvoreNatal';
+import EscalaProfundidadeEsquematico from 'components/EscalasEsquematico/EscalaProfundidadeEsquematico';
 import GridLayout from 'components/Grid';
 import { Loading } from 'components/Loading';
 import RequestError from 'components/RequestError';
@@ -46,7 +48,8 @@ import TabelaEquipamentoSuperficie from './components/TabelaEquipamentoSuperfici
 function SchematicWell() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch = useDispatch();
-  const { subsurfaceEquipmentTable, comments, maxDepth } = useSelector(schematicWellState);
+  const { subsurfaceEquipmentTable, comments, maxDepth, surfaceEquipmentTable, maxHeight } =
+    useSelector(schematicWellState);
   const { well } = useLocation().state as { well: Well };
 
   // Dados para requisição dos equipamentos de subsuperfície
@@ -71,9 +74,15 @@ function SchematicWell() {
   const modalProps = { isOpen, onOpen, onClose };
 
   // Tamanho da escala da imagem do esquemático
-  const imageSize = {
-    width: 400,
-    height: 1000,
+  const imagesSize = {
+    schematic: {
+      width: 400,
+      height: 1000,
+    },
+    tree: {
+      width: 460,
+      height: 200,
+    },
   };
 
   useEffect(() => {
@@ -129,38 +138,59 @@ function SchematicWell() {
           direction={{ base: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'row' }}
           flex={1}
         >
-          {maxDepth === 0 ? (
-            <Flex flex={1}>
-              <Link to={'/esquematico-well-config'}>
-                <Box position={'absolute'} zIndex={0}>
-                  <Text textAlign={'center'} fontWeight={700}>
-                    Configure a profundidade máxima do esquemático!
-                  </Text>
-                </Box>
+          <Flex direction={'column'} flex={1}>
+            <Flex>
+              <EscalaAlturaArvoreNatal height={imagesSize.tree.height} width={imagesSize.tree.width}>
                 <Image
                   onClick={(event) => {
-                    dispatch(relativeCoordinates(event));
+                    dispatch(surfaceRelativeCoordinates(event));
                     onOpen();
                   }}
                   src={SchematicSVG}
-                  h={imageSize.height}
-                  zIndex={1}
-                  position={'relative'}
-                  top={10}
-                  left={10}
+                  h={imagesSize.tree.height}
                 />
-              </Link>
+
+                <Flex direction={'row-reverse'}>
+                  {surfaceEquipmentTable.length
+                    ? surfaceEquipmentTable.map((equipment: SurfaceEquipment, index: number) => (
+                        <ButtonPontoDeClique
+                          surfaceEquipment={equipment}
+                          key={index}
+                          position={{
+                            scaleYAxis: (Number(equipment.yAxis) * imagesSize.tree.height) / maxHeight,
+                            xAxis: equipment.xAxis,
+                            yAxis: Number(equipment.yAxis),
+                          }}
+                          onOpen={onOpen}
+                        />
+                      ))
+                    : null}
+                  {comments.length
+                    ? comments.map((comment: Comment, index: number) => (
+                        <ButtonPontoDeClique
+                          comment={comment}
+                          key={index}
+                          position={{
+                            scaleYAxis: (comment.depth * imagesSize.tree.height) / maxHeight,
+                            xAxis: comment.xAxis,
+                            yAxis: comment.depth,
+                          }}
+                          onOpen={onOpen}
+                        />
+                      ))
+                    : null}
+                </Flex>
+              </EscalaAlturaArvoreNatal>
             </Flex>
-          ) : (
             <Flex flex={1}>
               <EscalaProfundidadeEsquematico>
                 <Image
                   onClick={(event) => {
-                    dispatch(relativeCoordinates(event));
+                    dispatch(subsurfaceRelativeCoordinates(event));
                     onOpen();
                   }}
                   src={SchematicSVG}
-                  h={imageSize.height}
+                  h={imagesSize.schematic.height}
                 />
 
                 <Flex direction={'row-reverse'}>
@@ -170,7 +200,7 @@ function SchematicWell() {
                           subsurfaceEquipment={equipment}
                           key={index}
                           position={{
-                            scaleYAxis: (Number(equipment.depth) * imageSize.height) / maxDepth,
+                            scaleYAxis: (Number(equipment.depth) * imagesSize.schematic.height) / maxDepth,
                             xAxis: equipment.xAxis,
                             yAxis: Number(equipment.depth),
                           }}
@@ -184,7 +214,7 @@ function SchematicWell() {
                           comment={comment}
                           key={index}
                           position={{
-                            scaleYAxis: (comment.depth * imageSize.height) / maxDepth,
+                            scaleYAxis: (comment.depth * imagesSize.schematic.height) / maxDepth,
                             xAxis: comment.xAxis,
                             yAxis: comment.depth,
                           }}
@@ -195,7 +225,7 @@ function SchematicWell() {
                 </Flex>
               </EscalaProfundidadeEsquematico>
             </Flex>
-          )}
+          </Flex>
 
           <Flex direction={'column'} flex={2} overflowX={'scroll'} gap={4} pt={{ base: 5, sm: 5, md: 5, lg: 5, xl: 0 }}>
             <Accordion defaultIndex={[0, 1]} allowMultiple flex={2}>

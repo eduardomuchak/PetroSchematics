@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { useDeleteCommentsMutation } from 'features/api/services/schematicWell/commentsCRUD';
-import { Comment, SubsurfaceEquipment } from 'features/schematicWell/interfaces';
+import { Comment, SubsurfaceEquipment, SurfaceEquipment } from 'features/schematicWell/interfaces';
 import { openPointOfClick } from 'features/schematicWell/schematicWellSlice';
 
 import { usePayload } from 'hooks/usePayload';
@@ -21,10 +21,11 @@ interface Props {
   position: Position;
   onOpen: () => void;
   subsurfaceEquipment?: SubsurfaceEquipment;
+  surfaceEquipment?: SurfaceEquipment;
   comment?: Comment;
 }
 
-function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment }: Props) {
+function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment, surfaceEquipment }: Props) {
   const { yAxis, xAxis, scaleYAxis } = position;
   const dispacth = useDispatch();
   const [deleteComments] = useDeleteCommentsMutation();
@@ -174,6 +175,50 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment }:
     </Box>
   );
 
+  const SurfaceEquipamentCard = () => (
+    <Box
+      zIndex={999}
+      position={'absolute'}
+      w={'720px'}
+      top={-36}
+      left={8}
+      backgroundColor={'#FEFEFE'}
+      boxShadow={'0 0 4px rgba(0, 0, 0, 0.25)'}
+      borderRadius={'4px'}
+      p={5}
+    >
+      <Flex gap={1} mb={3}>
+        <Text fontWeight={700} fontSize={'16px'}>
+          Altura
+        </Text>
+        <Flex>
+          <Text fontWeight={700} fontSize={'16px'}>
+            {surfaceEquipment?.yAxis}
+          </Text>
+          <Text fontWeight={700} fontSize={'16px'}>
+            m
+          </Text>
+        </Flex>
+      </Flex>
+      <Flex gap={1}>
+        <Text fontWeight={700} fontSize={'16px'}>
+          Equipamento de Superfície:
+        </Text>
+
+        <Text
+          fontWeight={500}
+          fontSize={'16px'}
+          wordBreak={'break-all'}
+          maxH={'200px'}
+          overflowY={'scroll'}
+          overflowX={'hidden'}
+        >
+          {surfaceEquipment?.surfaceEquipment}
+        </Text>
+      </Flex>
+    </Box>
+  );
+
   return (
     <Flex
       position={'absolute'}
@@ -209,6 +254,7 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment }:
       />
       {isHovering && subsurfaceEquipment && <SubSurfaceEquipamentCard />}
       {isHovering && comment && <CommentCard />}
+      {isHovering && surfaceEquipment && <SurfaceEquipamentCard />}
     </Flex>
   );
 }

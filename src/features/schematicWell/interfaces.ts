@@ -30,6 +30,7 @@ export interface Comment {
 export interface InitialSchematicValue {
   minDepth: number;
   maxDepth: number;
+  maxHeight: number;
   mousePosition: MousePosition;
   surfaceEquipmentTable: SurfaceEquipment[];
   subsurfaceEquipmentTable: SubsurfaceEquipment[];

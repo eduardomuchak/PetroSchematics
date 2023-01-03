@@ -12,6 +12,7 @@ import {
 const initialState = {
   minDepth: 0,
   maxDepth: 0,
+  maxHeight: 30,
   mousePosition: {
     yAxis: 0,
     xAxis: 0,
@@ -53,6 +54,10 @@ export const schematicWellSlice = createSlice({
         };
       }
     },
+    setMaxHeight: (state, action) => ({
+      ...state,
+      maxHeight: action.payload,
+    }),
     setSurfaceEquipment: (state, action) => ({
       ...state,
       surfaceEquipmentTable: action.payload,
@@ -67,7 +72,7 @@ export const schematicWellSlice = createSlice({
     }),
     // A função abaixo deve ser usada para calcular a posição do clique do mouse
     // calculando a profundidade máxima e a posição do clique no eixo Y
-    relativeCoordinates: (state, action) => {
+    subsurfaceRelativeCoordinates: (state, action) => {
       // Exemplo: profundidade máxima = 3000m e tamanho da imagem = 1000px
       // 3000m = profundidade máxima (state.depth)
       // 1000px = tamanho da imagem (imageSize.height)
@@ -88,17 +93,33 @@ export const schematicWellSlice = createSlice({
       ...state,
       mousePosition: action.payload,
     }),
+    surfaceRelativeCoordinates: (state, action) => {
+      const event = action.payload;
+      const bounds = event.target.getBoundingClientRect();
+      const x = event.clientX - bounds.left;
+      const y = event.clientY - bounds.bottom;
+      const clickHeight = (state.maxHeight * y) / 200;
+      // console.log('clickHeight', Math.abs(clickHeight).toFixed(0));
+      return {
+        ...state,
+        mousePosition: {
+          yAxis: Number(clickHeight.toFixed(0)),
+          xAxis: Number(x.toFixed(0)),
+        },
+      };
+    },
   },
 });
 
 export const {
-  relativeCoordinates,
+  subsurfaceRelativeCoordinates,
   setMaxDepth,
   setSurfaceEquipment,
   setSubsurfaceEquipment,
   openPointOfClick,
   setComments,
   setMinDepth,
+  surfaceRelativeCoordinates,
 } = schematicWellSlice.actions;
 
 export const schematicWellState = (state: SchematicState) => state.schematicWell;
