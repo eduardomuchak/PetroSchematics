@@ -24,7 +24,8 @@ import {
   surfaceRelativeCoordinates,
   subsurfaceRelativeCoordinates,
   schematicWellState,
-  setComments,
+  setSubsurfaceComments,
+  setSurfaceComments,
   setMaxDepth,
   setMinDepth,
   setSubsurfaceEquipment,
@@ -48,7 +49,7 @@ import TabelaEquipamentoSuperficie from './components/TabelaEquipamentoSuperfici
 function SchematicWell() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch = useDispatch();
-  const { subsurfaceEquipmentTable, comments, maxDepth, surfaceEquipmentTable, maxHeight } =
+  const { subsurfaceEquipmentTable, subsurfaceComments, maxDepth, surfaceEquipmentTable, maxHeight, surfaceComments } =
     useSelector(schematicWellState);
   const { well } = useLocation().state as { well: Well };
 
@@ -74,7 +75,7 @@ function SchematicWell() {
   const modalProps = { isOpen, onOpen, onClose };
 
   // Tamanho da escala da imagem do esquemático
-  const imagesSize = {
+  const imageSize = {
     schematic: {
       width: 400,
       height: 1000,
@@ -93,7 +94,26 @@ function SchematicWell() {
       dispatch(setSurfaceEquipment(surfaceEquipmentsRequest.data?.documents));
     }
     if (commentsRequest.data?.documents) {
-      dispatch(setComments(commentsRequest.data?.documents));
+      const subsurfaceComments = commentsRequest.data?.documents.filter((comment: Comment) => {
+        if (comment.isSurface === false) {
+          return comment;
+        } else {
+          return null;
+        }
+      });
+      console.log('subsurfaceComments', subsurfaceComments);
+
+      const surfaceComments = commentsRequest.data?.documents.filter((comment: Comment) => {
+        if (comment.isSurface === true) {
+          return comment;
+        } else {
+          return null;
+        }
+      });
+      console.log('surfaceComments', surfaceComments);
+
+      dispatch(setSubsurfaceComments(subsurfaceComments));
+      dispatch(setSurfaceComments(surfaceComments));
     }
     if (configRequest.data?.document) {
       dispatch(setMaxDepth(configRequest.data?.document.maxDepth));
@@ -140,14 +160,14 @@ function SchematicWell() {
         >
           <Flex direction={'column'} flex={1}>
             <Flex>
-              <EscalaAlturaArvoreNatal height={imagesSize.tree.height} width={imagesSize.tree.width}>
+              <EscalaAlturaArvoreNatal height={imageSize.tree.height} width={imageSize.tree.width}>
                 <Image
                   onClick={(event) => {
                     dispatch(surfaceRelativeCoordinates(event));
                     onOpen();
                   }}
                   src={SchematicSVG}
-                  h={imagesSize.tree.height}
+                  h={imageSize.tree.height}
                 />
 
                 <Flex direction={'row-reverse'}>
@@ -157,21 +177,21 @@ function SchematicWell() {
                           surfaceEquipment={equipment}
                           key={index}
                           position={{
-                            scaleYAxis: (Number(equipment.height) * imagesSize.tree.height) / maxHeight,
+                            scaleYAxis: (Number(equipment.height) * imageSize.tree.height) / maxHeight,
                             xAxis: equipment.xAxis,
-                            yAxis: Number(equipment.yAxis),
+                            yAxis: Number(equipment.height),
                           }}
                           onOpen={onOpen}
                         />
                       ))
                     : null}
-                  {comments.length
-                    ? comments.map((comment: Comment, index: number) => (
+                  {surfaceComments.length
+                    ? surfaceComments.map((comment: Comment, index: number) => (
                         <ButtonPontoDeClique
                           comment={comment}
                           key={index}
                           position={{
-                            scaleYAxis: (comment.depth * imagesSize.tree.height) / maxHeight,
+                            scaleYAxis: (comment.depth * imageSize.tree.height) / maxHeight,
                             xAxis: comment.xAxis,
                             yAxis: comment.depth,
                           }}
@@ -190,7 +210,7 @@ function SchematicWell() {
                     onOpen();
                   }}
                   src={SchematicSVG}
-                  h={imagesSize.schematic.height}
+                  h={imageSize.schematic.height}
                 />
 
                 <Flex direction={'row-reverse'}>
@@ -200,7 +220,7 @@ function SchematicWell() {
                           subsurfaceEquipment={equipment}
                           key={index}
                           position={{
-                            scaleYAxis: (Number(equipment.depth) * imagesSize.schematic.height) / maxDepth,
+                            scaleYAxis: (Number(equipment.depth) * imageSize.schematic.height) / maxDepth,
                             xAxis: equipment.xAxis,
                             yAxis: Number(equipment.depth),
                           }}
@@ -208,13 +228,13 @@ function SchematicWell() {
                         />
                       ))
                     : null}
-                  {comments.length
-                    ? comments.map((comment: Comment, index: number) => (
+                  {subsurfaceComments.length
+                    ? subsurfaceComments.map((comment: Comment, index: number) => (
                         <ButtonPontoDeClique
                           comment={comment}
                           key={index}
                           position={{
-                            scaleYAxis: (comment.depth * imagesSize.schematic.height) / maxDepth,
+                            scaleYAxis: (comment.depth * imageSize.schematic.height) / maxDepth,
                             xAxis: comment.xAxis,
                             yAxis: comment.depth,
                           }}

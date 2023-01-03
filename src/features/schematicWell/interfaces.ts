@@ -1,7 +1,7 @@
 export interface MousePosition {
   yAxis: number;
   xAxis: number;
-  isSurface?: boolean;
+  isSurface: boolean;
 }
 
 export interface SurfaceEquipment extends MousePosition {
@@ -9,7 +9,7 @@ export interface SurfaceEquipment extends MousePosition {
   hash: string;
   surfaceEquipment: string;
   description: string;
-  height: string;
+  height: number;
 }
 
 export interface SubsurfaceEquipment extends MousePosition {
@@ -28,6 +28,7 @@ export interface Comment {
   xAxis: number;
   hash: string;
   _id: string;
+  isSurface: boolean;
 }
 export interface InitialSchematicValue {
   minDepth: number;
@@ -36,7 +37,8 @@ export interface InitialSchematicValue {
   mousePosition: MousePosition;
   surfaceEquipmentTable: SurfaceEquipment[];
   subsurfaceEquipmentTable: SubsurfaceEquipment[];
-  comments: Comment[];
+  surfaceComments: Comment[];
+  subsurfaceComments: Comment[];
 }
 
 export interface SchematicState {

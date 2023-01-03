@@ -219,11 +219,15 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment, s
     </Box>
   );
 
+  const isTopMargin = !!(subsurfaceEquipment || comment?.isSurface);
+  const isBottomMargin = !!(surfaceEquipment || comment?.isSurface);
+
   return (
     <Flex
       position={'absolute'}
       left={xAxis - 12}
-      top={scaleYAxis - 12}
+      top={isTopMargin ? scaleYAxis - 12 : scaleYAxis - 12}
+      bottom={isBottomMargin ? scaleYAxis - 12 : scaleYAxis - 12}
       // zIndex={2}
       height={'24px'}
       width={'35px'}
@@ -232,8 +236,8 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment, s
     >
       <Box
         as="button"
-        height={'24px'}
-        width={'24px'}
+        height={'18px'}
+        width={'18px'}
         transition="all 0.4s ease"
         border="2px"
         borderRadius={'50%'}

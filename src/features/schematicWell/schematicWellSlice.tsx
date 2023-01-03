@@ -20,7 +20,8 @@ const initialState = {
   } as MousePosition,
   surfaceEquipmentTable: [] as SurfaceEquipment[],
   subsurfaceEquipmentTable: [] as SubsurfaceEquipment[],
-  comments: [] as Comment[],
+  surfaceComments: [] as Comment[],
+  subsurfaceComments: [] as Comment[],
 } as InitialSchematicValue;
 
 export const schematicWellSlice = createSlice({
@@ -37,11 +38,11 @@ export const schematicWellSlice = createSlice({
       // a profundidade mínima deve ser a profundidade do equipamento ou comentário com maior profundidade
       // Se não existir nenhum equipamento de subsuperfície ou comentário com profundidade definida
       // a profundidade mínima deve ser 0
-      const { subsurfaceEquipmentTable, comments } = state;
+      const { subsurfaceEquipmentTable, subsurfaceComments } = state;
       const subsurfaceEquipmentMinDepth = Math.max(
         ...subsurfaceEquipmentTable.map((subsurfaceEquipment) => Number(subsurfaceEquipment.depth)),
       );
-      const commentsMinDepth = Math.max(...comments.map((comment) => comment.depth));
+      const commentsMinDepth = Math.max(...subsurfaceComments.map((comment) => comment.depth));
       const minDepth = Math.max(subsurfaceEquipmentMinDepth, commentsMinDepth);
       if (minDepth === Infinity || minDepth === null || minDepth === undefined) {
         return {
@@ -67,7 +68,11 @@ export const schematicWellSlice = createSlice({
       ...state,
       subsurfaceEquipmentTable: action.payload,
     }),
-    setComments: (state, action) => ({
+    setSubsurfaceComments: (state, action) => ({
+      ...state,
+      comments: action.payload,
+    }),
+    setSurfaceComments: (state, action) => ({
       ...state,
       comments: action.payload,
     }),
@@ -119,7 +124,8 @@ export const {
   setSurfaceEquipment,
   setSubsurfaceEquipment,
   openPointOfClick,
-  setComments,
+  setSubsurfaceComments,
+  setSurfaceComments,
   setMinDepth,
   surfaceRelativeCoordinates,
 } = schematicWellSlice.actions;

@@ -37,6 +37,7 @@ interface FormValues {
   depth: number;
   xAxis: number;
   comments: string;
+  isSurface: boolean;
 }
 
 function ModalCadastroComentarios() {
@@ -50,6 +51,7 @@ function ModalCadastroComentarios() {
     comments: '',
     depth: 0,
     xAxis: 0,
+    isSurface: false,
   });
 
   const handleCancel = () => {
@@ -79,6 +81,7 @@ function ModalCadastroComentarios() {
       ...formValues,
       depth: mousePosition.yAxis,
       xAxis: mousePosition.xAxis,
+      isSurface: mousePosition.isSurface,
     });
   }, [isOpen]);
 
@@ -87,6 +90,7 @@ function ModalCadastroComentarios() {
       comments: '',
       depth: 0,
       xAxis: 0,
+      isSurface: false,
     });
   }, [onClose]);
 
