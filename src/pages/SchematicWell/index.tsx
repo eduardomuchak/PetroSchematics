@@ -94,26 +94,8 @@ function SchematicWell() {
       dispatch(setSurfaceEquipment(surfaceEquipmentsRequest.data?.documents));
     }
     if (commentsRequest.data?.documents) {
-      const subsurfaceComments = commentsRequest.data?.documents.filter((comment: Comment) => {
-        if (comment.isSurface === false) {
-          return comment;
-        } else {
-          return null;
-        }
-      });
-      console.log('subsurfaceComments', subsurfaceComments);
-
-      const surfaceComments = commentsRequest.data?.documents.filter((comment: Comment) => {
-        if (comment.isSurface === true) {
-          return comment;
-        } else {
-          return null;
-        }
-      });
-      console.log('surfaceComments', surfaceComments);
-
-      dispatch(setSubsurfaceComments(subsurfaceComments));
-      dispatch(setSurfaceComments(surfaceComments));
+      dispatch(setSubsurfaceComments(commentsRequest.data?.documents));
+      dispatch(setSurfaceComments(commentsRequest.data?.documents));
     }
     if (configRequest.data?.document) {
       dispatch(setMaxDepth(configRequest.data?.document.maxDepth));

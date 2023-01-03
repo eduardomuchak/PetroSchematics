@@ -68,14 +68,32 @@ export const schematicWellSlice = createSlice({
       ...state,
       subsurfaceEquipmentTable: action.payload,
     }),
-    setSubsurfaceComments: (state, action) => ({
-      ...state,
-      comments: action.payload,
-    }),
-    setSurfaceComments: (state, action) => ({
-      ...state,
-      comments: action.payload,
-    }),
+    setSubsurfaceComments: (state, action) => {
+      const filteredEquipments: Comment[] = action.payload.filter((comment: Comment) => {
+        if (comment.isSurface === false) {
+          return comment;
+        } else {
+          return null;
+        }
+      });
+      return {
+        ...state,
+        subsurfaceComments: filteredEquipments,
+      };
+    },
+    setSurfaceComments: (state, action) => {
+      const filteredEquipments: Comment[] = action.payload.filter((comment: Comment) => {
+        if (comment.isSurface === true) {
+          return comment;
+        } else {
+          return null;
+        }
+      });
+      return {
+        ...state,
+        surfaceComments: filteredEquipments,
+      };
+    },
     // A função abaixo deve ser usada para calcular a posição do clique do mouse
     // calculando a profundidade máxima e a posição do clique no eixo Y
     subsurfaceRelativeCoordinates: (state, action) => {
