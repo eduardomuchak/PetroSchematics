@@ -4,7 +4,7 @@ export const surfaceEquipmentsCRUD = apiMongoDB.injectEndpoints({
   endpoints: (builder) => ({
     getSurfaceEquipments: builder.query({
       query: (payload) => ({
-        url: '/action/find',
+        url: '/api/action/find',
         method: 'POST',
         body: payload,
       }),
@@ -12,7 +12,7 @@ export const surfaceEquipmentsCRUD = apiMongoDB.injectEndpoints({
     }),
     addSurfaceEquipment: builder.mutation({
       query: (payload) => ({
-        url: '/action/insertOne',
+        url: '/api/action/insertOne',
         method: 'POST',
         body: payload,
       }),
@@ -20,23 +20,23 @@ export const surfaceEquipmentsCRUD = apiMongoDB.injectEndpoints({
     }),
     updateSurfaceEquipment: builder.mutation({
       query: (payload) => ({
-        url: `/action/updateOne`,
-        method: 'POST',
+        url: `/api/action/updateOne`,
+        method: 'PATCH',
         body: payload,
       }),
       invalidatesTags: ['SurfaceEquipment'],
     }),
     deleteSurfaceEquipment: builder.mutation({
       query: (payload) => ({
-        url: `/action/deleteOne`,
-        method: 'POST',
+        url: `/api/action/deleteOne`,
+        method: 'DELETE',
         body: payload,
       }),
       invalidatesTags: ['SurfaceEquipment'],
     }),
     addManySurfaceEquipments: builder.mutation({
       query: (payload) => ({
-        url: '/action/insertMany',
+        url: '/api/action/insertMany',
         method: 'POST',
         body: payload,
       }),

@@ -24,7 +24,7 @@ export interface SubsurfaceEquipment extends MousePosition {
 
 export interface Comment {
   comments: string;
-  depth: number;
+  yAxis: number;
   xAxis: number;
   hash: string;
   _id: string;

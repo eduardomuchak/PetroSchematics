@@ -41,6 +41,7 @@ interface FormValues {
   _id: string;
   hash: string;
   xAxis: number;
+  isSurface: boolean;
 }
 
 interface Props {
@@ -59,6 +60,7 @@ function ModalEditarComentario({ comment }: Props) {
     _id: '',
     hash: '',
     xAxis: 0,
+    isSurface: false,
   } as FormValues);
 
   const handleCancel = () => {
@@ -86,11 +88,12 @@ function ModalEditarComentario({ comment }: Props) {
   useEffect(() => {
     setFormValues({
       ...formValues,
-      depth: comment.depth,
+      depth: comment.yAxis,
       comments: comment.comments,
       _id: comment._id,
       hash: comment.hash,
       xAxis: comment.xAxis,
+      isSurface: comment.isSurface,
     });
   }, [isOpen]);
 
@@ -101,6 +104,7 @@ function ModalEditarComentario({ comment }: Props) {
       _id: '',
       hash: '',
       xAxis: 0,
+      isSurface: false,
     });
   }, [onClose]);
 

@@ -175,9 +175,9 @@ function SchematicWell() {
                           comment={comment}
                           key={index}
                           position={{
-                            scaleYAxis: (comment.depth * imageSize.tree.height) / maxHeight,
+                            scaleYAxis: (comment.yAxis * imageSize.tree.height) / maxHeight,
                             xAxis: comment.xAxis,
-                            yAxis: comment.depth,
+                            yAxis: comment.yAxis,
                           }}
                           onOpen={onOpen}
                         />
@@ -220,9 +220,9 @@ function SchematicWell() {
                           comment={comment}
                           key={index}
                           position={{
-                            scaleYAxis: (comment.depth * imageSize.schematic.height) / maxDepth,
+                            scaleYAxis: (comment.yAxis * imageSize.schematic.height) / maxDepth,
                             xAxis: comment.xAxis,
-                            yAxis: comment.depth,
+                            yAxis: comment.yAxis,
                           }}
                           onOpen={onOpen}
                         />

@@ -34,7 +34,7 @@ import { regexRemoverCaracteresEspeciais } from 'utils/RegexCaracteresEspeciais'
 import { usePayload } from 'hooks/usePayload';
 
 interface FormValues {
-  depth: number;
+  yAxis: number;
   xAxis: number;
   comments: string;
   isSurface: boolean;
@@ -44,12 +44,12 @@ function ModalCadastroComentarios() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { well: wellLocationState } = useLocation().state as { well: Well };
 
-  const { mousePosition, maxDepth } = useSelector(schematicWellState);
+  const { mousePosition, maxDepth, maxHeight } = useSelector(schematicWellState);
   const [addComments] = useAddCommentsMutation();
 
   const [formValues, setFormValues] = useState<FormValues>({
     comments: '',
-    depth: 0,
+    yAxis: 0,
     xAxis: 0,
     isSurface: false,
   });
@@ -70,7 +70,7 @@ function ModalCadastroComentarios() {
   };
 
   const isButtonDisabled = () => {
-    if (formValues.comments === '' || formValues.depth === 0) {
+    if (formValues.comments === '' || formValues.yAxis === 0) {
       return true;
     }
     return false;
@@ -79,7 +79,7 @@ function ModalCadastroComentarios() {
   useEffect(() => {
     setFormValues({
       ...formValues,
-      depth: mousePosition.yAxis,
+      yAxis: mousePosition.yAxis,
       xAxis: mousePosition.xAxis,
       isSurface: mousePosition.isSurface,
     });
@@ -88,7 +88,7 @@ function ModalCadastroComentarios() {
   useEffect(() => {
     setFormValues({
       comments: '',
-      depth: 0,
+      yAxis: 0,
       xAxis: 0,
       isSurface: false,
     });
@@ -110,18 +110,15 @@ function ModalCadastroComentarios() {
                 <Flex gap={1}>
                   <RequiredField />
                   <Text fontWeight={'700'} fontSize={'12px'} color={'#949494'}>
-                    PROFUNDIDADE (METROS)
+                    {formValues.isSurface ? 'ALTURA (METROS)' : 'PROFUNDIDADE (METROS)'}
                   </Text>
                 </Flex>
                 <NumberInput
                   min={0}
-                  max={maxDepth}
-                  value={formValues.depth}
+                  max={formValues.isSurface ? maxHeight : maxDepth}
+                  value={formValues.yAxis || 0}
                   onChange={(valueString) => {
-                    setFormValues({
-                      ...formValues,
-                      depth: Number(valueString),
-                    });
+                    setFormValues({ ...formValues, yAxis: Number(valueString) });
                   }}
                   variant={'origem'}
                 >

@@ -3,7 +3,7 @@ export const commentsCRUD = apiMongoDB.injectEndpoints({
   endpoints: (builder) => ({
     getComments: builder.query({
       query: (payload) => ({
-        url: '/action/find',
+        url: '/api/action/find',
         method: 'POST',
         body: payload,
       }),
@@ -11,7 +11,7 @@ export const commentsCRUD = apiMongoDB.injectEndpoints({
     }),
     addComments: builder.mutation({
       query: (payload) => ({
-        url: '/action/insertOne',
+        url: '/api/action/insertOne',
         method: 'POST',
         body: payload,
       }),
@@ -19,16 +19,16 @@ export const commentsCRUD = apiMongoDB.injectEndpoints({
     }),
     updateComments: builder.mutation({
       query: (payload) => ({
-        url: `/action/updateOne`,
-        method: 'POST',
+        url: `/api/action/updateOne`,
+        method: 'PATCH',
         body: payload,
       }),
       invalidatesTags: ['SchematicComments'],
     }),
     deleteComments: builder.mutation({
       query: (payload) => ({
-        url: `/action/deleteOne`,
-        method: 'POST',
+        url: `/api/action/deleteOne`,
+        method: 'DELETE',
         body: payload,
       }),
       invalidatesTags: ['SchematicComments'],

@@ -143,7 +143,7 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment, s
           </Text>
           <Flex>
             <Text fontWeight={700} fontSize={'16px'}>
-              {comment?.depth}
+              {comment?.yAxis}
             </Text>
             <Text fontWeight={700} fontSize={'16px'}>
               m

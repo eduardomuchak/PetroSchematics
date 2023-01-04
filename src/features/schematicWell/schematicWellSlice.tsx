@@ -42,7 +42,7 @@ export const schematicWellSlice = createSlice({
       const subsurfaceEquipmentMinDepth = Math.max(
         ...subsurfaceEquipmentTable.map((subsurfaceEquipment) => Number(subsurfaceEquipment.depth)),
       );
-      const commentsMinDepth = Math.max(...subsurfaceComments.map((comment) => comment.depth));
+      const commentsMinDepth = Math.max(...subsurfaceComments.map((comment) => comment.yAxis));
       const minDepth = Math.max(subsurfaceEquipmentMinDepth, commentsMinDepth);
       if (minDepth === Infinity || minDepth === null || minDepth === undefined) {
         return {
