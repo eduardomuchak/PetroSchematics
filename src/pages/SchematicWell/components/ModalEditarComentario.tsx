@@ -36,7 +36,7 @@ import { regexRemoverCaracteresEspeciais } from 'utils/RegexCaracteresEspeciais'
 import { usePayload } from 'hooks/usePayload';
 
 interface FormValues {
-  depth: number;
+  yAxis: number;
   comments: string;
   _id: string;
   hash: string;
@@ -55,7 +55,7 @@ function ModalEditarComentario({ comment }: Props) {
   const { well: wellLocationState } = useLocation().state as { well: Well };
 
   const [formValues, setFormValues] = useState<FormValues>({
-    depth: 0,
+    yAxis: 0,
     comments: '',
     _id: '',
     hash: '',
@@ -88,7 +88,7 @@ function ModalEditarComentario({ comment }: Props) {
   useEffect(() => {
     setFormValues({
       ...formValues,
-      depth: comment.yAxis,
+      yAxis: comment.yAxis,
       comments: comment.comments,
       _id: comment._id,
       hash: comment.hash,
@@ -99,7 +99,7 @@ function ModalEditarComentario({ comment }: Props) {
 
   useEffect(() => {
     setFormValues({
-      depth: 0,
+      yAxis: 0,
       comments: '',
       _id: '',
       hash: '',
@@ -121,17 +121,17 @@ function ModalEditarComentario({ comment }: Props) {
               <FormControl>
                 <Flex gap={1}>
                   <Text fontWeight={'700'} fontSize={'12px'} color={'#949494'}>
-                    PROFUNDIDADE (METROS)
+                    {formValues.isSurface ? 'ALTURA (METROS)' : 'PROFUNDIDADE (METROS)'}
                   </Text>
                 </Flex>
                 <NumberInput
                   min={0}
                   max={maxDepth}
-                  value={formValues.depth}
+                  value={formValues.yAxis}
                   onChange={(valueString) => {
                     setFormValues({
                       ...formValues,
-                      depth: Number(valueString),
+                      yAxis: Number(valueString),
                     });
                   }}
                 >
