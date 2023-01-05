@@ -56,7 +56,7 @@ function EscalaAlturaArvoreNatal({
           )}
         </Flex> */}
       </Flex>
-      <Flex position={'relative'} left={75}>
+      <Flex position={'relative'} left={'5.60rem'}>
         {children}
       </Flex>
     </>

@@ -212,7 +212,7 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment, s
       zIndex={999}
       position={'absolute'}
       w={'720px'}
-      top={-20}
+      top={-12}
       left={8}
       backgroundColor={'#FEFEFE'}
       boxShadow={'0 0 4px rgba(0, 0, 0, 0.25)'}

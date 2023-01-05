@@ -15,6 +15,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import SchematicSVG from 'assets/esquematico.svg';
+import SchematicXmasTreeSVG from 'assets/xmas-tree-schematic.svg';
 import { useGetCommentsQuery } from 'features/api/services/schematicWell/commentsCRUD';
 import { useGetSchematicConfigQuery } from 'features/api/services/schematicWell/schematicConfigCRUD';
 import { useGetSubsurfaceEquipmentsQuery } from 'features/api/services/schematicWell/subsurfaceEquipmentsCRUD';
@@ -82,7 +83,7 @@ function SchematicWell() {
     },
     tree: {
       width: 460,
-      height: 200,
+      height: 486,
     },
   };
 
@@ -148,7 +149,7 @@ function SchematicWell() {
                     dispatch(surfaceRelativeCoordinates(event));
                     onOpen();
                   }}
-                  src={SchematicSVG}
+                  src={SchematicXmasTreeSVG}
                   h={imageSize.tree.height}
                 />
 
