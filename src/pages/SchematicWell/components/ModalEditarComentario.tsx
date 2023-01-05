@@ -108,40 +108,44 @@ function ModalEditarComentario({ comment }: Props) {
     });
   }, [onClose]);
 
+  // console.log('formValues', formValues);
+
   return (
     <>
       <IconButton onClick={onOpen} aria-label="Botão de Editar" icon={<MdModeEdit />} variant="origemEditGhost" />
       <Modal isOpen={isOpen} onClose={onClose} size="lg">
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>EDITAR EQUIPAMENTO DE SUPERFÍCIE</ModalHeader>
+          <ModalHeader>EDITAR COMENTÁRIO</ModalHeader>
           <ModalCloseButton color={'white'} onClick={handleCancel} />
           <ModalBody>
             <Flex direction={'column'} gap={4}>
-              <FormControl>
-                <Flex gap={1}>
-                  <Text fontWeight={'700'} fontSize={'12px'} color={'#949494'}>
-                    {formValues.isSurface ? 'ALTURA (METROS)' : 'PROFUNDIDADE (METROS)'}
-                  </Text>
-                </Flex>
-                <NumberInput
-                  min={0}
-                  max={maxDepth}
-                  value={formValues.yAxis}
-                  onChange={(valueString) => {
-                    setFormValues({
-                      ...formValues,
-                      yAxis: Number(valueString),
-                    });
-                  }}
-                >
-                  <NumberInputField h={'56px'} />
-                  <NumberInputStepper>
-                    <NumberIncrementStepper />
-                    <NumberDecrementStepper />
-                  </NumberInputStepper>
-                </NumberInput>
-              </FormControl>
+              {formValues.isSurface ? null : (
+                <FormControl>
+                  <Flex gap={1}>
+                    <Text fontWeight={'700'} fontSize={'12px'} color={'#949494'}>
+                      PROFUNDIDADE (METROS)
+                    </Text>
+                  </Flex>
+                  <NumberInput
+                    min={0}
+                    max={maxDepth}
+                    value={formValues.yAxis}
+                    onChange={(valueString) => {
+                      setFormValues({
+                        ...formValues,
+                        yAxis: Number(valueString),
+                      });
+                    }}
+                  >
+                    <NumberInputField h={'56px'} />
+                    <NumberInputStepper>
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                    </NumberInputStepper>
+                  </NumberInput>
+                </FormControl>
+              )}
 
               <FormControl>
                 <Flex gap={1}>

@@ -136,43 +136,74 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment, s
       borderRadius={'4px'}
       p={5}
     >
-      <Flex mb={3} justify={'space-between'} align={'center'}>
-        <Flex gap={1}>
-          <Text fontWeight={700} fontSize={'16px'}>
-            {isSurface ? 'Altura' : 'Profundidade'}
-          </Text>
-          <Flex>
-            <Text fontWeight={700} fontSize={'16px'}>
-              {comment?.yAxis}
-            </Text>
-            <Text fontWeight={700} fontSize={'16px'}>
-              m
-            </Text>
-          </Flex>
-        </Flex>
-        {comment && (
-          <Flex gap={2}>
-            <ModalEditarComentario comment={comment} />
-            <ModalDeletar equipment={comment} toDelete={ToDelete} />
-          </Flex>
-        )}
-      </Flex>
-      <Flex gap={1}>
-        <Text fontWeight={700} fontSize={'16px'}>
-          Comentário:
-        </Text>
+      {isSurface ? (
+        <>
+          <Flex gap={1} direction={'column'}>
+            {comment && (
+              <Flex justify={'space-between'}>
+                <Text fontWeight={700} fontSize={'16px'}>
+                  Comentário:
+                </Text>
+                <Flex gap={2}>
+                  <ModalEditarComentario comment={comment} />
+                  <ModalDeletar equipment={comment} toDelete={ToDelete} />
+                </Flex>
+              </Flex>
+            )}
 
-        <Text
-          fontWeight={500}
-          fontSize={'16px'}
-          wordBreak={'break-all'}
-          maxH={'200px'}
-          overflowY={'scroll'}
-          overflowX={'hidden'}
-        >
-          {comment?.comments}
-        </Text>
-      </Flex>
+            <Text
+              fontWeight={500}
+              fontSize={'16px'}
+              wordBreak={'break-all'}
+              maxH={'200px'}
+              overflowY={'scroll'}
+              overflowX={'hidden'}
+            >
+              {comment?.comments}
+            </Text>
+          </Flex>
+        </>
+      ) : (
+        <>
+          <Flex mb={3} justify={'space-between'} align={'center'}>
+            <Flex gap={1}>
+              <Text fontWeight={700} fontSize={'16px'}>
+                Profundidade
+              </Text>
+              <Flex>
+                <Text fontWeight={700} fontSize={'16px'}>
+                  {comment?.yAxis}
+                </Text>
+                <Text fontWeight={700} fontSize={'16px'}>
+                  m
+                </Text>
+              </Flex>
+            </Flex>
+            {comment && (
+              <Flex gap={2}>
+                <ModalEditarComentario comment={comment} />
+                <ModalDeletar equipment={comment} toDelete={ToDelete} />
+              </Flex>
+            )}
+          </Flex>
+          <Flex gap={1}>
+            <Text fontWeight={700} fontSize={'16px'}>
+              Comentário:
+            </Text>
+
+            <Text
+              fontWeight={500}
+              fontSize={'16px'}
+              wordBreak={'break-all'}
+              maxH={'200px'}
+              overflowY={'scroll'}
+              overflowX={'hidden'}
+            >
+              {comment?.comments}
+            </Text>
+          </Flex>
+        </>
+      )}
     </Box>
   );
 
@@ -188,7 +219,7 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment, s
       borderRadius={'4px'}
       p={5}
     >
-      <Flex gap={1} mb={3}>
+      {/* <Flex gap={1} mb={3}>
         <Text fontWeight={700} fontSize={'16px'}>
           Altura
         </Text>
@@ -200,7 +231,7 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment, s
             m
           </Text>
         </Flex>
-      </Flex>
+      </Flex> */}
       <Flex gap={1}>
         <Text fontWeight={700} fontSize={'16px'}>
           Equipamento de Superfície:
