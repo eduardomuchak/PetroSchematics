@@ -106,32 +106,36 @@ function ModalCadastroComentarios() {
           <ModalCloseButton color={'white'} onClick={handleCancel} />
           <ModalBody>
             <Flex direction={'column'} gap={4}>
-              <FormControl>
-                <Flex gap={1}>
-                  <RequiredField />
-                  <Text fontWeight={'700'} fontSize={'12px'} color={'#949494'}>
-                    {formValues.isSurface ? 'ALTURA (METROS)' : 'PROFUNDIDADE (METROS)'}
-                  </Text>
-                </Flex>
-                <NumberInput
-                  min={0}
-                  max={formValues.isSurface ? maxHeight : maxDepth}
-                  value={formValues.yAxis || 0}
-                  onChange={(valueString) => {
-                    setFormValues({ ...formValues, yAxis: Number(valueString) });
-                  }}
-                  variant={'origem'}
-                  allowMouseWheel
-                  precision={2}
-                  step={0.01}
-                >
-                  <NumberInputField />
-                  <NumberInputStepper>
-                    <NumberIncrementStepper />
-                    <NumberDecrementStepper />
-                  </NumberInputStepper>
-                </NumberInput>
-              </FormControl>
+              {formValues.isSurface ? null : (
+                <>
+                  <FormControl>
+                    <Flex gap={1}>
+                      <RequiredField />
+                      <Text fontWeight={'700'} fontSize={'12px'} color={'#949494'}>
+                        PROFUNDIDADE (METROS)
+                      </Text>
+                    </Flex>
+                    <NumberInput
+                      min={0}
+                      max={formValues.isSurface ? maxHeight : maxDepth}
+                      value={formValues.yAxis || 0}
+                      onChange={(valueString) => {
+                        setFormValues({ ...formValues, yAxis: Number(valueString) });
+                      }}
+                      variant={'origem'}
+                      allowMouseWheel
+                      precision={2}
+                      step={0.01}
+                    >
+                      <NumberInputField />
+                      <NumberInputStepper>
+                        <NumberIncrementStepper />
+                        <NumberDecrementStepper />
+                      </NumberInputStepper>
+                    </NumberInput>
+                  </FormControl>
+                </>
+              )}
               <FormControl>
                 <Flex gap={1}>
                   <RequiredField />

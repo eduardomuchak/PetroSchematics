@@ -15,11 +15,11 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
+  // NumberDecrementStepper,
+  // NumberIncrementStepper,
+  // NumberInput,
+  // NumberInputField,
+  // NumberInputStepper,
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
@@ -29,7 +29,7 @@ import { Well } from 'features/wells/interfaces';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
 
-import { regexRemoverCaracteresEspeciais } from 'utils/RegexCaracteresEspeciais';
+import { regexEquipamentosPocos, regexRemoverCaracteresEspeciais } from 'utils/RegexCaracteresEspeciais';
 
 import { usePayload } from 'hooks/usePayload';
 
@@ -129,7 +129,7 @@ function ModalEditarEquipSuperficie({ equipment }: Props) {
                   id="surfaceEquipment"
                   type="text"
                   name="surfaceEquipment"
-                  value={regexRemoverCaracteresEspeciais(formValues.surfaceEquipment) || ''}
+                  value={regexEquipamentosPocos(formValues.surfaceEquipment) || ''}
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                     setFormValues({
                       ...formValues,
@@ -163,7 +163,7 @@ function ModalEditarEquipSuperficie({ equipment }: Props) {
                   maxLength={50}
                 />
               </FormControl>
-              <FormControl>
+              {/* <FormControl>
                 <Flex gap={1}>
                   <Text fontWeight={'700'} fontSize={'12px'} color={'#949494'}>
                     ALTURA (METROS)
@@ -190,7 +190,7 @@ function ModalEditarEquipSuperficie({ equipment }: Props) {
                     <NumberDecrementStepper />
                   </NumberInputStepper>
                 </NumberInput>
-              </FormControl>
+              </FormControl> */}
             </Flex>
           </ModalBody>
           <ModalFooter>

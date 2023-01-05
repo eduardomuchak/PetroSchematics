@@ -1,5 +1,5 @@
 export const regexRemoverCaracteresEspeciais = (stringToReplace: string) =>
-  stringToReplace.replace(/[§ª°º`´¨~!@#$%^&*()_|+=?;:'",.<>{}[]\]*/gi, '');
+  stringToReplace.replace(/[§ª°º`´¨~!@#$%^&*()_|+=?;:'".,<>{}[]\]*/gi, '');
 
 export const regexRemoverCaracteresEspeciaisENumeros = (stringToReplace: string) =>
   stringToReplace.replace(/[1234567890§ª°º`´¨~!@#$%^&*()/_|+=?;:'",.<>{}[]\]*/gi, '');
@@ -23,6 +23,17 @@ export const regexCnpj = (stringToReplace: string | undefined | null) =>
         .replace(/(-\d{2})\d+?$/, '$1') // captura os dois últimos 2 números, com um - antes dos dois números
     : null;
 
-export const regexApenasNumeroseBarra = (stringToReplace: string | any) =>
-  // Caracteres permitidos: 0-9 e /
-  stringToReplace.replace(/[a-z]/gi, '').replace(/[§ª°º`´¨~!@#$%^&*()_|+=?;:'",.<>{}[]\]*/gi, '');
+export const regexPolegadas = (stringToReplace: string | any) =>
+  // Caracteres permitidos:
+  // 0-9 (números)
+  // / (barra)
+  // " (aspas duplas)
+  // . (ponto)
+  stringToReplace.replace(/[a-z]/gi, '').replace(/[§ª°º`´¨~!@#$%^&*()_|+=?;:',<>{}[]\]*/gi, '');
+
+export const regexEquipamentosPocos = (stringToReplace: string | any) =>
+  // Caracteres especiais permitidos:
+  // / (barra)
+  // " (aspas duplas)
+  // . (ponto)
+  stringToReplace.replace(/[§ª°º`´¨~!@#$%^&*()_|+=?;:',<>{}[]\]*/gi, '');
