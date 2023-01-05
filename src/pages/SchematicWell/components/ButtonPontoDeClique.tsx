@@ -219,19 +219,6 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment, s
       borderRadius={'4px'}
       p={5}
     >
-      {/* <Flex gap={1} mb={3}>
-        <Text fontWeight={700} fontSize={'16px'}>
-          Altura
-        </Text>
-        <Flex>
-          <Text fontWeight={700} fontSize={'16px'}>
-            {surfaceEquipment?.height}
-          </Text>
-          <Text fontWeight={700} fontSize={'16px'}>
-            m
-          </Text>
-        </Flex>
-      </Flex> */}
       <Flex gap={1}>
         <Text fontWeight={700} fontSize={'16px'}>
           Equipamento de Superfície:
@@ -280,7 +267,7 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment, s
             boxShadow: '0 0 2px 4px rgba(88, 144, 255, .75), 0 2px 2px rgba(0, 0, 0, .15)',
           }}
           onClick={() => {
-            dispacth(openPointOfClick({ yAxis, xAxis }));
+            dispacth(openPointOfClick({ isSurface: true, xAxis, yAxis }));
             onOpen();
           }}
         />
@@ -317,7 +304,7 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment, s
             boxShadow: '0 0 2px 4px rgba(88, 144, 255, .75), 0 2px 2px rgba(0, 0, 0, .15)',
           }}
           onClick={() => {
-            dispacth(openPointOfClick({ yAxis, xAxis }));
+            dispacth(openPointOfClick({ isSurface: false, xAxis, yAxis }));
             onOpen();
           }}
         />

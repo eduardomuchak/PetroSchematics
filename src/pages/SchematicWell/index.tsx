@@ -141,7 +141,7 @@ function SchematicWell() {
           direction={{ base: 'column', sm: 'column', md: 'column', lg: 'column', xl: 'row' }}
           flex={1}
         >
-          <Flex direction={'column'} flex={1}>
+          <Flex direction={'column'} flex={1} mt={4}>
             <Flex>
               <EscalaAlturaArvoreNatal height={imageSize.tree.height} width={imageSize.tree.width}>
                 <Image
