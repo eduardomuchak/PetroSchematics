@@ -236,6 +236,9 @@ function ModalEditarEquipSubsuperficie({ equipment }: Props) {
                       depth: Number(valueString),
                     });
                   }}
+                  allowMouseWheel
+                  precision={2}
+                  step={0.01}
                 >
                   <NumberInputField h={'56px'} />
                   <NumberInputStepper>

@@ -171,6 +171,9 @@ function ModalCadastroEquipSuperficie() {
                     });
                   }}
                   variant={'origem'}
+                  allowMouseWheel
+                  precision={2}
+                  step={0.01}
                 >
                   <NumberInputField />
                   <NumberInputStepper>
