@@ -1,6 +1,9 @@
+import { PageWell } from 'features/wells/interfaces';
+
 export interface MousePosition {
   yAxis: number;
   xAxis: number;
+  isSurface: boolean;
 }
 
 export interface SurfaceEquipment extends MousePosition {
@@ -8,6 +11,8 @@ export interface SurfaceEquipment extends MousePosition {
   hash: string;
   surfaceEquipment: string;
   description: string;
+  height: number;
+  well: PageWell;
 }
 
 export interface SubsurfaceEquipment extends MousePosition {
@@ -22,18 +27,21 @@ export interface SubsurfaceEquipment extends MousePosition {
 
 export interface Comment {
   comments: string;
-  depth: number;
+  yAxis: number;
   xAxis: number;
   hash: string;
   _id: string;
+  isSurface: boolean;
 }
 export interface InitialSchematicValue {
   minDepth: number;
   maxDepth: number;
+  maxHeight: number;
   mousePosition: MousePosition;
   surfaceEquipmentTable: SurfaceEquipment[];
   subsurfaceEquipmentTable: SubsurfaceEquipment[];
-  comments: Comment[];
+  surfaceComments: Comment[];
+  subsurfaceComments: Comment[];
 }
 
 export interface SchematicState {

@@ -10,6 +10,8 @@ import GridLayout from 'components/Grid';
 import { Loading } from 'components/Loading';
 import RequestError from 'components/RequestError';
 
+import { useToast } from 'contexts/Toast';
+
 import { usePayload } from 'hooks/usePayload';
 
 import CardConfiguracaoEsquematico from './components/CardConfiguracaoEsquematico';
@@ -17,6 +19,7 @@ import CardConfiguracaoEsquematico from './components/CardConfiguracaoEsquematic
 function SchematicWellConfig() {
   const { well } = useLocation().state as { well: Well };
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   const payloadConfig = usePayload('schematic-well-config', 'GETBYFILTER', {}, { 'well.id': well._id });
   const { isLoading, data, error } = useGetSchematicConfigQuery(payloadConfig);
@@ -24,7 +27,17 @@ function SchematicWellConfig() {
   useEffect(() => {
     // Verifica se o esquemático já foi previamente configurado. Se sim, redireciona para a página de visualização do mesmo
     if (data?.document?.maxDepth) {
-      navigate(`/esquematico-well/${well._id}`, { state: { well } });
+      setTimeout(() => {
+        navigate(`/esquematico-well/${well._id}`, { state: { well } });
+      }, 1000);
+      setTimeout(() => {
+        toast.success(
+          'Esquemático previamente configurado. Você será redirecionado para a página do esquemático deste poço',
+          {
+            id: 'toast-principal',
+          },
+        );
+      }, 500);
     }
   }, [data]);
 

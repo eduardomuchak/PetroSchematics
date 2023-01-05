@@ -62,9 +62,9 @@ function SelectFiltragem({
       borderRadius: '8px',
       fontWeigth: '400',
       fontSize: '14px',
-
-      '&:disabled': {
-        backgroundColor: '#FFFFFF',
+      _focus: {
+        borderColor: '#1557fd',
+        borderWidth: '2px',
       },
     }),
 

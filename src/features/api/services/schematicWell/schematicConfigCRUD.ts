@@ -4,7 +4,7 @@ export const configCRUD = apiMongoDB.injectEndpoints({
   endpoints: (builder) => ({
     addSchematicConfig: builder.mutation({
       query: (payload) => ({
-        url: '/action/insertOne',
+        url: '/api/action/insertOne',
         method: 'POST',
         body: payload,
       }),
@@ -12,7 +12,7 @@ export const configCRUD = apiMongoDB.injectEndpoints({
     }),
     getSchematicConfig: builder.query({
       query: (payload) => ({
-        url: '/action/findOne',
+        url: '/api/action/findOne',
         method: 'POST',
         body: payload,
       }),
@@ -20,16 +20,16 @@ export const configCRUD = apiMongoDB.injectEndpoints({
     }),
     updateSchematicConfig: builder.mutation({
       query: (payload) => ({
-        url: `/action/updateOne`,
-        method: 'POST',
+        url: `/api/action/updateOne`,
+        method: 'PATCH',
         body: payload,
       }),
       invalidatesTags: ['SquematicConfig'],
     }),
     deleteSchematicConfig: builder.mutation({
       query: (payload) => ({
-        url: `/action/deleteOne`,
-        method: 'POST',
+        url: `/api/action/deleteOne`,
+        method: 'DELETE',
         body: payload,
       }),
       invalidatesTags: ['SquematicConfig'],

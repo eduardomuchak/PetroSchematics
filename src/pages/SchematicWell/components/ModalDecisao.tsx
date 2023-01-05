@@ -1,6 +1,8 @@
+import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
 import { Flex, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay } from '@chakra-ui/react';
+import { schematicWellState } from 'features/schematicWell/schematicWellSlice';
 import { Well } from 'features/wells/interfaces';
 
 import ModalCadastroComentarios from './ModalCadastroComentarios';
@@ -20,6 +22,7 @@ interface Props {
 function ModalDecisao({ modalProps }: Props) {
   const { isOpen, onClose } = modalProps;
   const { well } = useLocation().state as { well: Well };
+  const { mousePosition } = useSelector(schematicWellState);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="md">
@@ -29,10 +32,18 @@ function ModalDecisao({ modalProps }: Props) {
         <ModalCloseButton color={'white'} onClick={onClose} />
         <ModalBody mb={4}>
           <Flex direction={'column'} gap={4}>
-            <ModalCadastroComentarios />
-            <ModalCadastroEquipSubSuperficie />
-            <ModalCadastroEquipSuperficie />
-            <ModalEditarConfiguracaoEsquematico well={well} />
+            {mousePosition.isSurface ? (
+              <>
+                <ModalCadastroComentarios />
+                <ModalCadastroEquipSuperficie />
+              </>
+            ) : (
+              <>
+                <ModalCadastroComentarios />
+                <ModalCadastroEquipSubSuperficie />
+                <ModalEditarConfiguracaoEsquematico well={well} />
+              </>
+            )}
           </Flex>
         </ModalBody>
       </ModalContent>

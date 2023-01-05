@@ -8,7 +8,6 @@ import {
   Flex,
   FormControl,
   IconButton,
-  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -22,6 +21,7 @@ import {
   NumberInputField,
   NumberInputStepper,
   Text,
+  Textarea,
   useDisclosure,
 } from '@chakra-ui/react';
 import { useUpdateCommentsMutation } from 'features/api/services/schematicWell/commentsCRUD';
@@ -36,11 +36,12 @@ import { regexRemoverCaracteresEspeciais } from 'utils/RegexCaracteresEspeciais'
 import { usePayload } from 'hooks/usePayload';
 
 interface FormValues {
-  depth: number;
+  yAxis: number;
   comments: string;
   _id: string;
   hash: string;
   xAxis: number;
+  isSurface: boolean;
 }
 
 interface Props {
@@ -54,11 +55,12 @@ function ModalEditarComentario({ comment }: Props) {
   const { well: wellLocationState } = useLocation().state as { well: Well };
 
   const [formValues, setFormValues] = useState<FormValues>({
-    depth: 0,
+    yAxis: 0,
     comments: '',
     _id: '',
     hash: '',
     xAxis: 0,
+    isSurface: false,
   } as FormValues);
 
   const handleCancel = () => {
@@ -86,23 +88,27 @@ function ModalEditarComentario({ comment }: Props) {
   useEffect(() => {
     setFormValues({
       ...formValues,
-      depth: comment.depth,
+      yAxis: comment.yAxis,
       comments: comment.comments,
       _id: comment._id,
       hash: comment.hash,
       xAxis: comment.xAxis,
+      isSurface: comment.isSurface,
     });
   }, [isOpen]);
 
   useEffect(() => {
     setFormValues({
-      depth: 0,
+      yAxis: 0,
       comments: '',
       _id: '',
       hash: '',
       xAxis: 0,
+      isSurface: false,
     });
   }, [onClose]);
+
+  // console.log('formValues', formValues);
 
   return (
     <>
@@ -110,34 +116,39 @@ function ModalEditarComentario({ comment }: Props) {
       <Modal isOpen={isOpen} onClose={onClose} size="lg">
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>EDITAR EQUIPAMENTO DE SUPERFÍCIE</ModalHeader>
+          <ModalHeader>EDITAR COMENTÁRIO</ModalHeader>
           <ModalCloseButton color={'white'} onClick={handleCancel} />
           <ModalBody>
             <Flex direction={'column'} gap={4}>
-              <FormControl>
-                <Flex gap={1}>
-                  <Text fontWeight={'700'} fontSize={'12px'} color={'#949494'}>
-                    PROFUNDIDADE (METROS)
-                  </Text>
-                </Flex>
-                <NumberInput
-                  min={0}
-                  max={maxDepth}
-                  value={formValues.depth}
-                  onChange={(valueString) => {
-                    setFormValues({
-                      ...formValues,
-                      depth: Number(valueString),
-                    });
-                  }}
-                >
-                  <NumberInputField h={'56px'} />
-                  <NumberInputStepper>
-                    <NumberIncrementStepper />
-                    <NumberDecrementStepper />
-                  </NumberInputStepper>
-                </NumberInput>
-              </FormControl>
+              {formValues.isSurface ? null : (
+                <FormControl>
+                  <Flex gap={1}>
+                    <Text fontWeight={'700'} fontSize={'12px'} color={'#949494'}>
+                      PROFUNDIDADE (METROS)
+                    </Text>
+                  </Flex>
+                  <NumberInput
+                    min={0}
+                    max={maxDepth}
+                    value={formValues.yAxis}
+                    onChange={(valueString) => {
+                      setFormValues({
+                        ...formValues,
+                        yAxis: Number(valueString),
+                      });
+                    }}
+                    allowMouseWheel
+                    precision={2}
+                    step={0.01}
+                  >
+                    <NumberInputField h={'56px'} />
+                    <NumberInputStepper>
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                    </NumberInputStepper>
+                  </NumberInput>
+                </FormControl>
+              )}
 
               <FormControl>
                 <Flex gap={1}>
@@ -146,21 +157,15 @@ function ModalEditarComentario({ comment }: Props) {
                     COMENTÁRIO
                   </Text>
                 </Flex>
-                <Input
-                  variant={'origem'}
-                  isRequired
-                  placeholder="Comentário"
-                  id="comments"
-                  type="text"
-                  name="comments"
-                  value={regexRemoverCaracteresEspeciais(formValues.comments) || ''}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                    setFormValues({
-                      ...formValues,
-                      comments: event.target.value,
-                    })
+                <Textarea
+                  placeholder={'Digite aqui os comentários'}
+                  id={'comments'}
+                  name={'comments'}
+                  value={regexRemoverCaracteresEspeciais(formValues.comments)}
+                  maxLength={5000}
+                  onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
+                    setFormValues({ ...formValues, comments: event.target.value })
                   }
-                  maxLength={50}
                 />
               </FormControl>
             </Flex>

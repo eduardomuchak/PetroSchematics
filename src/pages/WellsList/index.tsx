@@ -97,37 +97,39 @@ function WellsList() {
   // Handle Success
   return (
     <GridLayout title={'ESQUEMÁTICO - LISTA DE POÇOS'}>
-      <Flex direction={'column'} gap={5} justify={'start'} minW={'676px'}>
-        <Flex align={'end'} gap={4} justify={'space-between'}>
-          <SelectFiltragem
-            options={fieldListOptions}
-            propName={'filtro'}
-            selectLabel={'FILTRAR POÇOS POR CAMPO:'}
-            value={selectedField}
-            dispatchAction={setSelectedField}
-            width={'230px'}
-          />
-          <Button variant={'origemBlueOutline'} onClick={() => dispatch(filterWellsByField(selectedField))}>
-            Filtrar
-          </Button>
-          <Button
-            variant={'origemRedOutline'}
-            onClick={() => {
-              dispatch(setInicialFilteredWellsList());
-              dispatch(
-                setSelectedField({
-                  value: '',
-                  label: '',
-                }),
-              );
-            }}
-          >
-            Limpar Filtro
-          </Button>
+      <Flex direction={'column'} gap={5} justify={'center'} align={'center'}>
+        <Flex direction={'column'} gap={5} justify={'start'} minW={'676px'}>
+          <Flex align={'end'} gap={4} justify={'start'}>
+            <SelectFiltragem
+              options={fieldListOptions}
+              propName={'filtro'}
+              selectLabel={'FILTRAR POÇOS POR CAMPO:'}
+              value={selectedField}
+              dispatchAction={setSelectedField}
+              width={'230px'}
+            />
+            <Button variant={'origemBlueOutline'} onClick={() => dispatch(filterWellsByField(selectedField))}>
+              Filtrar
+            </Button>
+            <Button
+              variant={'origemRedOutline'}
+              onClick={() => {
+                dispatch(setInicialFilteredWellsList());
+                dispatch(
+                  setSelectedField({
+                    value: '',
+                    label: '',
+                  }),
+                );
+              }}
+            >
+              Limpar Filtro
+            </Button>
+          </Flex>
+          <Text fontWeight={700} fontSize={'18px'} color={'origem.500'}>
+            Selecione um poço para visualizar o esquemático:
+          </Text>
         </Flex>
-        <Text fontWeight={700} fontSize={'18px'} color={'origem.500'}>
-          Selecione um poço para visualizar o esquemático:
-        </Text>
         <Flex justify={'center'} overflowX={'scroll'}>
           <Grid templateColumns={'repeat(2, 5fr)'} gap={5} justifyItems={'center'} width={'fit-content'}>
             {filteredWellsList.length > 0

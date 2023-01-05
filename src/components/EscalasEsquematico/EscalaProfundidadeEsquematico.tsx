@@ -32,10 +32,11 @@ function EscalaProfundidadeEsquematico({ children }: { children: React.ReactNode
             <Flex
               align={
                 // eslint-disable-next-line no-nested-ternary
-                index === 0 ? 'start' : index === slices.length - 1 ? 'end' : 'center'
+                index === 0 ? 'center' : index === slices.length - 1 ? 'end' : 'center'
               }
               gap={2}
               key={index}
+              mt={index === 0 ? -3 : 0}
             >
               <Text>{slice.scale}m</Text>
               <Box

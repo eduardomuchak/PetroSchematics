@@ -23,5 +23,13 @@
       "version": "detect",
       "flowVersion": "0.53"
     }
-  }
+  },
+  "overrides": [
+    {
+      // DOCUMENTAÇÃO REDUX: https://redux-toolkit.js.org/usage/immer-reducers#resetting-and-replacing-state
+      // DOCUMENTAÇÃO ESLINT: https://eslint.org/docs/latest/rules/no-param-reassign
+      "files": ["src/features/**/*Slice.tsx", "src/features/**/*Slice.ts"],
+      "rules": { "no-param-reassign": ["error", { "props": false }] }
+    }
+  ]
 }

@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { useDeleteCommentsMutation } from 'features/api/services/schematicWell/commentsCRUD';
-import { Comment, SubsurfaceEquipment } from 'features/schematicWell/interfaces';
+import { Comment, SubsurfaceEquipment, SurfaceEquipment } from 'features/schematicWell/interfaces';
 import { openPointOfClick } from 'features/schematicWell/schematicWellSlice';
 
 import { usePayload } from 'hooks/usePayload';
@@ -21,10 +21,12 @@ interface Props {
   position: Position;
   onOpen: () => void;
   subsurfaceEquipment?: SubsurfaceEquipment;
+  surfaceEquipment?: SurfaceEquipment;
   comment?: Comment;
+  isSurface: boolean;
 }
 
-function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment }: Props) {
+function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment, surfaceEquipment, isSurface }: Props) {
   const { yAxis, xAxis, scaleYAxis } = position;
   const dispacth = useDispatch();
   const [deleteComments] = useDeleteCommentsMutation();
@@ -134,30 +136,92 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment }:
       borderRadius={'4px'}
       p={5}
     >
-      <Flex mb={3} justify={'space-between'} align={'center'}>
-        <Flex gap={1}>
-          <Text fontWeight={700} fontSize={'16px'}>
-            Profundidade
-          </Text>
-          <Flex>
-            <Text fontWeight={700} fontSize={'16px'}>
-              {comment?.depth}
-            </Text>
-            <Text fontWeight={700} fontSize={'16px'}>
-              m
+      {isSurface ? (
+        <>
+          <Flex gap={1} direction={'column'}>
+            {comment && (
+              <Flex justify={'space-between'}>
+                <Text fontWeight={700} fontSize={'16px'}>
+                  Comentário:
+                </Text>
+                <Flex gap={2}>
+                  <ModalEditarComentario comment={comment} />
+                  <ModalDeletar equipment={comment} toDelete={ToDelete} />
+                </Flex>
+              </Flex>
+            )}
+
+            <Text
+              fontWeight={500}
+              fontSize={'16px'}
+              wordBreak={'break-all'}
+              maxH={'200px'}
+              overflowY={'scroll'}
+              overflowX={'hidden'}
+            >
+              {comment?.comments}
             </Text>
           </Flex>
-        </Flex>
-        {comment && (
-          <Flex gap={2}>
-            <ModalEditarComentario comment={comment} />
-            <ModalDeletar equipment={comment} toDelete={ToDelete} />
+        </>
+      ) : (
+        <>
+          <Flex mb={3} justify={'space-between'} align={'center'}>
+            <Flex gap={1}>
+              <Text fontWeight={700} fontSize={'16px'}>
+                Profundidade
+              </Text>
+              <Flex>
+                <Text fontWeight={700} fontSize={'16px'}>
+                  {comment?.yAxis}
+                </Text>
+                <Text fontWeight={700} fontSize={'16px'}>
+                  m
+                </Text>
+              </Flex>
+            </Flex>
+            {comment && (
+              <Flex gap={2}>
+                <ModalEditarComentario comment={comment} />
+                <ModalDeletar equipment={comment} toDelete={ToDelete} />
+              </Flex>
+            )}
           </Flex>
-        )}
-      </Flex>
+          <Flex gap={1}>
+            <Text fontWeight={700} fontSize={'16px'}>
+              Comentário:
+            </Text>
+
+            <Text
+              fontWeight={500}
+              fontSize={'16px'}
+              wordBreak={'break-all'}
+              maxH={'200px'}
+              overflowY={'scroll'}
+              overflowX={'hidden'}
+            >
+              {comment?.comments}
+            </Text>
+          </Flex>
+        </>
+      )}
+    </Box>
+  );
+
+  const SurfaceEquipamentCard = () => (
+    <Box
+      zIndex={999}
+      position={'absolute'}
+      w={'720px'}
+      top={-12}
+      left={8}
+      backgroundColor={'#FEFEFE'}
+      boxShadow={'0 0 4px rgba(0, 0, 0, 0.25)'}
+      borderRadius={'4px'}
+      p={5}
+    >
       <Flex gap={1}>
         <Text fontWeight={700} fontSize={'16px'}>
-          Comentário:
+          Equipamento de Superfície:
         </Text>
 
         <Text
@@ -168,49 +232,87 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment }:
           overflowY={'scroll'}
           overflowX={'hidden'}
         >
-          {comment?.comments}
+          {surfaceEquipment?.surfaceEquipment}
         </Text>
       </Flex>
     </Box>
   );
 
-  return (
-    <Flex
-      position={'absolute'}
-      left={xAxis - 12}
-      top={scaleYAxis - 12}
-      // zIndex={2}
-      height={'24px'}
-      width={'35px'}
-      onMouseOver={handleMouseOver}
-      onMouseOut={handleMouseOut}
-    >
-      <Box
-        as="button"
+  if (isSurface === true) {
+    return (
+      <Flex
+        position={'absolute'}
+        left={xAxis - 12}
+        bottom={scaleYAxis - 12}
         height={'24px'}
-        width={'24px'}
-        transition="all 0.4s ease"
-        border="2px"
-        borderRadius={'50%'}
-        bg="#FEFEFE"
-        borderColor="origem.500"
-        boxShadow="0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)"
-        _hover={{ bg: 'origem.500', borderColor: 'origem.600' }}
-        _active={{
-          bg: 'origem.400',
-          transform: 'scale(0.95)',
-          borderColor: 'origem.600',
-          boxShadow: '0 0 2px 4px rgba(88, 144, 255, .75), 0 2px 2px rgba(0, 0, 0, .15)',
-        }}
-        onClick={() => {
-          dispacth(openPointOfClick({ yAxis, xAxis }));
-          onOpen();
-        }}
-      />
-      {isHovering && subsurfaceEquipment && <SubSurfaceEquipamentCard />}
-      {isHovering && comment && <CommentCard />}
-    </Flex>
-  );
+        width={'35px'}
+        onMouseOver={handleMouseOver}
+        onMouseOut={handleMouseOut}
+      >
+        <Box
+          as="button"
+          height={'18px'}
+          width={'18px'}
+          transition="all 0.4s ease"
+          border="2px"
+          borderRadius={'50%'}
+          bg="#FEFEFE"
+          borderColor="origem.500"
+          boxShadow="0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)"
+          _hover={{ bg: 'origem.500', borderColor: 'origem.600' }}
+          _active={{
+            bg: 'origem.400',
+            transform: 'scale(0.95)',
+            borderColor: 'origem.600',
+            boxShadow: '0 0 2px 4px rgba(88, 144, 255, .75), 0 2px 2px rgba(0, 0, 0, .15)',
+          }}
+          onClick={() => {
+            dispacth(openPointOfClick({ isSurface: true, xAxis, yAxis }));
+            onOpen();
+          }}
+        />
+        {isHovering && comment && <CommentCard />}
+        {isHovering && surfaceEquipment && <SurfaceEquipamentCard />}
+      </Flex>
+    );
+  } else {
+    return (
+      <Flex
+        position={'absolute'}
+        left={xAxis - 12}
+        top={scaleYAxis - 12}
+        height={'24px'}
+        width={'35px'}
+        onMouseOver={handleMouseOver}
+        onMouseOut={handleMouseOut}
+      >
+        <Box
+          as="button"
+          height={'18px'}
+          width={'18px'}
+          transition="all 0.4s ease"
+          border="2px"
+          borderRadius={'50%'}
+          bg="#FEFEFE"
+          borderColor="origem.500"
+          boxShadow="0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)"
+          _hover={{ bg: 'origem.500', borderColor: 'origem.600' }}
+          _active={{
+            bg: 'origem.400',
+            transform: 'scale(0.95)',
+            borderColor: 'origem.600',
+            boxShadow: '0 0 2px 4px rgba(88, 144, 255, .75), 0 2px 2px rgba(0, 0, 0, .15)',
+          }}
+          onClick={() => {
+            dispacth(openPointOfClick({ isSurface: false, xAxis, yAxis }));
+            onOpen();
+          }}
+        />
+        {isHovering && subsurfaceEquipment && <SubSurfaceEquipamentCard />}
+        {isHovering && comment && <CommentCard />}
+      </Flex>
+    );
+  }
 }
 
 export default ButtonPontoDeClique;

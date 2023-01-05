@@ -3,7 +3,7 @@ export const subsurfaceEquipmentsCRUD = apiMongoDB.injectEndpoints({
   endpoints: (builder) => ({
     getSubsurfaceEquipments: builder.query({
       query: (payload) => ({
-        url: '/action/find',
+        url: '/api/action/find',
         method: 'POST',
         body: payload,
       }),
@@ -12,7 +12,7 @@ export const subsurfaceEquipmentsCRUD = apiMongoDB.injectEndpoints({
     }),
     addSubsurfaceEquipment: builder.mutation({
       query: (payload) => ({
-        url: '/action/insertOne',
+        url: '/api/action/insertOne',
         method: 'POST',
         body: payload,
       }),
@@ -20,16 +20,16 @@ export const subsurfaceEquipmentsCRUD = apiMongoDB.injectEndpoints({
     }),
     updateSubsurfaceEquipment: builder.mutation({
       query: (payload) => ({
-        url: `/action/updateOne`,
-        method: 'POST',
+        url: `/api/action/updateOne`,
+        method: 'PATCH',
         body: payload,
       }),
       invalidatesTags: ['SubsurfaceEquipment'],
     }),
     deleteSubsurfaceEquipment: builder.mutation({
       query: (payload) => ({
-        url: `/action/deleteOne`,
-        method: 'POST',
+        url: `/api/action/deleteOne`,
+        method: 'DELETE',
         body: payload,
       }),
       invalidatesTags: ['SubsurfaceEquipment'],

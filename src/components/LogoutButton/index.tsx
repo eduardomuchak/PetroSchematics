@@ -6,8 +6,9 @@ import { Button, Flex, Text } from '@chakra-ui/react';
 
 interface Props {
   isHovering: boolean;
+  onMouseEnter: () => void;
 }
-function LogoutButton({ isHovering }: Props) {
+function LogoutButton({ isHovering, onMouseEnter }: Props) {
   const navigate = useNavigate();
 
   function logOut() {
@@ -28,7 +29,7 @@ function LogoutButton({ isHovering }: Props) {
   ]);
 
   return (
-    <Flex position={'fixed'} top={height - 70}>
+    <Flex position={'fixed'} top={height - 70} zIndex={999} left={18} onMouseEnter={onMouseEnter}>
       <Button
         variant={'origemBlueGhost'}
         width={isHovering ? '240px' : '48px'}

@@ -1,14 +1,10 @@
 import { useState } from 'react';
-import { AiFillPlusCircle } from 'react-icons/ai';
-import { FiTrash } from 'react-icons/fi';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import {
   Button,
   Flex,
   FormControl,
-  IconButton,
-  Input,
   NumberDecrementStepper,
   NumberIncrementStepper,
   NumberInput,
@@ -17,14 +13,14 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { useAddSchematicConfigMutation } from 'features/api/services/schematicWell/schematicConfigCRUD';
-import { useAddManySurfaceEquipmentsMutation } from 'features/api/services/schematicWell/surfaceEquipmentsCRUD';
+// import { useAddManySurfaceEquipmentsMutation } from 'features/api/services/schematicWell/surfaceEquipmentsCRUD';
 import { Well } from 'features/wells/interfaces';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
 
-import { regexRemoverCaracteresEspeciais } from 'utils/RegexCaracteresEspeciais';
+// import { regexRemoverCaracteresEspeciais } from 'utils/RegexCaracteresEspeciais';
 
-const md5 = require('md5');
+// const md5 = require('md5');
 
 interface SurfaceEquipment {
   surfaceEquipment: string;
@@ -42,68 +38,68 @@ function CardConfiguracaoEsquematico() {
     depth: 0,
   });
 
-  const [addManySurfaceEquipments] = useAddManySurfaceEquipmentsMutation();
+  // const [addManySurfaceEquipments] = useAddManySurfaceEquipmentsMutation();
   const [addSchematicConfig] = useAddSchematicConfigMutation();
   const navigate = useNavigate();
   const { well } = useLocation().state as { well: Well };
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
-    const { name, value } = event.target;
+  // const handleChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
+  //   const { name, value } = event.target;
 
-    if (name.includes('surfaceEquipment')) {
-      const newSurfaceEquipments = [...formValues.surfaceEquipments];
-      newSurfaceEquipments[index].surfaceEquipment = value;
-      setFormValues({ ...formValues, surfaceEquipments: newSurfaceEquipments });
-    } else if (name.includes('description')) {
-      const newSurfaceEquipments = [...formValues.surfaceEquipments];
-      newSurfaceEquipments[index].description = value;
-      setFormValues({ ...formValues, surfaceEquipments: newSurfaceEquipments });
-    }
-  };
+  //   if (name.includes('surfaceEquipment')) {
+  //     const newSurfaceEquipments = [...formValues.surfaceEquipments];
+  //     newSurfaceEquipments[index].surfaceEquipment = value;
+  //     setFormValues({ ...formValues, surfaceEquipments: newSurfaceEquipments });
+  //   } else if (name.includes('description')) {
+  //     const newSurfaceEquipments = [...formValues.surfaceEquipments];
+  //     newSurfaceEquipments[index].description = value;
+  //     setFormValues({ ...formValues, surfaceEquipments: newSurfaceEquipments });
+  //   }
+  // };
 
-  const addSurfaceEquipmentToFormValues = () => {
-    setFormValues({
-      ...formValues,
-      surfaceEquipments: [
-        ...formValues.surfaceEquipments,
-        {
-          surfaceEquipment: '',
-          description: '',
-        },
-      ],
-    });
-  };
+  // const addSurfaceEquipmentToFormValues = () => {
+  //   setFormValues({
+  //     ...formValues,
+  //     surfaceEquipments: [
+  //       ...formValues.surfaceEquipments,
+  //       {
+  //         surfaceEquipment: '',
+  //         description: '',
+  //       },
+  //     ],
+  //   });
+  // };
 
-  const removeSurfaceEquipment = (index: number) => {
-    const newSurfaceEquipments = [...formValues.surfaceEquipments];
-    newSurfaceEquipments.splice(index, 1);
-    setFormValues({ ...formValues, surfaceEquipments: newSurfaceEquipments });
-  };
+  // const removeSurfaceEquipment = (index: number) => {
+  //   const newSurfaceEquipments = [...formValues.surfaceEquipments];
+  //   newSurfaceEquipments.splice(index, 1);
+  //   setFormValues({ ...formValues, surfaceEquipments: newSurfaceEquipments });
+  // };
 
   const handleSubmit = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
     const DATA_SOURCE = `${process.env.REACT_APP_DATA_SOURCE_ID}`;
     const DATABASE = `${process.env.REACT_APP_DATABASE}`;
-    const onlyValidSurfaceEquipments = formValues.surfaceEquipments.filter(
-      (surfaceEquipment: SurfaceEquipment) =>
-        surfaceEquipment.surfaceEquipment !== '' && surfaceEquipment.description !== '',
-    );
-    if (formValues.surfaceEquipments.length >= 1) {
-      const surfaceEquipmentsPayload = {
-        dataSource: DATA_SOURCE,
-        database: DATABASE,
-        collection: 'schematic-well-surface-equipments',
-        documents: onlyValidSurfaceEquipments.map((surfaceEquipment: SurfaceEquipment) => ({
-          ...surfaceEquipment,
-          hash: md5(surfaceEquipment.surfaceEquipment + Math.random()),
-          well: {
-            id: well._id,
-            name: well.nome_poco,
-          },
-        })),
-      };
-      addManySurfaceEquipments(surfaceEquipmentsPayload);
-    }
+    // const onlyValidSurfaceEquipments = formValues.surfaceEquipments.filter(
+    //   (surfaceEquipment: SurfaceEquipment) =>
+    //     surfaceEquipment.surfaceEquipment !== '' && surfaceEquipment.description !== '',
+    // );
+    // if (formValues.surfaceEquipments.length >= 1) {
+    //   const surfaceEquipmentsPayload = {
+    //     dataSource: DATA_SOURCE,
+    //     database: DATABASE,
+    //     collection: 'schematic-well-surface-equipments',
+    //     documents: onlyValidSurfaceEquipments.map((surfaceEquipment: SurfaceEquipment) => ({
+    //       ...surfaceEquipment,
+    //       hash: md5(surfaceEquipment.surfaceEquipment + Math.random()),
+    //       well: {
+    //         id: well._id,
+    //         name: well.nome_poco,
+    //       },
+    //     })),
+    //   };
+    //   addManySurfaceEquipments(surfaceEquipmentsPayload);
+    // }
     const schamaticConfigPayload = {
       dataSource: DATA_SOURCE,
       database: DATABASE,
@@ -132,7 +128,6 @@ function CardConfiguracaoEsquematico() {
 
   return (
     <Flex
-      minH={'465px'}
       minW={'536px'}
       h={'fit-content'}
       borderRadius={'8px'}
@@ -170,7 +165,7 @@ function CardConfiguracaoEsquematico() {
           </NumberInputStepper>
         </NumberInput>
       </FormControl>
-      <Flex gap={4} align={'center'}>
+      {/* <Flex gap={4} align={'center'}>
         <Text fontSize={'20px'} fontWeight={700} color={'#262626'}>
           Equipamentos de Superfície
         </Text>
@@ -182,8 +177,8 @@ function CardConfiguracaoEsquematico() {
           variant="origemEditOutline"
           onClick={() => addSurfaceEquipmentToFormValues()}
         />
-      </Flex>
-      <Flex direction={'column'} gap={4} flex={1}>
+      </Flex> */}
+      {/* <Flex direction={'column'} gap={4} flex={1}>
         {formValues.surfaceEquipments.length === 0 && (
           <Flex direction={'column'} align={'center'} justify={'center'} flex={1}>
             <Text fontSize={'18px'} fontWeight={700} color={'#737373'}>
@@ -239,7 +234,7 @@ function CardConfiguracaoEsquematico() {
             />
           </Flex>
         ))}
-      </Flex>
+      </Flex> */}
       <Button
         isDisabled={isButtonDisabled}
         variant={'origemBlueSolid'}

@@ -3,6 +3,10 @@ import { AiOutlineSetting } from 'react-icons/ai';
 import { useSelector } from 'react-redux';
 
 import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
   Button,
   Flex,
   FormControl,
@@ -38,6 +42,7 @@ interface Props {
 
 function ModalEditarConfiguracaoEsquematico({ well }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isError, setIsError] = useState(false);
   const [updateSchematicConfig] = useUpdateSchematicConfigMutation();
   const { maxDepth, minDepth } = useSelector(schematicWellState);
 
@@ -64,7 +69,7 @@ function ModalEditarConfiguracaoEsquematico({ well }: Props) {
   };
 
   const isButtonDisabled = () => {
-    if (formValues.depth <= 0) {
+    if (formValues.depth <= 0 || isError) {
       return true;
     }
     return false;
@@ -82,6 +87,14 @@ function ModalEditarConfiguracaoEsquematico({ well }: Props) {
       depth: 0,
     });
   }, [onClose]);
+
+  useEffect(() => {
+    if (formValues.depth < minDepth && isOpen) {
+      setIsError(true);
+    } else {
+      setIsError(false);
+    }
+  }, [formValues.depth]);
 
   return (
     <>
@@ -129,14 +142,30 @@ function ModalEditarConfiguracaoEsquematico({ well }: Props) {
                       depth: Number(valueString),
                     });
                   }}
+                  variant={'origem'}
+                  allowMouseWheel
+                  precision={2}
+                  step={0.01}
                 >
-                  <NumberInputField h={'56px'} />
+                  <NumberInputField />
                   <NumberInputStepper>
                     <NumberIncrementStepper />
                     <NumberDecrementStepper />
                   </NumberInputStepper>
                 </NumberInput>
               </FormControl>
+              {isError ? (
+                <Alert colorScheme={'red'} variant={'solid'} flexDirection={'column'} gap={2} alignItems={'start'}>
+                  <Flex>
+                    <AlertIcon />
+                    <AlertTitle>ATENÇÃO:</AlertTitle>
+                  </Flex>
+                  <AlertDescription>
+                    O valor mínimo da profundidade não pode ser inferior à profundidade do equipamento de subsuperfície
+                    ou comentário mais profundo cadastrado no esquemático!
+                  </AlertDescription>
+                </Alert>
+              ) : null}
             </Flex>
           </ModalBody>
           <ModalFooter>

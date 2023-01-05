@@ -31,7 +31,11 @@ import { Well } from 'features/wells/interfaces';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
 
-import { regexApenasNumeroseBarra, regexRemoverCaracteresEspeciais } from 'utils/RegexCaracteresEspeciais';
+import {
+  regexEquipamentosPocos,
+  regexPolegadas,
+  regexRemoverCaracteresEspeciais,
+} from 'utils/RegexCaracteresEspeciais';
 
 import { usePayload } from 'hooks/usePayload';
 
@@ -139,7 +143,7 @@ function ModalEditarEquipSubsuperficie({ equipment }: Props) {
                   id="subsurfaceEquipment"
                   type="text"
                   name="subsurfaceEquipment"
-                  value={regexRemoverCaracteresEspeciais(formValues.subsurfaceEquipment)}
+                  value={regexEquipamentosPocos(formValues.subsurfaceEquipment)}
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                     setFormValues({
                       ...formValues,
@@ -163,7 +167,7 @@ function ModalEditarEquipSubsuperficie({ equipment }: Props) {
                     id="odInch"
                     type="text"
                     name="odInch"
-                    value={regexApenasNumeroseBarra(formValues.odInch)}
+                    value={regexPolegadas(formValues.odInch)}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                       setFormValues({
                         ...formValues,
@@ -186,7 +190,7 @@ function ModalEditarEquipSubsuperficie({ equipment }: Props) {
                     id="idInch"
                     type="text"
                     name="idInch"
-                    value={regexApenasNumeroseBarra(formValues.idInch)}
+                    value={regexPolegadas(formValues.idInch)}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                       setFormValues({
                         ...formValues,
@@ -236,6 +240,9 @@ function ModalEditarEquipSubsuperficie({ equipment }: Props) {
                       depth: Number(valueString),
                     });
                   }}
+                  allowMouseWheel
+                  precision={2}
+                  step={0.01}
                 >
                   <NumberInputField h={'56px'} />
                   <NumberInputStepper>

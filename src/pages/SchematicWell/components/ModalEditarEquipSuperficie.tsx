@@ -15,6 +15,11 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  // NumberDecrementStepper,
+  // NumberIncrementStepper,
+  // NumberInput,
+  // NumberInputField,
+  // NumberInputStepper,
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
@@ -24,7 +29,7 @@ import { Well } from 'features/wells/interfaces';
 
 import { RequiredField } from 'components/RequiredField/RequiredField';
 
-import { regexRemoverCaracteresEspeciais } from 'utils/RegexCaracteresEspeciais';
+import { regexEquipamentosPocos, regexRemoverCaracteresEspeciais } from 'utils/RegexCaracteresEspeciais';
 
 import { usePayload } from 'hooks/usePayload';
 
@@ -33,6 +38,8 @@ interface FormValues {
   description: string;
   _id: string;
   hash: string;
+  xAxis: number;
+  height: number;
 }
 
 interface Props {
@@ -49,6 +56,8 @@ function ModalEditarEquipSuperficie({ equipment }: Props) {
     description: '',
     _id: '',
     hash: '',
+    xAxis: 0,
+    height: 0,
   } as FormValues);
 
   const handleCancel = () => {
@@ -80,6 +89,8 @@ function ModalEditarEquipSuperficie({ equipment }: Props) {
       description: equipment.description,
       _id: equipment._id,
       hash: equipment.hash,
+      xAxis: equipment.xAxis,
+      height: equipment.height,
     });
   }, [isOpen]);
 
@@ -89,6 +100,8 @@ function ModalEditarEquipSuperficie({ equipment }: Props) {
       description: '',
       _id: '',
       hash: '',
+      xAxis: 0,
+      height: 0,
     });
   }, [onClose]);
 
@@ -116,7 +129,7 @@ function ModalEditarEquipSuperficie({ equipment }: Props) {
                   id="surfaceEquipment"
                   type="text"
                   name="surfaceEquipment"
-                  value={regexRemoverCaracteresEspeciais(formValues.surfaceEquipment) || ''}
+                  value={regexEquipamentosPocos(formValues.surfaceEquipment) || ''}
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                     setFormValues({
                       ...formValues,
@@ -150,6 +163,34 @@ function ModalEditarEquipSuperficie({ equipment }: Props) {
                   maxLength={50}
                 />
               </FormControl>
+              {/* <FormControl>
+                <Flex gap={1}>
+                  <Text fontWeight={'700'} fontSize={'12px'} color={'#949494'}>
+                    ALTURA (METROS)
+                  </Text>
+                </Flex>
+                <NumberInput
+                  min={0}
+                  max={100}
+                  value={formValues.height}
+                  onChange={(valueString) => {
+                    setFormValues({
+                      ...formValues,
+                      height: Number(valueString),
+                    });
+                  }}
+                  variant={'origem'}
+                  allowMouseWheel
+                  precision={2}
+                  step={0.01}
+                >
+                  <NumberInputField />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              </FormControl> */}
             </Flex>
           </ModalBody>
           <ModalFooter>
