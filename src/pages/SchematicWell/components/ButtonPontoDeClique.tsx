@@ -181,7 +181,7 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment, s
       zIndex={999}
       position={'absolute'}
       w={'720px'}
-      top={-36}
+      top={-20}
       left={8}
       backgroundColor={'#FEFEFE'}
       boxShadow={'0 0 4px rgba(0, 0, 0, 0.25)'}
@@ -220,7 +220,7 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment, s
     </Box>
   );
 
-  if (isSurface) {
+  if (isSurface === true) {
     return (
       <Flex
         position={'absolute'}
@@ -253,7 +253,6 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment, s
             onOpen();
           }}
         />
-        {isHovering && subsurfaceEquipment && <SubSurfaceEquipamentCard />}
         {isHovering && comment && <CommentCard />}
         {isHovering && surfaceEquipment && <SurfaceEquipamentCard />}
       </Flex>
@@ -293,7 +292,6 @@ function ButtonPontoDeClique({ position, onOpen, subsurfaceEquipment, comment, s
         />
         {isHovering && subsurfaceEquipment && <SubSurfaceEquipamentCard />}
         {isHovering && comment && <CommentCard />}
-        {isHovering && surfaceEquipment && <SurfaceEquipamentCard />}
       </Flex>
     );
   }

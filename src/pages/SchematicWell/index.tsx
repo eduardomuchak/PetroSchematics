@@ -152,7 +152,7 @@ function SchematicWell() {
                   h={imageSize.tree.height}
                 />
 
-                <Flex direction={'row-reverse'}>
+                <Flex>
                   {surfaceEquipmentTable.length
                     ? surfaceEquipmentTable.map((equipment: SurfaceEquipment, index: number) => (
                         <ButtonPontoDeClique
@@ -160,7 +160,7 @@ function SchematicWell() {
                           surfaceEquipment={equipment}
                           key={index}
                           position={{
-                            scaleYAxis: (Number(equipment.height) * imageSize.tree.height) / maxHeight,
+                            scaleYAxis: (equipment.height * imageSize.tree.height) / maxHeight,
                             xAxis: equipment.xAxis,
                             yAxis: Number(equipment.height),
                           }}

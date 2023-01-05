@@ -70,7 +70,7 @@ function ModalCadastroEquipSuperficie() {
   };
 
   const isButtonDisabled = () => {
-    if (formValues.surfaceEquipment === '' || formValues.description === '') {
+    if (formValues.surfaceEquipment === '') {
       return true;
     }
     return false;
@@ -132,7 +132,6 @@ function ModalCadastroEquipSuperficie() {
 
               <FormControl>
                 <Flex gap={1}>
-                  <RequiredField />
                   <Text fontWeight={'700'} fontSize={'12px'} color={'#949494'}>
                     DESCRIÇÃO
                   </Text>
