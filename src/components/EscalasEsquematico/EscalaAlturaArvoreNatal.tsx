@@ -1,7 +1,7 @@
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 
-import { Box, Flex, Text } from '@chakra-ui/react';
-import { schematicWellState } from 'features/schematicWell/schematicWellSlice';
+import { Flex } from '@chakra-ui/react';
+// import { schematicWellState } from 'features/schematicWell/schematicWellSlice';
 
 function EscalaAlturaArvoreNatal({
   children,
@@ -12,24 +12,24 @@ function EscalaAlturaArvoreNatal({
   height: number;
   width: number;
 }) {
-  const { maxHeight } = useSelector(schematicWellState);
+  // const { maxHeight } = useSelector(schematicWellState);
 
-  const slices = [
-    {
-      scale: 0,
-    },
-    {
-      scale: (maxHeight * 0.5).toString().replace('.', ','),
-    },
-    {
-      scale: maxHeight,
-    },
-  ];
+  // const slices = [
+  //   {
+  //     scale: 0,
+  //   },
+  //   {
+  //     scale: (maxHeight * 0.5).toString().replace('.', ','),
+  //   },
+  //   {
+  //     scale: maxHeight,
+  //   },
+  // ];
 
   return (
     <>
       <Flex bg={'transparent'} w={`${width}px`} h={`${height}px`} position={'absolute'}>
-        <Flex direction={'column-reverse'} justify={'space-between'} flex={1} w={'100%'} px={5}>
+        {/* <Flex direction={'column-reverse'} justify={'space-between'} flex={1} w={'100%'} px={5}>
           {slices.map((slice, index) =>
             slice.scale === 0 ? (
               <Flex key={index} h={'24px'} />
@@ -54,7 +54,7 @@ function EscalaAlturaArvoreNatal({
               </Flex>
             ),
           )}
-        </Flex>
+        </Flex> */}
       </Flex>
       <Flex position={'relative'} left={75}>
         {children}

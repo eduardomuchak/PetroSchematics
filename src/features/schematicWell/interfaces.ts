@@ -1,3 +1,5 @@
+import { PageWell } from 'features/wells/interfaces';
+
 export interface MousePosition {
   yAxis: number;
   xAxis: number;
@@ -10,6 +12,7 @@ export interface SurfaceEquipment extends MousePosition {
   surfaceEquipment: string;
   description: string;
   height: number;
+  well: PageWell;
 }
 
 export interface SubsurfaceEquipment extends MousePosition {
