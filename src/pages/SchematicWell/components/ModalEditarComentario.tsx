@@ -8,7 +8,6 @@ import {
   Flex,
   FormControl,
   IconButton,
-  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -22,6 +21,7 @@ import {
   NumberInputField,
   NumberInputStepper,
   Text,
+  Textarea,
   useDisclosure,
 } from '@chakra-ui/react';
 import { useUpdateCommentsMutation } from 'features/api/services/schematicWell/commentsCRUD';
@@ -157,21 +157,15 @@ function ModalEditarComentario({ comment }: Props) {
                     COMENTÁRIO
                   </Text>
                 </Flex>
-                <Input
-                  variant={'origem'}
-                  isRequired
-                  placeholder="Comentário"
-                  id="comments"
-                  type="text"
-                  name="comments"
-                  value={regexRemoverCaracteresEspeciais(formValues.comments) || ''}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                    setFormValues({
-                      ...formValues,
-                      comments: event.target.value,
-                    })
+                <Textarea
+                  placeholder={'Digite aqui os comentários'}
+                  id={'comments'}
+                  name={'comments'}
+                  value={regexRemoverCaracteresEspeciais(formValues.comments)}
+                  maxLength={5000}
+                  onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
+                    setFormValues({ ...formValues, comments: event.target.value })
                   }
-                  maxLength={50}
                 />
               </FormControl>
             </Flex>
