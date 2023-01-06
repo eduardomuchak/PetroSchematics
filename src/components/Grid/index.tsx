@@ -7,6 +7,7 @@ import logoImage from 'assets/logo_origem_branco.svg';
 
 import LogoutButton from 'components/LogoutButton';
 import MotionPageTransition from 'components/Motion/PageTransition';
+import UserInfo from 'components/UserInfo';
 
 import { sidebarIcons } from './items';
 
@@ -72,16 +73,16 @@ function GridLayout({ children, title, goToPage }: { children: React.ReactNode; 
         </Flex>
       </GridItem>
       <GridItem
-        bg="rgba(237, 242, 247, 0.4)"
+        bg="rgba(237, 242, 247, 0.55)"
         area={'nav'}
         as="nav"
         p={5}
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
-        width={isHovering ? '280px' : '88px'}
+        width={isHovering ? '350px' : '88px'}
         transition={'all 0.4s'}
         zIndex={999}
-        backdropFilter={'blur(6px)'}
+        backdropFilter={'blur(8px)'}
       >
         <Flex direction={'column'} align={'center'} justify={'space-between'} h={'100%'}>
           <Flex direction={'column'} gap={2} align={'flex-start'}>
@@ -91,7 +92,7 @@ function GridLayout({ children, title, goToPage }: { children: React.ReactNode; 
                   key={item.name}
                   aria-label={item.name}
                   variant={'origemSidebarIcon'}
-                  width={isHovering ? '240px' : '48px'}
+                  width={isHovering ? '310px' : '48px'}
                   transition={'all 0.4s'}
                 >
                   <Flex align={'center'} w={isHovering ? '100%' : 'auto'} flex={1}>
@@ -111,6 +112,7 @@ function GridLayout({ children, title, goToPage }: { children: React.ReactNode; 
         </Flex>
       </GridItem>
       <GridItem area={'main'} as="main" p={5} display={'flex'} justifyContent={'center'}>
+        <UserInfo isHovering={isHovering} onMouseEnter={() => setIsHovering(true)} />
         <LogoutButton isHovering={isHovering} onMouseEnter={() => setIsHovering(true)} />
         <MotionPageTransition>{children}</MotionPageTransition>
       </GridItem>
