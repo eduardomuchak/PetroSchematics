@@ -32,17 +32,17 @@ function LogoutButton({ isHovering, onMouseEnter }: Props) {
     <Flex position={'fixed'} top={height - 70} zIndex={999} left={18} onMouseEnter={onMouseEnter}>
       <Button
         variant={'origemBlueGhost'}
-        width={isHovering ? '240px' : '48px'}
+        width={isHovering ? '310px' : '48px'}
         transition={'all 0.4s'}
         onClick={logOut}
       >
         <Flex align={'center'} w={isHovering ? '100%' : 'auto'} flex={1}>
-          <Text fontSize={24}>
+          <Text fontSize={28}>
             <FiLogOut />
           </Text>
           {isHovering && (
             <Text fontSize={18} ml={4}>
-              Logout
+              Sair
             </Text>
           )}
         </Flex>
