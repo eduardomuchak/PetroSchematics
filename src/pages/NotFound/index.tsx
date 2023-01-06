@@ -16,7 +16,7 @@ export function NotFound() {
       className={`${styles['background-pattern']}`}
     >
       <Box textAlign="center" py={10} px={6} gap={12}>
-        <Image src={NotFoundSVG} alt="Página não encontrada" w={{ base: '100%', sm: '40vw' }} maxW={'300px'} />
+        <Image src={NotFoundSVG} alt="Página não encontrada" height={{ sm: '24rem', lg: '28rem' }} />
       </Box>
       <Flex direction={'column'} align={'center'} px={10}>
         <Text fontSize="18px" mb={4} textAlign={'center'}>

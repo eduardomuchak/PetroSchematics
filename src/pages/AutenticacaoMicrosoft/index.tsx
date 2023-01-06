@@ -32,13 +32,8 @@ function AutenticacaoMicrosoft() {
         <Image src={SignedUpSVG} alt="Login realizado com sucesso" w={{ base: '100%', sm: '40vw' }} maxW={'300px'} />
       </Flex> */}
       <Stack textAlign={'center'} align={'center'} spacing={{ base: 8, md: 10 }} py={12}>
-        <Stack spacing={6} direction={'row'}>
-          <Image
-            src={SignedUpSVG}
-            alt="Login realizado com sucesso"
-            height={{ sm: '24rem', lg: '28rem' }}
-            // mt={{ base: 12, sm: 16 }}
-          />
+        <Stack>
+          <Image src={SignedUpSVG} alt="Login realizado com sucesso" height={{ sm: '24rem', lg: '28rem' }} />
         </Stack>
         <Heading fontWeight={600} fontSize={{ base: '2xl', sm: '3xl', md: '5xl' }} lineHeight={'110%'}>
           Bem vindo{' '}
