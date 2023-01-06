@@ -1,39 +1,50 @@
-import React from 'react';
-
-import { Box, Button, Flex, HStack, Image, Stack, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, HStack, Image, Stack, Text, useBreakpointValue, VStack } from '@chakra-ui/react';
+import wallpaper from 'assets/login-wallpaper.png';
 import logo from 'assets/logo.png';
 
 import { ReactComponent as MicrosoftLogo } from '../../assets/logo-microsoft.svg';
-import styles from './style.module.scss';
 
 export default function LoginMicrosoft() {
   const API_URL = `${process.env.REACT_APP_URL_API_BACKEND}`;
 
   return (
-    <>
-      <Flex
-        w={'100%'}
-        h="100vh"
-        align="center"
-        justify="center"
-        // bg={'#EDF2F7'}
-        className={`${styles['background-pattern']}`}
+    <Flex
+      w={'full'}
+      h={'100vh'}
+      backgroundImage={wallpaper}
+      backgroundSize={'cover'}
+      backgroundPosition={'center center'}
+    >
+      <VStack
+        w={'full'}
+        justify={'center'}
+        px={useBreakpointValue({ base: 4, md: 8 })}
+        // bgGradient={'linear(140deg, #05337d 0%, #00368db9 25%, rgba(0,71,187,0.2530199579831933) 100%)'}
+        backdropFilter={'blur(2px)'}
       >
         <Stack display={'flex'} align={'center'} justify={'center'}>
           <Box
-            w={{ base: '95%', sm: '450px' }}
-            py={{ base: '10', sm: '16' }}
+            w={{ base: '95%', sm: '500px' }}
+            minH={'277px'}
+            py={{ base: '10', sm: '12' }}
             px={{ base: '10', sm: '10' }}
-            bg={'white'}
+            bg={'rgba(255, 255, 255, 1)'}
             borderRadius={'xl'}
           >
             <Stack spacing="6">
               <Stack spacing={{ base: '2', md: '3' }} align="center">
                 <a href="https://www.origemenergia.com" target="_blank" rel="noreferrer">
-                  <Image src={logo} display="flex" align="center" w={'275px'} justifyContent="center" />
+                  <Image src={logo} display="flex" align="center" w={'300px'} justifyContent="center" />
                 </a>
                 <HStack spacing="1" justify="center">
-                  <Text color="#394960" mt={8} fontSize={'16px'} fontWeight={700} lineHeight={'20.08px'}>
+                  <Text
+                    color="#394960"
+                    mt={8}
+                    fontSize={'16px'}
+                    fontWeight={700}
+                    lineHeight={'20.08px'}
+                    textAlign={'center'}
+                  >
                     Entre com sua conta Microsoft Origem.
                   </Text>
                 </HStack>
@@ -59,7 +70,7 @@ export default function LoginMicrosoft() {
             </Flex>
           </Box>
         </Stack>
-      </Flex>
-    </>
+      </VStack>
+    </Flex>
   );
 }
