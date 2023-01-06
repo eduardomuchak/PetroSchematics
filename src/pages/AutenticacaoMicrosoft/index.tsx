@@ -37,9 +37,9 @@ function AutenticacaoMicrosoft() {
         </Stack>
         <Heading fontWeight={600} fontSize={{ base: '2xl', sm: '3xl', md: '5xl' }} lineHeight={'110%'}>
           Bem vindo{' '}
-          <Text as={'span'} color={'origem.500'} fontWeight={700}>
+          {/* <Text as={'span'} color={'origem.500'} fontWeight={700}>
             Dan Abramov!
-          </Text>
+          </Text> */}
         </Heading>
         <Text as={'span'} color={'gray.500'} maxW={'3xl'}>
           <Text as={'span'} color={'origem.500'} fontWeight={700}>

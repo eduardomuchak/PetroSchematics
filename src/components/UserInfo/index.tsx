@@ -35,7 +35,7 @@ function UserInfo({ isHovering, onMouseEnter }: Props) {
         {isHovering && (
           <Flex direction={'column'} flex={1}>
             <Text ml={3} fontSize={16} fontWeight={700} lineHeight={'20px'} color={'origem.500'}>
-              Dan Abramov
+              User
             </Text>
             <Text
               ml={3}

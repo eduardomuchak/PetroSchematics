@@ -7,7 +7,7 @@ import logoImage from 'assets/logo_origem_branco.svg';
 
 import LogoutButton from 'components/LogoutButton';
 import MotionPageTransition from 'components/Motion/PageTransition';
-import UserInfo from 'components/UserInfo';
+// import UserInfo from 'components/UserInfo';
 
 import { sidebarIcons } from './items';
 
@@ -112,7 +112,7 @@ function GridLayout({ children, title, goToPage }: { children: React.ReactNode; 
         </Flex>
       </GridItem>
       <GridItem area={'main'} as="main" p={5} display={'flex'} justifyContent={'center'}>
-        <UserInfo isHovering={isHovering} onMouseEnter={() => setIsHovering(true)} />
+        {/* <UserInfo isHovering={isHovering} onMouseEnter={() => setIsHovering(true)} /> */}
         <LogoutButton isHovering={isHovering} onMouseEnter={() => setIsHovering(true)} />
         <MotionPageTransition>{children}</MotionPageTransition>
       </GridItem>
