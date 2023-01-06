@@ -5,7 +5,7 @@ import BotaoSetaVoltar from '../BotaoSetaVoltar/BotaoSetaVoltar';
 interface Props {
   children: string;
   botaoVoltar?: boolean;
-  subTitulo?: any;
+  subTitulo?: string;
 }
 
 function TituloPagina({ children, botaoVoltar, subTitulo }: Props) {
@@ -18,14 +18,9 @@ function TituloPagina({ children, botaoVoltar, subTitulo }: Props) {
         </Heading>
       </Flex>
       {subTitulo && (
-        <>
-          <Text fontFamily={'Mulish'} textAlign={'start'} fontSize={'16px'} fontWeight={'600'} ml={12} mt={-1}>
-            <strong>Sonda:</strong> {subTitulo.sonda}
-          </Text>
-          <Text fontFamily={'Mulish'} textAlign={'start'} fontSize={'16px'} fontWeight={'600'} ml={12} mt={-1}>
-            <strong>Poço:</strong> {subTitulo.poco}
-          </Text>
-        </>
+        <Text fontFamily={'Mulish'} textAlign={'start'} fontSize={'16px'} fontWeight={'600'} ml={12} mt={-1}>
+          {subTitulo}
+        </Text>
       )}
     </Flex>
   );

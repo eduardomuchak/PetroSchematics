@@ -5,15 +5,34 @@ const { definePartsStyle, defineMultiStyleConfig } =
   createMultiStyleConfigHelpers(parts.keys)
 
 const baseStyle = definePartsStyle({
+  header:{
+    backgroundColor:'origem.500',
+    borderTopRadius:7,
+    display:'flex',
+    justifyContent:'center',
+    color:'white',
+    fontSize:'12px',
+    fontWeight:'700',
+    padding: "10px 10px"
+  },
+  body:{
+    paddingTop:5,
+    paddingBottom:3,
+  },
+  footer:{
+    justifyContent:'center',
+  },
   overlay: {
     bg: 'rgba(0,0,0, 0.3)',
     backdropFilter: 'blur(5px)',
   },
-  dialog: {},
+  dialog: {
+    borderRadius:10,
+  },
   closeButton: {
     position: 'absolute',
-    top: 2,
-    right: 2,
+    top: 1,
+    right: 1,
     zIndex: 1,
     color: 'origem.500',
     borderRadius: '50%',

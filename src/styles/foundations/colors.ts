@@ -233,6 +233,18 @@ const colors: Colors = {
     800: "#011b5e",
     900: "#000d2c",
   },
+  strippedGray: {
+    50: "#F9F9F9",
+    100: "#F9F9F9",
+    200: "#F9F9F9",
+    300: "#F9F9F9",
+    400: "#F9F9F9",
+    500: "#F9F9F9",
+    600: "#F9F9F9",
+    700: "#F9F9F9",
+    800: "#F9F9F9",
+    900: "#F9F9F9",
+  },
 };
 
 export default colors;

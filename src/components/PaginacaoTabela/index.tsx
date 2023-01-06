@@ -77,11 +77,11 @@ function PaginacaoTabela({ data, fromTo }: Props) {
         gap={2}
         flex={1}
         wrap={innerWidth > 428 ? 'nowrap' : 'wrap'}
+        mt={2}
       >
         <Flex gap={2} alignItems={'center'}>
           <Text fontSize={'14px'}>Por página:</Text>
           <Select h={'32px'} w={'120px'} onChange={(e) => changePerPage(+e.target.value)}>
-            {/* <option value="5">5</option> */}
             <option value="10">10</option>
             <option value="25">25</option>
             <option value="50">50</option>
